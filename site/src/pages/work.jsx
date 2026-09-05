@@ -7,6 +7,7 @@ import { WORK_STATUSES } from "@/lib/model"
 import { go, href } from "@/lib/router"
 import { Store, useStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
+import { catalogItem } from "@/lib/content"
 import { useDialogs } from "@/components/dialogs"
 import { useToast } from "@/components/toast"
 import { Empty, OrgChip, PageHeader, Pick, Stat, StatusBadge } from "@/components/bits"
@@ -112,6 +113,7 @@ export function WorkDetail({ id }) {
           </div>
           <h1 className="mt-2 text-2xl font-semibold tracking-tight">{w.title}</h1>
           {w.description ? <p className="text-muted-foreground mt-1 max-w-prose text-sm">{w.description}</p> : null}
+          {w.catalogId && catalogItem(w.catalogId) ? <p className="text-muted-foreground mt-1 text-xs" data-testid="wi-catalog">From the catalog · <a href={catalogItem(w.catalogId).url} target="_blank" rel="noopener" className="text-primary hover:underline">source page</a></p> : null}
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Pick value={w.status} onChange={(v) => { Store.setWorkItemStatus(id, v); toast(`Marked ${v}`) }} options={WORK_STATUSES.map((s) => ({ value: s, label: s[0].toUpperCase() + s.slice(1) }))} className="w-auto" size="sm" testid="wi-status-pick" />

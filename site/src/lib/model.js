@@ -47,7 +47,7 @@ export function normalize(raw) {
     .filter((o) => o && typeof o === "object" && str(o.name).trim())
     .map((o, i) => ({
       id: str(o.id || uid()), name: str(o.name).trim(), contact: str(o.contact), contactInfo: str(o.contactInfo), website: str(o.website),
-      color: ORG_COLORS.includes(o.color) ? o.color : ORG_COLORS[i % ORG_COLORS.length], notes: str(o.notes),
+      color: ORG_COLORS.includes(o.color) ? o.color : ORG_COLORS[i % ORG_COLORS.length], notes: str(o.notes), catalogOrgId: str(o.catalogOrgId),
       createdAt: o.createdAt || fileAt, at: stamp(o, fileAt),
     }))
   const orgIds = new Set(out.organizations.map((o) => o.id))
@@ -58,7 +58,7 @@ export function normalize(raw) {
     .map((w) => ({
       id: str(w.id || uid()), orgId: str(w.orgId), title: str(w.title).trim(), description: str(w.description),
       status: WORK_STATUSES.includes(w.status) ? w.status : "active", startDate: isISODate(w.startDate) ? w.startDate : "",
-      targetHours: Math.max(0, round2(Number(w.targetHours) || 0)), createdAt: w.createdAt || fileAt, at: stamp(w, fileAt),
+      targetHours: Math.max(0, round2(Number(w.targetHours) || 0)), catalogId: str(w.catalogId), createdAt: w.createdAt || fileAt, at: stamp(w, fileAt),
     }))
   const itemIds = new Set(out.workItems.map((w) => w.id))
 

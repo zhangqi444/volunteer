@@ -70,7 +70,7 @@ export const Store = {
 
   addOrg(f) {
     const o = { id: uid(), name: f.name.trim(), contact: f.contact || "", contactInfo: f.contactInfo || "", website: f.website || "",
-      color: f.color || ORG_COLORS[this.s.organizations.length % ORG_COLORS.length], notes: f.notes || "", createdAt: now(), at: now() }
+      color: f.color || ORG_COLORS[this.s.organizations.length % ORG_COLORS.length], notes: f.notes || "", catalogOrgId: f.catalogOrgId || "", createdAt: now(), at: now() }
     this.s.organizations.push(o); this.commit(); return o
   },
   updateOrg(id, f) { const o = this.org(id); if (!o) return; Object.assign(o, f, { name: f.name.trim(), at: now() }); this.commit() },
@@ -88,7 +88,7 @@ export const Store = {
 
   addWorkItem(f) {
     const w = { id: uid(), orgId: f.orgId, title: f.title.trim(), description: f.description || "", status: WORK_STATUSES.includes(f.status) ? f.status : "active",
-      startDate: f.startDate || "", targetHours: Math.max(0, round2(Number(f.targetHours) || 0)), createdAt: now(), at: now() }
+      startDate: f.startDate || "", targetHours: Math.max(0, round2(Number(f.targetHours) || 0)), catalogId: f.catalogId || "", createdAt: now(), at: now() }
     this.s.workItems.push(w); this.commit(); return w
   },
   updateWorkItem(id, f) {

@@ -16,7 +16,7 @@ same stack, same shell, same theme tokens, same Drive contract, same test layout
 
 ## What it does
 
-- **Catalog**: opportunities Sheila can do now, from Seattle Humane's youth projects and Seattle Children's youth service projects. Each carries its source URL and check date, and shows *Fits now*, *With an adult*, or *Age not stated* against the volunteer's age. Mark interest, *Plan it*, or *Start work item*.
+- **Catalog**: opportunities Sheila can do now, from Seattle Humane's youth projects and Seattle Children's youth service projects. Each carries its source URL and check date, and shows *Fits now*, *With an adult*, or *Age not stated* against the volunteer's age. *Log hours* or *Plan it* on a card creates the organization and work item behind it on first use, so logging is one step; the Log hours dialog has the same picker.
 - **Calendar**: plan shifts and projects ahead; *Log hours* turns a plan into an entry, past plans wait under *Past plans to log* until logged or skipped; the dashboard shows what is up next.
 - **Work items, hours log, organizations, reports, settings** as before.
 

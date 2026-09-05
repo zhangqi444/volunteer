@@ -81,6 +81,30 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   check('status changed to paused', true);
   await pg.screenshot({ path: 'shot-workitem.png', fullPage: true });
 
+  // logging straight from the catalog: the organization and work item come into being on first use
+  await pg.goto(base + '#/catalog', { waitUntil: 'networkidle' });
+  await pg.waitForSelector('[data-testid=catalog-grid]');
+  await pg.click('[data-id=sh-pet-food-drive] [data-testid=catalog-log]');
+  await pg.waitForSelector('[data-testid=entry-dialog]');
+  check('catalog Log hours prefills organization, work item and activity', /Seattle Humane/.test(await pg.textContent('[data-testid=entry-org]')) && /Pet food drive/.test(await pg.textContent('[data-testid=entry-workitem]')) && (await pg.inputValue('[data-testid=entry-activity]')) === 'Pet food drive');
+  await pg.fill('[data-testid=entry-hours]', '1.5');
+  await pg.click('[data-testid=entry-save]');
+  await pg.waitForSelector('[data-testid=entry-dialog]', { state: 'detached' });
+  await pg.waitForSelector('[data-id=sh-pet-food-drive] [data-testid=catalog-workitem]');
+  check('the card now links to its work item', true);
+  await pg.click('[data-id=sh-pet-food-drive] [data-testid=catalog-workitem]');
+  await pg.waitForSelector('[data-testid=wi-detail]');
+  check('work item shows it came from the catalog and holds the hours', /From the catalog/.test(await pg.textContent('[data-testid=wi-catalog]')) && /Pet food drive/.test(await pg.textContent('[data-testid=wi-tracker]')));
+  await pg.goto(base + '#/orgs', { waitUntil: 'networkidle' });
+  await pg.waitForSelector('[data-testid=org-card]');
+  check('Seattle Humane was created once as an organization', (await pg.$$eval('[data-testid=org-card]', (n) => n.filter((x) => /Seattle Humane/.test(x.textContent)).length)) === 1);
+  // and from the Log hours dialog itself, via the catalog picker
+  await pg.click('[data-testid=log-hours]'); await pg.waitForSelector('[data-testid=entry-dialog]');
+  await pick(pg, '[data-testid=entry-catalog]', 'Homemade cat toys from recycled objects');
+  check('picking a catalog item in the dialog fills organization, work item and activity', /Seattle Humane/.test(await pg.textContent('[data-testid=entry-org]')) && /Homemade cat toys/.test(await pg.textContent('[data-testid=entry-workitem]')) && /Homemade cat toys/.test(await pg.inputValue('[data-testid=entry-activity]')));
+  await pg.keyboard.press('Escape');
+  await pg.waitForSelector('[data-testid=entry-dialog]', { state: 'detached' });
+
   // hours log: tag, work item filter, search, clear, CSV enabled
   await pg.click('[data-slot=sidebar-menu-button]:has-text("Hours log")');
   await pg.waitForSelector('[data-testid=log-table]');
@@ -92,7 +116,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   await pg.fill('[data-testid=filter-search]', 'pantry');
   check('search matches the 2 mobile pantry rows', (await pg.$$('[data-testid=log-row]')).length === 2, String((await pg.$$('[data-testid=log-row]')).length));
   await pg.click('[data-testid=filter-clear]');
-  check('clear restores all rows', (await pg.$$('[data-testid=log-row]')).length === all && all === 16, String(all));
+  check('clear restores all rows', (await pg.$$('[data-testid=log-row]')).length === all && all === 17, String(all));
   check('CSV export enabled', !(await pg.isDisabled('[data-testid=log-csv]')));
   await pg.click('[data-sort=hours]');
   const first = await pg.$eval('[data-testid=log-row] td:nth-child(5)', (x) => x.textContent.trim());
@@ -104,7 +128,8 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   await pick(pg, '[data-testid=report-preset]', 'All time');
   const rep = await pg.textContent('[data-testid=report]');
   check('report has the three sections', /Hours by organization/.test(rep) && /Hours by work item/.test(rep) && /Detailed log/.test(rep));
-  check('report total is 50.5 h', /50\.5/.test(rep));
+  const totalTile = await pg.$eval('[data-testid=report] .text-2xl', (x) => x.textContent.trim());
+  check('report total is 52 h (46.5 sample + 4 + 1.5 logged here)', totalTile === '52', totalTile);
   await pick(pg, '[data-testid=report-org]', 'Friends of Cedar Park');
   check('org filter narrows the report', /11\.5/.test(await pg.textContent('[data-testid=report]')) && !/Riverside/.test(await pg.textContent('[data-testid=report] table')));
   await pg.screenshot({ path: 'shot-report.png', fullPage: true });
@@ -132,6 +157,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   await pg.click('[data-id=sh-cat-blankets] [data-testid=catalog-plan]');
   await pg.waitForSelector('[data-testid=plan-dialog]');
   check('Plan it prefills the title', (await pg.inputValue('[data-testid=plan-title]')) === 'No-sew cat blankets');
+  check('Plan it created and preselected the organization and work item from the catalog', /Seattle Humane/.test(await pg.textContent('[data-testid=plan-org]')) && /No-sew cat blankets/.test(await pg.textContent('[data-testid=plan-workitem]')));
   const today = new Date(), iso = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
   await pg.fill('[data-testid=plan-date]', iso(today));
   await pg.fill('[data-testid=plan-hours]', '2');
@@ -155,7 +181,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   await pg.click('[data-testid=day-plans] [data-testid=plan-log]');
   await pg.waitForSelector('[data-testid=entry-dialog]');
   check('Log hours prefills activity and hours from the plan', (await pg.inputValue('[data-testid=entry-activity]')) === 'No-sew cat blankets' && (await pg.inputValue('[data-testid=entry-hours]')) === '2');
-  await pick(pg, '[data-testid=entry-org]', 'Riverside Food Bank');
+  check('and the organization + work item the plan carries', /Seattle Humane/.test(await pg.textContent('[data-testid=entry-org]')) && /No-sew cat blankets/.test(await pg.textContent('[data-testid=entry-workitem]')));
   await pg.click('[data-testid=entry-save]');
   await pg.waitForSelector('[data-testid=entry-dialog]', { state: 'detached' });
   await pg.waitForSelector('[data-testid=day-plans] [data-testid=plan-row][data-status=done]');

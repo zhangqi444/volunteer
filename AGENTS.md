@@ -92,6 +92,17 @@ site/
   grant uses `prompt: "consent"`, later ones `prompt: ""`.
 - **Popups**: never call `requestAccessToken` without a click behind it.
 
+## Data model
+
+Three layers exist in the data — organization → work item → hours entry — but the
+volunteer never builds them by hand. **Logging starts from the catalog**:
+`ensureFromCatalog(itemId)` (in `content.js`) creates the organization from the
+catalog's own facts and a work item from the item on first use, linked by
+`organization.catalogOrgId` and `workItem.catalogId`, and reuses them afterwards.
+The catalog card's *Log hours* and *Plan it*, and the *From the catalog* picker
+inside the Log hours and Plan dialogs, all go through it. The layers stay because
+totals, reports and the calendar hang off them.
+
 ## Commands
 
 ```bash

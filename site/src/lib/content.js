@@ -1,6 +1,7 @@
 /* The catalog: opportunities from content/catalog.json, built into public/content/bundle.json
  * by make_bundle.py and fetched once at boot. Nothing here is the volunteer's data. */
 import { Store } from "./store"
+import { todayISO } from "./format"
 
 export const C = { schema: 0, note: "", organizations: {}, items: [] }
 export const KIND_LABEL = { "at-home": "At home", drive: "Donation drive", "on-site": "On site", program: "Program", event: "Event" }
@@ -16,6 +17,22 @@ export async function loadCatalog() {
 }
 
 export const catalogItem = (id) => C.items.find((i) => i.id === id) || null
+
+/** Adopt a catalog item: make sure its organization and a work item exist (created from the
+ *  catalog's own facts on first use, linked by catalogOrgId / catalogId) so logging is one step. */
+export function ensureFromCatalog(itemId) {
+  const item = catalogItem(itemId)
+  if (!item) return null
+  const co = catalogOrg(item)
+  let org = Store.s.organizations.find((o) => o.catalogOrgId === item.org) || Store.s.organizations.find((o) => o.name.toLowerCase() === co.name.toLowerCase())
+  if (!org) {
+    org = Store.addOrg({ name: co.name, website: co.url || "", contact: "", contactInfo: [co.contact && co.contact.email, co.contact && co.contact.phone].filter(Boolean).join(" · "), notes: "", catalogOrgId: item.org })
+  } else if (!org.catalogOrgId) Store.updateOrg(org.id, { ...org, catalogOrgId: item.org })
+  let wi = Store.s.workItems.find((w) => w.catalogId === item.id) || Store.s.workItems.find((w) => w.orgId === org.id && w.title.toLowerCase() === item.title.toLowerCase())
+  if (!wi) wi = Store.addWorkItem({ orgId: org.id, title: item.title, description: item.summary, status: "active", startDate: todayISO(), targetHours: 0, catalogId: item.id })
+  return { orgId: org.id, workItemId: wi.id, item }
+}
+export const workItemForCatalog = (itemId) => Store.s.workItems.find((w) => w.catalogId === itemId) || null
 export const catalogOrg = (item) => (item && C.organizations[item.org]) || { name: "", url: "" }
 export const catalogTags = () => [...new Set(C.items.flatMap((i) => i.tags || []))].sort()
 

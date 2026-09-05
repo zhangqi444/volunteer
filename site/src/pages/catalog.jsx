@@ -1,8 +1,7 @@
 import * as React from "react"
-import { CalendarPlus, ClipboardPlus, ExternalLink } from "lucide-react"
+import { CalendarPlus, ClipboardList, ExternalLink, Plus } from "lucide-react"
 
-import { C, KIND_LABEL, catalogOrg, catalogTags, currentAge, fit } from "@/lib/content"
-import { orgsSorted } from "@/lib/engine"
+import { C, KIND_LABEL, catalogOrg, catalogTags, currentAge, ensureFromCatalog, fit, workItemForCatalog } from "@/lib/content"
 import { INTEREST_STATUSES } from "@/lib/model"
 import { go } from "@/lib/router"
 import { Store, useStore } from "@/lib/store"
@@ -26,11 +25,13 @@ export function FitBadge({ item, age }) {
 function OpportunityCard({ item, age }) {
   const store = useStore()
   const toast = useToast()
-  const { openPlan, openWorkItem } = useDialogs()
+  const { openPlan, openEntry } = useDialogs()
   const [open, setOpen] = React.useState(false)
   const org = catalogOrg(item)
   const interest = store.s.interests[item.id]
-  const knownOrg = orgsSorted().find((o) => o.name.toLowerCase() === org.name.toLowerCase())
+  const wi = workItemForCatalog(item.id)
+  const logHours = () => { const r = ensureFromCatalog(item.id); openEntry({ catalogId: item.id, orgId: r.orgId, workItemId: r.workItemId, activity: item.title }) }
+  const planIt = () => { const r = ensureFromCatalog(item.id); openPlan({ catalogId: item.id, orgId: r.orgId, workItemId: r.workItemId, title: item.title, notes: item.howTo }) }
   return (
     <Card className="@container/card gap-3 py-4" data-testid="catalog-item" data-id={item.id}>
       <CardHeader className="gap-2">
@@ -66,8 +67,9 @@ function OpportunityCard({ item, age }) {
         <Pick value={interest ? interest.status : ""} onChange={(v) => { Store.setInterest(item.id, v); toast(v ? `Marked ${INTEREST_LABEL[v].toLowerCase()}` : "Interest cleared") }}
           options={INTEREST_STATUSES.map((s) => ({ value: s, label: INTEREST_LABEL[s] }))} noneLabel="Not marked" className="@sm/card:w-40" size="sm" testid="catalog-interest" />
         <div className="flex gap-2">
-          <Button size="sm" variant="secondary" className="flex-1 @sm/card:flex-none" onClick={() => openPlan({ title: item.title, catalogId: item.id, orgId: knownOrg ? knownOrg.id : "", notes: item.howTo })} data-testid="catalog-plan"><CalendarPlus /> Plan it</Button>
-          <Button size="sm" variant="ghost" className="flex-1 @sm/card:flex-none" onClick={() => openWorkItem({ title: item.title, description: item.summary, orgId: knownOrg ? knownOrg.id : "" })} data-testid="catalog-workitem"><ClipboardPlus /> Start work item</Button>
+          <Button size="sm" className="flex-1 @sm/card:flex-none" onClick={logHours} data-testid="catalog-log"><Plus /> Log hours</Button>
+          <Button size="sm" variant="secondary" className="flex-1 @sm/card:flex-none" onClick={planIt} data-testid="catalog-plan"><CalendarPlus /> Plan it</Button>
+          {wi ? <Button size="sm" variant="ghost" className="flex-1 @sm/card:flex-none" onClick={() => go(`/work/${wi.id}`)} data-testid="catalog-workitem"><ClipboardList /> Work item</Button> : null}
         </div>
       </CardFooter>
     </Card>

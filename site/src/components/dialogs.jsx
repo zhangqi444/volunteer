@@ -6,6 +6,7 @@ import * as React from "react"
 import { Store, useStore } from "@/lib/store"
 import { ORG_COLORS, WORK_STATUSES } from "@/lib/model"
 import { planHours } from "@/lib/engine"
+import { C, ensureFromCatalog } from "@/lib/content"
 import { hoursWord, isISODate, todayISO } from "@/lib/format"
 import { orgName, orgsSorted, sumHours, workItemById, workItemsForOrg, workItemStats, workItemTitle } from "@/lib/engine"
 import { go } from "@/lib/router"
@@ -78,9 +79,14 @@ function EntryDialog({ init, close }) {
     hours: e ? String(e.hours) : plan && planHours(plan) ? String(planHours(plan)) : "",
     orgId: e ? e.orgId : plan ? plan.orgId : firstOrg || "",
     workItemId: e ? e.workItemId : plan ? plan.workItemId : init.workItemId || "",
-    activity: e ? e.activity : plan ? plan.title : "", category: e ? e.category : "",
-    supervisor: e ? e.supervisor : "", notes: e ? e.notes : plan ? plan.notes : "",
+    activity: e ? e.activity : plan ? plan.title : init.activity || "", category: e ? e.category : "",
+    supervisor: e ? e.supervisor : "", notes: e ? e.notes : plan ? plan.notes : "", catalogId: init.catalogId || (plan && plan.catalogId) || "",
   })
+  const fromCatalog = (id) => {
+    if (!id) { setF((s) => ({ ...s, catalogId: "" })); return }
+    const r = ensureFromCatalog(id)
+    if (r) setF((s) => ({ ...s, catalogId: id, orgId: r.orgId, workItemId: r.workItemId, activity: s.activity.trim() && s.catalogId === "" ? s.activity : r.item.title }))
+  }
   const [err, setErr] = React.useState("")
   const set = (k) => (v) => setF((s) => ({ ...s, [k]: v }))
   const items = f.orgId ? workItemsForOrg(f.orgId).filter((w) => w.status !== "completed" || w.id === f.workItemId) : []
@@ -110,16 +116,21 @@ function EntryDialog({ init, close }) {
   return (
     <Shell title={e ? "Edit entry" : "Log hours"} onClose={close} testid="entry-dialog">
       <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2" noValidate>
+        {!e && C.items.length ? (
+          <Field label="From the catalog" className="sm:col-span-2" hint="Fills in the organization, work item and activity. The organization and work item are created the first time.">
+            <Pick value={f.catalogId} onChange={fromCatalog} options={C.items.map((i) => ({ value: i.id, label: i.title }))} noneLabel="Something else" testid="entry-catalog" />
+          </Field>
+        ) : null}
         <Field label="Date" required><Input type="date" value={f.date} max={todayISO()} onChange={(ev) => set("date")(ev.target.value)} data-testid="entry-date" /></Field>
         <Field label="Hours" required><Input type="number" min="0.25" step="0.25" placeholder="2.5" value={f.hours} onChange={(ev) => set("hours")(ev.target.value)} data-testid="entry-hours" autoFocus={Boolean(f.orgId)} /></Field>
         <Field label="Organization" required className="sm:col-span-2" hint={orgsSorted().length ? "" : "No organizations yet. Use New to add the one you volunteered with."}>
           <div className="flex gap-2">
-            <Pick value={f.orgId} onChange={(v) => setF((s) => ({ ...s, orgId: v, workItemId: "" }))} options={orgsSorted().map((o) => ({ value: o.id, label: o.name }))} placeholder="Select an organization" emptyLabel="No organizations yet" testid="entry-org" />
+            <Pick key={`org-${f.catalogId}-${f.orgId}`} value={f.orgId} onChange={(v) => setF((s) => ({ ...s, orgId: v, workItemId: "" }))} options={orgsSorted().map((o) => ({ value: o.id, label: o.name }))} placeholder="Select an organization" emptyLabel="No organizations yet" testid="entry-org" />
             <Button type="button" variant="outline" onClick={() => openOrg({ onCreated: (id) => setF((s) => ({ ...s, orgId: id, workItemId: "" })) })} data-testid="entry-new-org">New</Button>
           </div>
         </Field>
         <Field label="Work item" className="sm:col-span-2" hint={!f.orgId ? "Pick the organization first." : !items.length ? "This organization has no active work items yet; that's fine, it's optional." : ""}>
-          <Pick value={f.workItemId} onChange={set("workItemId")} options={items.map((w) => ({ value: w.id, label: w.title }))} noneLabel="None" disabled={!items.length} testid="entry-workitem" />
+          <Pick key={`wi-${f.catalogId}-${f.orgId}-${f.workItemId}`} value={f.workItemId} onChange={set("workItemId")} options={items.map((w) => ({ value: w.id, label: w.title }))} noneLabel="None" disabled={!items.length} testid="entry-workitem" />
         </Field>
         <Field label="Activity" required className="sm:col-span-2"><Input placeholder="e.g. Sorted donations at food bank" maxLength={120} value={f.activity} onChange={(ev) => set("activity")(ev.target.value)} data-testid="entry-activity" /></Field>
         <Field label="Category"><Pick value={f.category} onChange={set("category")} options={cats.map((c) => ({ value: c, label: c }))} noneLabel="None" testid="entry-category" /></Field>
@@ -302,6 +313,11 @@ function PlanDialog({ init, close }) {
   const [err, setErr] = React.useState("")
   const set = (k) => (v) => setF((s) => ({ ...s, [k]: v }))
   const items = f.orgId ? workItemsForOrg(f.orgId).filter((w) => w.status !== "completed" || w.id === f.workItemId) : []
+  const fromCatalog = (id) => {
+    if (!id) { setF((s) => ({ ...s, catalogId: "" })); return }
+    const r = ensureFromCatalog(id)
+    if (r) setF((s) => ({ ...s, catalogId: id, orgId: r.orgId, workItemId: r.workItemId, title: s.title.trim() && s.catalogId === "" ? s.title : r.item.title, notes: s.notes || r.item.howTo }))
+  }
   function submit(ev) {
     ev.preventDefault()
     if (!isISODate(f.date)) return setErr("Please enter a valid date.")
@@ -316,6 +332,11 @@ function PlanDialog({ init, close }) {
   return (
     <Shell title={p ? "Edit plan" : "Plan volunteer work"} onClose={close} testid="plan-dialog">
       <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2" noValidate>
+        {!p && C.items.length ? (
+          <Field label="From the catalog" className="sm:col-span-2">
+            <Pick value={f.catalogId} onChange={fromCatalog} options={C.items.map((i) => ({ value: i.id, label: i.title }))} noneLabel="Something else" testid="plan-catalog" />
+          </Field>
+        ) : null}
         <Field label="Title" required className="sm:col-span-2"><Input maxLength={120} placeholder="e.g. Saturday warehouse shift" value={f.title} onChange={(ev) => set("title")(ev.target.value)} data-testid="plan-title" autoFocus /></Field>
         <Field label="Date" required><Input type="date" value={f.date} onChange={(ev) => set("date")(ev.target.value)} data-testid="plan-date" /></Field>
         <Field label="Hours" hint="Or set start and end times."><Input type="number" min="0.25" step="0.25" placeholder="e.g. 3" value={f.hours} onChange={(ev) => set("hours")(ev.target.value)} data-testid="plan-hours" /></Field>
@@ -323,11 +344,11 @@ function PlanDialog({ init, close }) {
         <Field label="End"><Input type="time" value={f.end} onChange={(ev) => set("end")(ev.target.value)} /></Field>
         <Field label="Organization" className="sm:col-span-2">
           <div className="flex gap-2">
-            <Pick value={f.orgId} onChange={(v) => setF((s) => ({ ...s, orgId: v, workItemId: "" }))} options={orgsSorted().map((o) => ({ value: o.id, label: o.name }))} noneLabel="Not decided yet" testid="plan-org" />
+            <Pick key={`org-${f.catalogId}-${f.orgId}`} value={f.orgId} onChange={(v) => setF((s) => ({ ...s, orgId: v, workItemId: "" }))} options={orgsSorted().map((o) => ({ value: o.id, label: o.name }))} noneLabel="Not decided yet" testid="plan-org" />
             <Button type="button" variant="outline" onClick={() => openOrg({ onCreated: (id) => setF((s) => ({ ...s, orgId: id, workItemId: "" })) })}>New</Button>
           </div>
         </Field>
-        <Field label="Work item" className="sm:col-span-2"><Pick value={f.workItemId} onChange={set("workItemId")} options={items.map((w) => ({ value: w.id, label: w.title }))} noneLabel="None" disabled={!items.length} testid="plan-workitem" /></Field>
+        <Field label="Work item" className="sm:col-span-2"><Pick key={`wi-${f.catalogId}-${f.orgId}-${f.workItemId}`} value={f.workItemId} onChange={set("workItemId")} options={items.map((w) => ({ value: w.id, label: w.title }))} noneLabel="None" disabled={!items.length} testid="plan-workitem" /></Field>
         <Field label="Notes" className="sm:col-span-2"><Textarea rows={2} placeholder="Where to meet, what to bring…" value={f.notes} onChange={(ev) => set("notes")(ev.target.value)} /></Field>
         <div className="sm:col-span-2"><ErrorLine msg={err} /></div>
         <DialogFooter className="sm:col-span-2 sm:justify-between">
