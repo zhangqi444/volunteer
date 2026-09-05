@@ -4,8 +4,9 @@
  * reconnects silently when the hourly token lapses. Signing out clears the
  * device, so a second account never merges into the first one's file. */
 import { useSyncExternalStore } from "react"
-import { emptyData, normalize, ORG_COLORS, SCHEMA, WORK_STATUSES } from "./model"
-import { round2, ts, uid } from "./format"
+import { emptyData, normalize, INTEREST_STATUSES, ORG_COLORS, PLAN_STATUSES, SCHEMA, WORK_STATUSES } from "./model"
+import { round2, todayISO, ts, uid } from "./format"
+const str = (v) => String(v ?? "").trim()
 import * as Drive from "./drive"
 
 const KEY = "volunteer.v2"
@@ -80,6 +81,7 @@ export const Store = {
     this.s.workItems = this.s.workItems.filter((w) => !itemIds.has(w.id) || (this.bury(w.id), false))
     this.s.memos = this.s.memos.filter((m) => !itemIds.has(m.workItemId) || (this.bury(m.id), false))
     this.s.entries = this.s.entries.filter((e) => e.orgId !== id || (this.bury(e.id), false))
+    this.s.plans.forEach((p) => { if (p.orgId === id) { p.orgId = ""; p.workItemId = ""; p.at = now() } })
     this.commit()
   },
   org(id) { return this.s.organizations.find((o) => o.id === id) || null },
@@ -102,6 +104,7 @@ export const Store = {
     this.s.workItems = this.s.workItems.filter((w) => w.id !== id || (this.bury(w.id), false))
     this.s.memos = this.s.memos.filter((m) => m.workItemId !== id || (this.bury(m.id), false))
     this.s.entries.forEach((e) => { if (e.workItemId === id) { e.workItemId = ""; e.at = now() } })
+    this.s.plans.forEach((p) => { if (p.workItemId === id) { p.workItemId = ""; p.at = now() } })
     this.commit()
   },
   workItem(id) { return this.s.workItems.find((w) => w.id === id) || null },
@@ -120,22 +123,49 @@ export const Store = {
   deleteMemo(id) { this.s.memos = this.s.memos.filter((m) => m.id !== id || (this.bury(m.id), false)); this.commit() },
   memo(id) { return this.s.memos.find((m) => m.id === id) || null },
 
+  /* --- plans (the calendar) --- */
+  addPlan(f) {
+    const p = { id: uid(), date: f.date, start: f.start || "", end: f.end || "", hours: Math.max(0, round2(Number(f.hours) || 0)), title: f.title.trim(),
+      orgId: f.orgId || "", workItemId: f.workItemId || "", catalogId: f.catalogId || "", notes: f.notes || "", status: "planned", entryId: "", createdAt: now(), at: now() }
+    this.s.plans.push(p); this.commit(); return p
+  },
+  updatePlan(id, f) { const p = this.plan(id); if (!p) return; Object.assign(p, f, { title: (f.title ?? p.title).trim(), hours: Math.max(0, round2(Number(f.hours ?? p.hours) || 0)), at: now() }); this.commit() },
+  setPlanStatus(id, status, entryId) { const p = this.plan(id); if (p && PLAN_STATUSES.includes(status)) { p.status = status; if (entryId !== undefined) p.entryId = entryId; p.at = now(); this.commit() } },
+  deletePlan(id) { this.s.plans = this.s.plans.filter((p) => p.id !== id || (this.bury(p.id), false)); this.commit() },
+  plan(id) { return this.s.plans.find((p) => p.id === id) || null },
+
+  /* --- catalog interest --- */
+  setInterest(catalogId, status, note) {
+    if (!status) { if (this.s.interests[catalogId]) { delete this.s.interests[catalogId]; this.bury("interest:" + catalogId); this.commit() } return }
+    if (!INTEREST_STATUSES.includes(status)) return
+    const cur = this.s.interests[catalogId] || {}
+    this.s.interests[catalogId] = { status, note: note !== undefined ? note : (cur.note || ""), at: now() }
+    this.commit()
+  },
+
+  setProfile(p) {
+    const age = Number(p.age)
+    this.s.settings = { ...this.s.settings, profile: { name: str(p.name), age: Number.isInteger(age) && age >= 0 ? age : null, ageAsOf: Number.isInteger(age) && age >= 0 ? (p.ageAsOf || todayISO()) : "" }, at: now() }
+    this.commit()
+  },
   setGoal(h) { this.s.goals = { yearly: Math.max(0, Number(h) || 0), at: now() }; this.commit() },
   setCategories(list) {
     const cats = [...new Set(list.map((c) => c.trim()).filter(Boolean))]
-    this.s.settings = { categories: cats.length ? cats : emptyData().settings.categories, at: now() }; this.commit()
+    this.s.settings = { ...this.s.settings, categories: cats.length ? cats : emptyData().settings.categories, at: now() }; this.commit()
   },
   setTheme(t) { this.s.theme = t; lsSave(this.s); emit() },
   setDark(d) { if (this.dark !== d) { this.dark = d; emit() } },
 
   /** Import / sample / clear: everything not in `data` is buried so Drive does not bring it back. */
   replaceAll(data) {
-    const keep = new Set([...data.organizations, ...data.workItems, ...data.entries, ...data.memos].map((r) => r.id))
+    const keep = new Set([...data.organizations, ...data.workItems, ...data.entries, ...data.memos, ...data.plans].map((r) => r.id))
     const deleted = { ...this.s.deleted }
-    for (const r of [...this.s.organizations, ...this.s.workItems, ...this.s.entries, ...this.s.memos]) if (!keep.has(r.id)) deleted[r.id] = now()
+    for (const r of [...this.s.organizations, ...this.s.workItems, ...this.s.entries, ...this.s.memos, ...this.s.plans]) if (!keep.has(r.id)) deleted[r.id] = now()
+    for (const k of Object.keys(this.s.interests)) if (!data.interests[k]) deleted["interest:" + k] = now()
     const t = now()
-    for (const r of [...data.organizations, ...data.workItems, ...data.entries, ...data.memos]) r.at = t
-    this.s = { ...data, deleted, theme: this.s.theme, goals: { ...data.goals, at: t }, settings: { ...data.settings, at: t } }
+    for (const r of [...data.organizations, ...data.workItems, ...data.entries, ...data.memos, ...data.plans]) r.at = t
+    for (const k of Object.keys(data.interests)) data.interests[k].at = t
+    this.s = { ...data, deleted, theme: this.s.theme, owner: this.s.owner, goals: { ...data.goals, at: t }, settings: { ...data.settings, at: t } }
     this.commit()
   },
 
@@ -213,9 +243,13 @@ export const Store = {
     const itemIds = new Set(items.map((w) => w.id))
     const entries = mergeList(this.s.entries, remote.entries).map((e) => ({ ...e, orgId: orgIds.has(e.orgId) ? e.orgId : "", workItemId: itemIds.has(e.workItemId) ? e.workItemId : "" }))
     const memos = mergeList(this.s.memos, remote.memos).filter((m) => itemIds.has(m.workItemId))
+    const plans = mergeList(this.s.plans, remote.plans).map((p) => ({ ...p, orgId: orgIds.has(p.orgId) ? p.orgId : "", workItemId: itemIds.has(p.workItemId) ? p.workItemId : "" }))
+    const interests = { ...this.s.interests }
+    for (const k of Object.keys(remote.interests)) { const r = remote.interests[k], l = interests[k]; if (!l || ts(r.at) > ts(l.at)) interests[k] = r }
+    for (const k of Object.keys(interests)) { const d = dead["interest:" + k]; if (d && ts(d) >= ts(interests[k].at)) delete interests[k] }
     const goals = ts(remote.goals.at) > ts(this.s.goals.at) ? remote.goals : this.s.goals
     const settings = ts(remote.settings.at) > ts(this.s.settings.at) ? remote.settings : this.s.settings
-    this.s = { ...this.s, organizations: orgs, workItems: items, entries, memos, deleted: dead, goals, settings, updatedAt: now() }
+    this.s = { ...this.s, organizations: orgs, workItems: items, entries, memos, plans, interests, deleted: dead, goals, settings, updatedAt: now() }
     this.pruneTombstones()
     lsSave(this.s); emit()
   },

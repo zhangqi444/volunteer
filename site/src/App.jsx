@@ -14,11 +14,15 @@ import { Orgs } from "@/pages/orgs"
 import { Reports } from "@/pages/reports"
 import { Settings } from "@/pages/settings"
 import { SignIn } from "@/pages/signin"
+import { Catalog } from "@/pages/catalog"
+import { Calendar } from "@/pages/calendar"
 
 function Screen({ route }) {
   const [top, a] = route
   if (top === "work" && a) return <WorkDetail key={a} id={a} />
   if (top === "work") return <WorkList />
+  if (top === "calendar") return <Calendar />
+  if (top === "catalog") return <Catalog />
   if (top === "log") return <Log />
   if (top === "orgs") return <Orgs />
   if (top === "reports") return <Reports />

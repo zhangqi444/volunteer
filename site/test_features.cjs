@@ -109,6 +109,79 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   check('org filter narrows the report', /11\.5/.test(await pg.textContent('[data-testid=report]')) && !/Riverside/.test(await pg.textContent('[data-testid=report] table')));
   await pg.screenshot({ path: 'shot-report.png', fullPage: true });
 
+  // catalog: fit badges against Sheila's age (9, from the sample profile), filters, interest, plan it
+  await pg.goto(base + '#/catalog', { waitUntil: 'networkidle' });
+  await pg.waitForSelector('[data-testid=catalog-grid]');
+  check('catalog header names the volunteer and age', /Sheila's age \(9\)/.test(await pg.textContent('h1 + p')));
+  check('12 opportunities fit now (incl. with an adult / age not stated)', (await pg.$$('[data-testid=catalog-item]')).length === 12, String((await pg.$$('[data-testid=catalog-item]')).length));
+  check('no age-gated item shown under Fits now', (await pg.$$('[data-testid=catalog-item] [data-fit=later]')).length === 0);
+  await pick(pg, '[data-testid=catalog-fit]', 'Later (age-gated)');
+  check('5 teen programs listed under Later', (await pg.$$('[data-testid=catalog-item]')).length === 5 && (await pg.$$('[data-fit=later]')).length === 5);
+  await pick(pg, '[data-testid=catalog-fit]', 'Everything');
+  check('17 items in the whole catalog', (await pg.$$('[data-testid=catalog-item]')).length === 17);
+  await pg.fill('[data-testid=catalog-search]', 'blanket');
+  check('search finds the cat blankets project', (await pg.$$('[data-testid=catalog-item]')).length >= 1 && /No-sew cat blankets/.test(await pg.textContent('[data-testid=catalog-grid]')));
+  await pg.click('[data-id=sh-cat-blankets] [data-testid=catalog-more]');
+  check('details show the source and check date', /seattlehumane\.org/.test(await pg.textContent('[data-id=sh-cat-blankets]')) && /checked 2026-09-05/.test(await pg.textContent('[data-id=sh-cat-blankets]')));
+  await pick(pg, '[data-id=sh-cat-blankets] [data-testid=catalog-interest]', 'Interested');
+  await pg.waitForSelector('[data-testid=toast]:has-text("Marked interested")');
+  check('interest saved to the dataset', await pg.evaluate(() => JSON.parse(localStorage.getItem('volunteer.v2')).interests['sh-cat-blankets'].status === 'interested'));
+  await pg.fill('[data-testid=catalog-search]', '');
+  await pick(pg, '[data-testid=catalog-fit]', 'Marked by me');
+  check('Marked by me filter shows the one marked item', (await pg.$$('[data-testid=catalog-item]')).length === 1);
+  await pg.click('[data-id=sh-cat-blankets] [data-testid=catalog-plan]');
+  await pg.waitForSelector('[data-testid=plan-dialog]');
+  check('Plan it prefills the title', (await pg.inputValue('[data-testid=plan-title]')) === 'No-sew cat blankets');
+  const today = new Date(), iso = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  await pg.fill('[data-testid=plan-date]', iso(today));
+  await pg.fill('[data-testid=plan-hours]', '2');
+  await pg.click('[data-testid=plan-save]');
+  await pg.waitForSelector('[data-testid=plan-dialog]', { state: 'detached' });
+
+  // calendar: today's plan on the grid, log hours from it, overdue handling, up-next on the dashboard
+  await pg.goto(base + '#/calendar', { waitUntil: 'networkidle' });
+  await pg.waitForSelector('[data-testid=cal-grid]');
+  check('plan appears on today in the grid', /No-sew cat blankets/.test(await pg.textContent(`[data-date="${iso(today)}"]`)));
+  check('selected day lists the plan', (await pg.$$('[data-testid=day-plans] [data-testid=plan-row]')).length === 1);
+  await pg.click('[data-testid=add-plan]'); await pg.waitForSelector('[data-testid=plan-dialog]');
+  const past = new Date(today.getTime() - 3 * 86400000);
+  await pg.fill('[data-testid=plan-title]', 'Missed shift'); await pg.fill('[data-testid=plan-date]', iso(past)); await pg.click('[data-testid=plan-save]');
+  await pg.waitForSelector('[data-testid=plan-dialog]', { state: 'detached' });
+  await pg.waitForSelector('[data-testid=overdue-plans]');
+  check('a past unlogged plan shows under Past plans to log', /Missed shift/.test(await pg.textContent('[data-testid=overdue-plans]')));
+  await pg.click('[data-testid=overdue-plans] [data-testid=plan-skip]');
+  await pg.waitForSelector('[data-testid=overdue-plans]', { state: 'detached' });
+  check('marking skipped clears it from the overdue list', true);
+  await pg.click('[data-testid=day-plans] [data-testid=plan-log]');
+  await pg.waitForSelector('[data-testid=entry-dialog]');
+  check('Log hours prefills activity and hours from the plan', (await pg.inputValue('[data-testid=entry-activity]')) === 'No-sew cat blankets' && (await pg.inputValue('[data-testid=entry-hours]')) === '2');
+  await pick(pg, '[data-testid=entry-org]', 'Riverside Food Bank');
+  await pg.click('[data-testid=entry-save]');
+  await pg.waitForSelector('[data-testid=entry-dialog]', { state: 'detached' });
+  await pg.waitForSelector('[data-testid=day-plans] [data-testid=plan-row][data-status=done]');
+  check('plan marked done after logging', true);
+  check('the logged entry links back to the plan', await pg.evaluate(() => { const s = JSON.parse(localStorage.getItem('volunteer.v2')); const p = s.plans.find((x) => x.title === 'No-sew cat blankets'); return !!p.entryId && s.entries.some((e) => e.id === p.entryId && e.hours === 2); }));
+  await pg.click('[data-testid=add-plan]'); await pg.waitForSelector('[data-testid=plan-dialog]');
+  const future = new Date(today.getTime() + 5 * 86400000);
+  await pg.fill('[data-testid=plan-title]', 'Trail work party'); await pg.fill('[data-testid=plan-date]', iso(future)); await pg.fill('[data-testid=plan-hours]', '4'); await pg.click('[data-testid=plan-save]');
+  await pg.waitForSelector('[data-testid=plan-dialog]', { state: 'detached' });
+  await pg.screenshot({ path: 'shot-calendar.png', fullPage: true });
+  await pg.goto(base + '#/', { waitUntil: 'networkidle' });
+  await pg.waitForSelector('[data-testid=up-next]');
+  check('dashboard Up next lists the future plan', /Trail work party/.test(await pg.textContent('[data-testid=up-next]')));
+  check('greeting uses the profile name', /Good (morning|afternoon|evening), Sheila/.test(await pg.textContent('[data-testid=today]')));
+
+  // profile: raising the age opens the teen programs
+  await pg.goto(base + '#/settings', { waitUntil: 'networkidle' });
+  await pg.fill('[data-testid=profile-age]', '13'); await pg.press('[data-testid=profile-age]', 'Tab');
+  await pg.waitForSelector('[data-testid=toast]:has-text("Profile saved")');
+  await pg.goto(base + '#/catalog', { waitUntil: 'networkidle' });
+  await pg.waitForSelector('[data-testid=catalog-grid]');
+  check('at 13 the Humane Teen Club fits now', (await pg.$$('[data-id=sh-teen-club]')).length === 1 && (await pg.$eval('[data-id=sh-teen-club] [data-fit]', (x) => x.dataset.fit)) === 'fits');
+  await pg.goto(base + '#/settings', { waitUntil: 'networkidle' });
+  await pg.fill('[data-testid=profile-age]', '9'); await pg.press('[data-testid=profile-age]', 'Tab');
+  await pg.goto(base + '#/catalog', { waitUntil: 'networkidle' }); await pg.waitForSelector('[data-testid=catalog-grid]'); await pg.screenshot({ path: 'shot-catalog.png', fullPage: true }); await pg.goto(base + '#/settings', { waitUntil: 'networkidle' }); await pg.waitForSelector('[data-testid=setting-goal]');
+
   // settings: goal + categories + theme radio + delete all
   await pg.click('[data-slot=sidebar-menu-button]:has-text("Settings")');
   await pg.waitForSelector('[data-testid=setting-goal]');

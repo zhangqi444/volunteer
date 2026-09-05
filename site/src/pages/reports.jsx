@@ -37,7 +37,7 @@ export function Reports() {
   const byOrg = hoursByOrg(entries)
   const byItem = hoursByWorkItem(entries)
   const period = from || to ? `${from ? fmtDate(from) : "Beginning"} – ${to ? fmtDate(to) : "today"}` : "All time"
-  const who = name.trim() || store.name || ""
+  const who = name.trim() || store.s.settings.profile.name || store.name || ""
 
   return (
     <div className="flex flex-col gap-4">

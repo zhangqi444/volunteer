@@ -14,6 +14,7 @@ import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle }
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Progress } from "@/components/ui/progress"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
+import { UpNextCard } from "@/pages/calendar"
 
 const chartConfig = { hours: { label: "Hours", color: "var(--chart-1)" } }
 
@@ -23,7 +24,7 @@ export function Home() {
   const s = stats()
   const now = new Date()
   const hour = now.getHours()
-  const first = (store.name || "").split(" ")[0]
+  const first = (store.s.settings.profile.name || store.name || "").split(" ")[0]
   const diff = s.month - s.prevMonth
   const pct = s.goal > 0 ? Math.min(100, (s.year / s.goal) * 100) : 0
   const months = hoursByMonth(12)
@@ -49,6 +50,8 @@ export function Home() {
           </CardContent>
         )}
       </Card>
+
+      <UpNextCard />
 
       <div className="grid gap-4 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
         <Stat label="Total hours" value={fmtHours(s.total)} sub={`across ${plural(s.count, "entry", "entries")}`} testid="stat-total" />

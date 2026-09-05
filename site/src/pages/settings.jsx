@@ -20,6 +20,10 @@ export function Settings() {
   const toast = useToast()
   const { confirm } = useDialogs()
   const [goal, setGoal] = React.useState(String(store.s.goals.yearly))
+  const prof = store.s.settings.profile
+  const [pname, setPname] = React.useState(prof.name)
+  const [page, setPage] = React.useState(prof.age == null ? "" : String(prof.age))
+  const saveProfile = () => { if (pname !== prof.name || String(prof.age ?? "") !== page) { Store.setProfile({ name: pname, age: page === "" ? null : Number(page), ageAsOf: String(prof.age ?? "") === page ? prof.ageAsOf : todayISO() }); toast("Profile saved") } }
   const [cats, setCats] = React.useState(store.s.settings.categories.join("\n"))
   const fileRef = React.useRef()
   const theme = store.s.theme || "system"
@@ -51,6 +55,13 @@ export function Settings() {
     <div className="flex flex-col gap-4">
       <PageHeader title="Settings" description="Goal, categories, appearance, and your data." />
       <div className="grid gap-4 @3xl/main:grid-cols-2">
+        <Card>
+          <CardHeader><CardTitle>Volunteer</CardTitle><CardDescription>Used for the greeting, reports, and to show which catalog opportunities fit.</CardDescription></CardHeader>
+          <CardContent className="grid gap-3 sm:grid-cols-[1fr_auto]">
+            <Field label="Name"><Input value={pname} onChange={(e) => setPname(e.target.value)} onBlur={saveProfile} placeholder="e.g. Sheila" data-testid="profile-name" /></Field>
+            <Field label="Age" hint={prof.ageAsOf ? `as of ${prof.ageAsOf}; it advances by itself` : "Optional"}><Input type="number" min="0" max="120" value={page} onChange={(e) => setPage(e.target.value)} onBlur={saveProfile} className="w-24" data-testid="profile-age" /></Field>
+          </CardContent>
+        </Card>
         <Card>
           <CardHeader><CardTitle>Yearly goal</CardTitle><CardDescription>Progress shows on the dashboard for the current calendar year.</CardDescription></CardHeader>
           <CardContent>

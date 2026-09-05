@@ -1,7 +1,8 @@
 import * as React from "react"
-import { Building2, ClipboardList, Clock, FileText, HeartHandshake, LayoutDashboard, Plus, Settings as SettingsIcon } from "lucide-react"
+import { BookOpen, Building2, CalendarDays, ClipboardList, Clock, FileText, HeartHandshake, LayoutDashboard, Plus, Settings as SettingsIcon } from "lucide-react"
 
-import { activeWorkItems } from "@/lib/engine"
+import { activeWorkItems, upcomingPlans } from "@/lib/engine"
+import { todayISO } from "@/lib/format"
 import { go } from "@/lib/router"
 import { useStore } from "@/lib/store"
 import { useDialogs } from "@/components/dialogs"
@@ -19,6 +20,8 @@ function useNav() {
 
 const NAV = [
   { path: "/", top: "", label: "Dashboard", icon: LayoutDashboard },
+  { path: "/calendar", top: "calendar", label: "Calendar", icon: CalendarDays },
+  { path: "/catalog", top: "catalog", label: "Catalog", icon: BookOpen },
   { path: "/work", top: "work", label: "Work items", icon: ClipboardList },
   { path: "/log", top: "log", label: "Hours log", icon: Clock },
   { path: "/orgs", top: "orgs", label: "Organizations", icon: Building2 },
@@ -33,6 +36,7 @@ export function AppSidebar({ route, ...props }) {
   const { openEntry } = useDialogs()
   const top = route[0] || ""
   const active = activeWorkItems().length
+  const planned = upcomingPlans(todayISO(), 99).length
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -77,6 +81,7 @@ export function AppSidebar({ route, ...props }) {
                     <span>{n.label}</span>
                   </SidebarMenuButton>
                   {n.top === "work" && active ? <SidebarMenuBadge className="text-muted-foreground">{active}</SidebarMenuBadge> : null}
+                  {n.top === "calendar" && planned ? <SidebarMenuBadge className="text-muted-foreground">{planned}</SidebarMenuBadge> : null}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

@@ -20,6 +20,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   await pg.waitForSelector('[data-testid=drive-button]:has-text("Saved to Drive")', { timeout: 8000 });
   check('first sign-in asks for consent once', JSON.stringify(await gis()) === '["consent"]');
   check('file created in Drive with an empty dataset', drive.file === 'file1' && Array.isArray(body().entries) && body().entries.length === 0);
+  check('payload is schema 3 with plans and interests', body().schema === 3 && Array.isArray(body().plans) && typeof body().interests === 'object' && !('theme' in body()) && !('owner' in body()));
   check('name shown in the sidebar footer', /Test Volunteer/.test(await pg.textContent('[data-testid=nav-user]')));
 
   await pg.reload({ waitUntil: 'networkidle' });

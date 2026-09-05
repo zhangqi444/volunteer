@@ -7,8 +7,8 @@ the two drift, this project follows isee.
 
 ## Before you change anything
 
-- Work in `site/`. Everything the site needs is there; the repo root holds only
-  docs and the deploy workflow.
+- Work in `site/`. Catalog edits go in `content/catalog.json`, then re-run
+  `python3 site/make_bundle.py` and commit the regenerated bundle.
 - Keep `isee` and `volunteer` consistent: same shell, tokens, component library,
   store shape, test layout and docs. A convention added to one belongs in the other.
 
@@ -16,6 +16,7 @@ the two drift, this project follows isee.
 
 ```bash
 cd site && npm run build && npm test        # all three suites must pass
+python3 site/make_bundle.py && git diff --exit-code -- site/public/content/bundle.json
 ```
 
 If a check fails because the UI legitimately changed, fix the test's assumption —

@@ -6,10 +6,12 @@
  * deletion on one device is not undone by the other's copy. */
 import { isISODate, round2, todayISO, toISODate, uid } from "./format"
 
-export const SCHEMA = 2
+export const SCHEMA = 3
 export const DEFAULT_CATEGORIES = ["Community", "Education", "Environment", "Health", "Animals", "Arts & Culture", "Disaster Relief", "Faith-based", "Other"]
 export const ORG_COLORS = ["#0f7a6b", "#3b6fb6", "#7c3aed", "#c2417d", "#b4653a", "#9c6f16", "#2e7d5b", "#0891b2", "#64748b"]
 export const WORK_STATUSES = ["active", "paused", "completed"]
+export const PLAN_STATUSES = ["planned", "done", "skipped"]
+export const INTEREST_STATUSES = ["interested", "applied", "joined", "passed"]
 
 export function emptyData() {
   const now = new Date().toISOString()
@@ -20,9 +22,11 @@ export function emptyData() {
     workItems: [],
     entries: [],
     memos: [],
+    plans: [],
+    interests: {},
     deleted: {},
     goals: { yearly: 50, at: "" },
-    settings: { categories: DEFAULT_CATEGORIES.slice(), at: "" },
+    settings: { categories: DEFAULT_CATEGORIES.slice(), profile: { name: "", age: null, ageAsOf: "" }, at: "" },
     theme: undefined,
   }
 }
@@ -75,14 +79,35 @@ export function normalize(raw) {
       text: str(m.text).trim(), createdAt: m.createdAt || fileAt, at: stamp(m, fileAt),
     }))
 
+  const plans = Array.isArray(raw.plans) ? raw.plans : []
+  out.plans = plans
+    .filter((p) => p && typeof p === "object" && isISODate(p.date) && str(p.title).trim())
+    .map((p) => ({
+      id: str(p.id || uid()), date: p.date, start: /^\d{2}:\d{2}$/.test(p.start) ? p.start : "", end: /^\d{2}:\d{2}$/.test(p.end) ? p.end : "",
+      hours: Math.max(0, round2(Number(p.hours) || 0)), title: str(p.title).trim(),
+      orgId: orgIds.has(str(p.orgId)) ? str(p.orgId) : "", workItemId: itemIds.has(str(p.workItemId)) ? str(p.workItemId) : "",
+      catalogId: str(p.catalogId), notes: str(p.notes), status: PLAN_STATUSES.includes(p.status) ? p.status : "planned",
+      entryId: str(p.entryId), createdAt: p.createdAt || fileAt, at: stamp(p, fileAt),
+    }))
+
+  if (raw.interests && typeof raw.interests === "object") {
+    for (const k of Object.keys(raw.interests)) {
+      const v = raw.interests[k]
+      if (v && typeof v === "object" && INTEREST_STATUSES.includes(v.status)) out.interests[k] = { status: v.status, note: str(v.note), at: stamp(v, fileAt) }
+    }
+  }
+
   if (raw.deleted && typeof raw.deleted === "object") {
     for (const k of Object.keys(raw.deleted)) if (typeof raw.deleted[k] === "string") out.deleted[k] = raw.deleted[k]
   }
   const yearly = Number(raw.goals && raw.goals.yearly)
   out.goals = { yearly: Number.isFinite(yearly) && yearly >= 0 ? yearly : 50, at: (raw.goals && typeof raw.goals.at === "string" && raw.goals.at) || (raw.goals ? fileAt : "") }
   const cats = raw.settings && Array.isArray(raw.settings.categories) ? raw.settings.categories : null
+  const prof = (raw.settings && raw.settings.profile) || {}
+  const age = Number(prof.age)
   out.settings = {
     categories: cats && cats.length ? [...new Set(cats.map((c) => str(c).trim()).filter(Boolean))] : DEFAULT_CATEGORIES.slice(),
+    profile: { name: str(prof.name).trim(), age: Number.isInteger(age) && age >= 0 && age < 120 ? age : null, ageAsOf: isISODate(prof.ageAsOf) ? prof.ageAsOf : "" },
     at: (raw.settings && typeof raw.settings.at === "string" && raw.settings.at) || (cats ? fileAt : ""),
   }
   out.theme = raw.theme === "light" || raw.theme === "dark" ? raw.theme : undefined
@@ -147,6 +172,7 @@ export function sampleData() {
     [ago(0, Math.max(1, now.getDate() - 3)), "org-food", "Sorted and shelved donations", "Community", 3, "Maria Lopez", ""],
   ].map(([date, orgId, activity, category, hours, supervisor, notes]) => rec({ id: uid(), date, orgId, workItemId: link[activity] || "", activity, category, hours, supervisor, notes }))
   d.goals = { yearly: 60, at: iso }
+  d.settings.profile = { name: "Sheila", age: 9, ageAsOf: toISODate(now) }
   d.settings.at = iso
   d.updatedAt = iso
   return d

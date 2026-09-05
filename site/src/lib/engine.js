@@ -77,6 +77,19 @@ export function workItemStats(id) {
 }
 export const memosFor = (id) => S().memos.filter((m) => m.workItemId === id).sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt))
 
+/* ---- plans ---- */
+export const plansSorted = () => S().plans.slice().sort((a, b) => a.date.localeCompare(b.date) || (a.start || "").localeCompare(b.start || "") || a.createdAt.localeCompare(b.createdAt))
+export const plansOn = (iso) => plansSorted().filter((p) => p.date === iso)
+export function upcomingPlans(from, limit = 6) { return plansSorted().filter((p) => p.status === "planned" && p.date >= from).slice(0, limit) }
+export function overduePlans(today) { return plansSorted().filter((p) => p.status === "planned" && p.date < today) }
+export function plannedHours(from, to) { return sumHours(S().plans.filter((p) => p.status === "planned" && p.date >= from && p.date <= to)) }
+/** Hours a plan implies: explicit hours, else the start–end span. */
+export function planHours(p) {
+  if (p.hours) return p.hours
+  if (p.start && p.end) { const [a, b] = [p.start, p.end].map((t) => { const [h, m] = t.split(":").map(Number); return h + m / 60 }); return b > a ? round2(b - a) : 0 }
+  return 0
+}
+
 export function stats(now = new Date()) {
   const ym = `${now.getFullYear()}-${pad(now.getMonth() + 1)}`, y = String(now.getFullYear())
   const pm = new Date(now.getFullYear(), now.getMonth() - 1, 1), pk = `${pm.getFullYear()}-${pad(pm.getMonth() + 1)}`

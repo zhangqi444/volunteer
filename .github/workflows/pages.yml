@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'site/**'
+      - 'content/**'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 
@@ -26,6 +27,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Rebuild bundle.json from the catalog
+        run: python3 site/make_bundle.py
+
+      - name: Fail if the bundle drifted from the committed one
+        run: git diff --exit-code -- site/public/content/bundle.json
 
       - uses: actions/setup-node@v4
         with:

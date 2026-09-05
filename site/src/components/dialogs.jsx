@@ -5,6 +5,7 @@ import * as React from "react"
 
 import { Store, useStore } from "@/lib/store"
 import { ORG_COLORS, WORK_STATUSES } from "@/lib/model"
+import { planHours } from "@/lib/engine"
 import { hoursWord, isISODate, todayISO } from "@/lib/format"
 import { orgName, orgsSorted, sumHours, workItemById, workItemsForOrg, workItemStats, workItemTitle } from "@/lib/engine"
 import { go } from "@/lib/router"
@@ -24,8 +25,10 @@ export function DialogsProvider({ children }) {
   const [org, setOrg] = React.useState(null)
   const [item, setItem] = React.useState(null)
   const [memo, setMemo] = React.useState(null)
+  const [plan, setPlan] = React.useState(null)
   const [conf, setConf] = React.useState(null)
   const api = React.useMemo(() => ({
+    openPlan: (o = {}) => setPlan({ ...o, key: Date.now() }),
     openEntry: (o = {}) => setEntry({ ...o, key: Date.now() }),
     openOrg: (o = {}) => setOrg({ ...o, key: Date.now() }),
     openWorkItem: (o = {}) => setItem({ ...o, key: Date.now() }),
@@ -39,6 +42,7 @@ export function DialogsProvider({ children }) {
       {item && <WorkItemDialog key={item.key} init={item} close={() => setItem(null)} />}
       {org && <OrgDialog key={org.key} init={org} close={() => setOrg(null)} />}
       {memo && <MemoDialog key={memo.key} init={memo} close={() => setMemo(null)} />}
+      {plan && <PlanDialog key={plan.key} init={plan} close={() => setPlan(null)} />}
       {conf && <ConfirmDialog key={conf.key} init={conf} close={() => setConf(null)} />}
     </Ctx.Provider>
   )
@@ -67,11 +71,15 @@ function EntryDialog({ init, close }) {
   const toast = useToast()
   const { openOrg, confirm } = useDialogs()
   const e = init.id ? Store.entry(init.id) : null
+  const plan = init.planId ? Store.plan(init.planId) : null
   const firstOrg = init.workItemId ? (workItemById(init.workItemId) || {}).orgId : init.orgId
   const [f, setF] = React.useState({
-    date: e ? e.date : todayISO(), hours: e ? String(e.hours) : "", orgId: e ? e.orgId : firstOrg || "",
-    workItemId: e ? e.workItemId : init.workItemId || "", activity: e ? e.activity : "", category: e ? e.category : "",
-    supervisor: e ? e.supervisor : "", notes: e ? e.notes : "",
+    date: e ? e.date : plan ? (plan.date > todayISO() ? todayISO() : plan.date) : todayISO(),
+    hours: e ? String(e.hours) : plan && planHours(plan) ? String(planHours(plan)) : "",
+    orgId: e ? e.orgId : plan ? plan.orgId : firstOrg || "",
+    workItemId: e ? e.workItemId : plan ? plan.workItemId : init.workItemId || "",
+    activity: e ? e.activity : plan ? plan.title : "", category: e ? e.category : "",
+    supervisor: e ? e.supervisor : "", notes: e ? e.notes : plan ? plan.notes : "",
   })
   const [err, setErr] = React.useState("")
   const set = (k) => (v) => setF((s) => ({ ...s, [k]: v }))
@@ -88,7 +96,12 @@ function EntryDialog({ init, close }) {
     if (!f.orgId) return setErr("Choose an organization, or create a new one.")
     if (!f.activity.trim()) return setErr("Describe what you did.")
     const fields = { ...f, hours, activity: f.activity.trim(), supervisor: f.supervisor.trim(), notes: f.notes.trim() }
-    if (e) { Store.updateEntry(e.id, fields); toast("Entry updated") } else { Store.addEntry(fields); toast(`Logged ${hoursWord(hours)}`) }
+    if (e) { Store.updateEntry(e.id, fields); toast("Entry updated") }
+    else {
+      const n = Store.addEntry(fields)
+      if (plan) Store.setPlanStatus(plan.id, "done", n.id)
+      toast(plan ? `Logged ${hoursWord(hours)} · plan marked done` : `Logged ${hoursWord(hours)}`)
+    }
     close()
   }
   async function del() {
@@ -193,8 +206,8 @@ function WorkItemDialog({ init, close }) {
   const { openOrg, confirm } = useDialogs()
   const w = init.id ? Store.workItem(init.id) : null
   const [f, setF] = React.useState({
-    title: w ? w.title : "", orgId: w ? w.orgId : init.orgId || "", status: w ? w.status : "active", startDate: w ? w.startDate : todayISO(),
-    targetHours: w && w.targetHours ? String(w.targetHours) : "", description: w ? w.description : "",
+    title: w ? w.title : init.title || "", orgId: w ? w.orgId : init.orgId || "", status: w ? w.status : "active", startDate: w ? w.startDate : todayISO(),
+    targetHours: w && w.targetHours ? String(w.targetHours) : "", description: w ? w.description : init.description || "",
   })
   const [err, setErr] = React.useState("")
   const set = (k) => (v) => setF((s) => ({ ...s, [k]: v }))
@@ -268,6 +281,60 @@ function MemoDialog({ init, close }) {
           <div className="flex gap-2">
             <Button type="button" variant="ghost" onClick={close}>Cancel</Button>
             <Button type="submit" data-testid="memo-save">Save</Button>
+          </div>
+        </DialogFooter>
+      </form>
+    </Shell>
+  )
+}
+
+/* ---------- plan (the calendar) ---------- */
+function PlanDialog({ init, close }) {
+  useStore()
+  const toast = useToast()
+  const { openOrg, confirm } = useDialogs()
+  const p = init.id ? Store.plan(init.id) : null
+  const [f, setF] = React.useState({
+    date: p ? p.date : init.date || todayISO(), start: p ? p.start : init.start || "", end: p ? p.end : init.end || "", hours: p && p.hours ? String(p.hours) : init.hours ? String(init.hours) : "",
+    title: p ? p.title : init.title || "", orgId: p ? p.orgId : init.orgId || "", workItemId: p ? p.workItemId : init.workItemId || "",
+    notes: p ? p.notes : init.notes || "", catalogId: p ? p.catalogId : init.catalogId || "",
+  })
+  const [err, setErr] = React.useState("")
+  const set = (k) => (v) => setF((s) => ({ ...s, [k]: v }))
+  const items = f.orgId ? workItemsForOrg(f.orgId).filter((w) => w.status !== "completed" || w.id === f.workItemId) : []
+  function submit(ev) {
+    ev.preventDefault()
+    if (!isISODate(f.date)) return setErr("Please enter a valid date.")
+    if (!f.title.trim()) return setErr("Give the plan a title, like the activity you'll log afterwards.")
+    if (f.start && f.end && f.end <= f.start) return setErr("The end time must be after the start time.")
+    if (f.hours && !(Number(f.hours) > 0)) return setErr("Hours must be greater than zero, or leave it empty.")
+    const fields = { ...f, title: f.title.trim(), notes: f.notes.trim() }
+    if (p) { Store.updatePlan(p.id, fields); toast("Plan updated") } else { Store.addPlan(fields); toast("Added to the calendar") }
+    close()
+  }
+  async function del() { if (await confirm({ title: "Remove this plan?", message: "Logged hours are not affected." })) { Store.deletePlan(p.id); toast("Plan removed"); close() } }
+  return (
+    <Shell title={p ? "Edit plan" : "Plan volunteer work"} onClose={close} testid="plan-dialog">
+      <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2" noValidate>
+        <Field label="Title" required className="sm:col-span-2"><Input maxLength={120} placeholder="e.g. Saturday warehouse shift" value={f.title} onChange={(ev) => set("title")(ev.target.value)} data-testid="plan-title" autoFocus /></Field>
+        <Field label="Date" required><Input type="date" value={f.date} onChange={(ev) => set("date")(ev.target.value)} data-testid="plan-date" /></Field>
+        <Field label="Hours" hint="Or set start and end times."><Input type="number" min="0.25" step="0.25" placeholder="e.g. 3" value={f.hours} onChange={(ev) => set("hours")(ev.target.value)} data-testid="plan-hours" /></Field>
+        <Field label="Start"><Input type="time" value={f.start} onChange={(ev) => set("start")(ev.target.value)} /></Field>
+        <Field label="End"><Input type="time" value={f.end} onChange={(ev) => set("end")(ev.target.value)} /></Field>
+        <Field label="Organization" className="sm:col-span-2">
+          <div className="flex gap-2">
+            <Pick value={f.orgId} onChange={(v) => setF((s) => ({ ...s, orgId: v, workItemId: "" }))} options={orgsSorted().map((o) => ({ value: o.id, label: o.name }))} noneLabel="Not decided yet" testid="plan-org" />
+            <Button type="button" variant="outline" onClick={() => openOrg({ onCreated: (id) => setF((s) => ({ ...s, orgId: id, workItemId: "" })) })}>New</Button>
+          </div>
+        </Field>
+        <Field label="Work item" className="sm:col-span-2"><Pick value={f.workItemId} onChange={set("workItemId")} options={items.map((w) => ({ value: w.id, label: w.title }))} noneLabel="None" disabled={!items.length} testid="plan-workitem" /></Field>
+        <Field label="Notes" className="sm:col-span-2"><Textarea rows={2} placeholder="Where to meet, what to bring…" value={f.notes} onChange={(ev) => set("notes")(ev.target.value)} /></Field>
+        <div className="sm:col-span-2"><ErrorLine msg={err} /></div>
+        <DialogFooter className="sm:col-span-2 sm:justify-between">
+          <div>{p ? <Button type="button" variant="ghost" className="text-destructive hover:text-destructive" onClick={del} data-testid="plan-delete">Remove</Button> : null}</div>
+          <div className="flex gap-2">
+            <Button type="button" variant="ghost" onClick={close}>Cancel</Button>
+            <Button type="submit" data-testid="plan-save">Save</Button>
           </div>
         </DialogFooter>
       </form>

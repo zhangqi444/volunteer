@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client"
 import "./index.css"
 import App from "./App"
 import { Store } from "./lib/store"
+import { loadCatalog } from "./lib/content"
 
 /* Theme: saved choice > host's data-theme > OS. */
 function applyTheme() {
@@ -23,8 +24,10 @@ Store.subscribe(applyTheme)
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme)
 new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] })
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
+loadCatalog().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  )
+})

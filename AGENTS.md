@@ -6,18 +6,25 @@ sites share one stack, one look, and one Google Drive contract.
 
 ## What this is
 
-A static website for one volunteer's record of service: **organizations** they
-work with, **work items** (projects or commitments under an organization, with a
-status and an optional target), **hours entries** logged against an organization
-and optionally a work item, and **memos** kept on each work item. Reports print
-for schools, employers and verification letters.
+A static website for one volunteer's record of service. The volunteer is
+**Sheila**, 9 years old (her age lives in Settings → Volunteer and advances by
+itself); her parent signs in with their Google account. The site keeps
+**organizations** she works with, **work items** (projects or commitments under an
+organization, with a status and an optional target), **hours entries** logged
+against an organization and optionally a work item, **memos** on each work item,
+and **plans** on a calendar. A **catalog** of researched opportunities, filtered
+by what fits her age, is where new work starts. Reports print for schools,
+employers and verification letters.
 
 Live at <https://zhangqi444.github.io/volunteer/>.
 
 ## Repository layout
 
 ```
+content/
+  catalog.json             the opportunity catalog: the only content the site teaches (see Content rules)
 site/
+  make_bundle.py           content/** → site/public/content/bundle.json (the app's only content input)
   index.html               Vite entry
   vite.config.js           injects the OAuth client id (from oauth.json) and the Google Identity script
   oauth.json               the Google OAuth client's public facts (no secrets)
@@ -26,12 +33,13 @@ site/
   src/lib/store.js         the store: localStorage first, Google Drive mirror, merge
   src/lib/drive.js         Google Sign-In + Drive file read/write
   src/lib/model.js         dataset shape, normalize(), sample data, CSV
-  src/lib/engine.js        every derived number (totals, per-month, per-org, per-item) — computed, never stored
+  src/lib/engine.js        every derived number (totals, per-month, per-org, per-item, plans) — computed, never stored
+  src/lib/content.js       loads the bundle; fit(item, age) decides Fits now / With an adult / From age N
   src/lib/format.js        fmtDate, fmtHours, todayISO, uid …
   src/lib/router.js        16 lines of hash routing
   src/components/ui/       shadcn/ui components, written into the repo (not a dependency)
   src/components/          app-sidebar, site-header, nav-user, dialogs (all forms), toast, bits
-  src/pages/               home, work (list + detail), log, orgs, reports, settings
+  src/pages/               signin, home, calendar, catalog, work (list + detail), log, orgs, reports, settings
   public/                  favicon, manifest, service worker
   test_*.cjs               three Playwright suites — see Testing
 .github/workflows/pages.yml  build + deploy to GitHub Pages
@@ -72,9 +80,11 @@ site/
   tombstones; a tombstone newer than a record beats the record on both sides, so a
   deletion on one device is not undone by another's copy. Goals and categories are
   last-write-wins as a block. A record only one side has is always kept.
-- **Payload**: `schema: 2` — `organizations, workItems, entries, memos, deleted,
-  goals, settings`. Adding a slice means adding it to `normalize`, `merge`,
-  `replaceAll` and `test_drive.cjs`.
+- **Payload**: `schema: 3` — `organizations, workItems, entries, memos, plans,
+  interests, deleted, goals, settings`. `plans` are calendar records (a plan turns
+  into an hours entry through *Log hours* and keeps the `entryId`); `interests` is
+  keyed by catalog item id, tombstoned as `interest:<id>`. Adding a slice means
+  adding it to `normalize`, `merge`, `replaceAll` and `test_drive.cjs`.
 - **Session handling** lives in `src/lib/drive.js` and is the pattern isee copies:
   `ensureToken()` before every call, one 401 retry, `hasGrantedAllScopes`, a
   `pagehide` keepalive flush, an offline queue that retries on `online`. First
@@ -89,7 +99,11 @@ npm ci
 npm run dev        # local dev server (add http://localhost:5173 to the OAuth origins)
 npm run build      # → site/dist   (the Pages build)
 npm test           # all three Playwright suites, against the built dist/
+python3 site/make_bundle.py   # rebuild bundle.json after editing content/**
 ```
+
+`make_bundle.py` must be re-run and `site/public/content/bundle.json` committed
+whenever `content/**` changes — CI fails the build if the committed bundle has drifted.
 
 ## Testing
 
@@ -97,7 +111,7 @@ npm test           # all three Playwright suites, against the built dist/
 |---|---|
 | `test_e2e.cjs` | desktop + phone shells, drawer, first organization and entry, validation, persistence, breadcrumb, theme |
 | `test_drive.cjs` | Google stubbed: the gate, sign in once, reload without a prompt, push, expiry + silent reconnect, merge with tombstones, sign out clears the device, sign in restores from Drive |
-| `test_features.cjs` | sample data, dashboard chart, work items + memos, log filters and sort, reports, settings |
+| `test_features.cjs` | sample data, dashboard chart, work items + memos, log filters and sort, catalog fit filters + interest + Plan it, calendar (grid, log hours from a plan, overdue, skipped), profile age, reports, settings |
 
 Rules: every feature gets checks in the suite it belongs to; a UI change that
 breaks a selector means fixing the test's *assumption*, not deleting the check.
@@ -117,6 +131,17 @@ All three must pass before a commit.
   are the same "Calm Scholar" set as isee.
 - Numbers use `tabular-nums`. Dates render through `fmtDate`. A value with no data
   says "—", not zero.
+
+## Content rules
+
+- **Never invent a fact.** Every catalog item carries the source `url` and the
+  `verified` date. Ages, times, fees and contact details come from that page (or
+  its search summary when the page cannot be opened from the sandbox — say so in
+  `note`) or are left out with "not stated". Confirming on the page before signing
+  up is the volunteer's step, and the UI says so.
+- Age rules are data: `ages: { min, max, withAdult, note }`. The catalog page
+  computes the fit from the profile; never hard-code "9".
+- Written for a parent and a nine-year-old reading together: short, concrete, no hype.
 
 ## Hard rules
 
