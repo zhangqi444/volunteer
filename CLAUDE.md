@@ -43,7 +43,8 @@ Claude-Session: <session url>
   workflow's deploy job fails the moment it starts, and the branch build serves the
   repo root, which no longer has an `index.html`.
 - Radix `Select` refuses an empty-string item value; use `Pick` from `bits.jsx`,
-  which maps "none" for you.
+  which maps "none" for you and renders the platform's own `<select>` on touch
+  devices, where the custom dropdown was unreliable inside a dialog on iOS.
 - Bumping the Drive `schema` means updating `normalize`, `merge`, `replaceAll` and the drive test.
 
 ## Verification habit

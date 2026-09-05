@@ -112,13 +112,13 @@ function EntryDialog({ init, close }) {
       <form onSubmit={submit} className="grid gap-4 sm:grid-cols-2" noValidate>
         <Field label="Date" required><Input type="date" value={f.date} max={todayISO()} onChange={(ev) => set("date")(ev.target.value)} data-testid="entry-date" /></Field>
         <Field label="Hours" required><Input type="number" min="0.25" step="0.25" placeholder="2.5" value={f.hours} onChange={(ev) => set("hours")(ev.target.value)} data-testid="entry-hours" autoFocus={Boolean(f.orgId)} /></Field>
-        <Field label="Organization" required className="sm:col-span-2">
+        <Field label="Organization" required className="sm:col-span-2" hint={orgsSorted().length ? "" : "No organizations yet. Use New to add the one you volunteered with."}>
           <div className="flex gap-2">
-            <Pick value={f.orgId} onChange={(v) => setF((s) => ({ ...s, orgId: v, workItemId: "" }))} options={orgsSorted().map((o) => ({ value: o.id, label: o.name }))} placeholder="Select an organization" testid="entry-org" />
-            <Button type="button" variant="outline" onClick={() => openOrg({ onCreated: (id) => setF((s) => ({ ...s, orgId: id, workItemId: "" })) })}>New</Button>
+            <Pick value={f.orgId} onChange={(v) => setF((s) => ({ ...s, orgId: v, workItemId: "" }))} options={orgsSorted().map((o) => ({ value: o.id, label: o.name }))} placeholder="Select an organization" emptyLabel="No organizations yet" testid="entry-org" />
+            <Button type="button" variant="outline" onClick={() => openOrg({ onCreated: (id) => setF((s) => ({ ...s, orgId: id, workItemId: "" })) })} data-testid="entry-new-org">New</Button>
           </div>
         </Field>
-        <Field label="Work item" className="sm:col-span-2" hint={f.orgId && !items.length ? "This organization has no active work items yet." : ""}>
+        <Field label="Work item" className="sm:col-span-2" hint={!f.orgId ? "Pick the organization first." : !items.length ? "This organization has no active work items yet; that's fine, it's optional." : ""}>
           <Pick value={f.workItemId} onChange={set("workItemId")} options={items.map((w) => ({ value: w.id, label: w.title }))} noneLabel="None" disabled={!items.length} testid="entry-workitem" />
         </Field>
         <Field label="Activity" required className="sm:col-span-2"><Input placeholder="e.g. Sorted donations at food bank" maxLength={120} value={f.activity} onChange={(ev) => set("activity")(ev.target.value)} data-testid="entry-activity" /></Field>
@@ -235,7 +235,7 @@ function WorkItemDialog({ init, close }) {
         <Field label="Title" required className="sm:col-span-2"><Input maxLength={100} placeholder="e.g. Saturday warehouse shifts" value={f.title} onChange={(ev) => set("title")(ev.target.value)} data-testid="wi-title" autoFocus /></Field>
         <Field label="Organization" required className="sm:col-span-2">
           <div className="flex gap-2">
-            <Pick value={f.orgId} onChange={set("orgId")} options={orgsSorted().map((o) => ({ value: o.id, label: o.name }))} placeholder="Select an organization" testid="wi-org" />
+            <Pick value={f.orgId} onChange={set("orgId")} options={orgsSorted().map((o) => ({ value: o.id, label: o.name }))} placeholder="Select an organization" emptyLabel="No organizations yet" testid="wi-org" />
             <Button type="button" variant="outline" onClick={() => openOrg({ onCreated: (id) => set("orgId")(id) })}>New</Button>
           </div>
         </Field>

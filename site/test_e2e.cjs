@@ -8,7 +8,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   for (const [label, viewport] of [['desktop', { width: 1280, height: 860 }], ['phone', { width: 390, height: 844 }]]) {
     console.log('\n== ' + label + ' ==');
     const phone = label === 'phone';
-    const ctx = await b.newContext({ viewport });
+    const ctx = await b.newContext({ viewport, ...(phone ? { isMobile: true, hasTouch: true } : {}) });
     await fakeGoogle(ctx);
     const pg = await ctx.newPage(); const errs = errorsOf(pg);
     await pg.goto(base, { waitUntil: 'networkidle' });
@@ -50,6 +50,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
     await pg.click('[data-testid=log-hours]');
     await pg.waitForSelector('[data-testid=entry-dialog]');
     check('date defaults to today', (await pg.inputValue('[data-testid=entry-date]')) === new Date().toISOString().slice(0, 10));
+    check(phone ? 'touch device gets the native organization picker' : 'desktop gets the Radix organization picker', (await pg.$eval('[data-testid=entry-org]', (el) => el.tagName)) === (phone ? 'SELECT' : 'BUTTON'));
     await pg.fill('[data-testid=entry-hours]', '2.5');
     await pick(pg, '[data-testid=entry-org]', 'Riverside Food Bank');
     await pg.fill('[data-testid=entry-activity]', 'Sorted donations');

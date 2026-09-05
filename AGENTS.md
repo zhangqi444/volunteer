@@ -140,6 +140,10 @@ All three must pass before a commit.
   its search summary when the page cannot be opened from the sandbox — say so in
   `note`) or are left out with "not stated". Confirming on the page before signing
   up is the volunteer's step, and the UI says so.
+- **Scope**: the catalog holds only what Sheila can do at her age (with an adult
+  where the source says so), from organizations the owner has pointed at (Seattle
+  Humane, Seattle Children's). Teen-only programs are not listed; add them when she
+  is old enough. Do not pad it with other organizations on your own initiative.
 - Age rules are data: `ages: { min, max, withAdult, note }`. The catalog page
   computes the fit from the profile; never hard-code "9".
 - Written for a parent and a nine-year-old reading together: short, concrete, no hype.

@@ -5,6 +5,7 @@ import { orgColor, orgName } from "@/lib/engine"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { NativeSelect } from "@/components/ui/native-select"
 
 export function OrgChip({ orgId, className }) {
   return (
@@ -54,14 +55,26 @@ export function PageHeader({ title, description, children }) {
 }
 
 const NONE = "__none__"
-/** Select with an optional "none" choice (Radix forbids an empty-string item value). */
-export function Pick({ value, onChange, options, placeholder = "Choose…", noneLabel = null, className, disabled, testid, size }) {
+const coarsePointer = () => typeof window !== "undefined" && window.matchMedia && window.matchMedia("(pointer: coarse)").matches
+
+/** Select with an optional "none" choice (Radix forbids an empty-string item value).
+ *  Touch devices get the platform's own picker; an empty list says so instead of opening blank. */
+export function Pick({ value, onChange, options, placeholder = "Choose…", noneLabel = null, emptyLabel = "Nothing to choose yet", className, disabled, testid, size }) {
+  if (coarsePointer()) {
+    return (
+      <NativeSelect value={value || ""} onChange={(e) => onChange(e.target.value)} disabled={disabled} className={className} size={size} data-testid={testid} aria-label={placeholder}>
+        {noneLabel !== null ? <option value="">{noneLabel}</option> : <option value="" disabled>{options.length ? placeholder : emptyLabel}</option>}
+        {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+      </NativeSelect>
+    )
+  }
   return (
     <Select value={value ? value : noneLabel !== null ? NONE : undefined} onValueChange={(v) => onChange(v === NONE ? "" : v)} disabled={disabled}>
       <SelectTrigger className={cn("w-full", className)} data-testid={testid} size={size}><SelectValue placeholder={placeholder} /></SelectTrigger>
       <SelectContent>
         {noneLabel !== null && <SelectItem value={NONE}>{noneLabel}</SelectItem>}
         {options.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
+        {!options.length && noneLabel === null ? <div className="text-muted-foreground px-2 py-1.5 text-sm">{emptyLabel}</div> : null}
       </SelectContent>
     </Select>
   )

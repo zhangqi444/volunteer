@@ -16,7 +16,7 @@ same stack, same shell, same theme tokens, same Drive contract, same test layout
 
 ## What it does
 
-- **Catalog**: researched opportunities around Seattle (Seattle Humane youth projects, Seattle Children's, food banks, trail work parties, home baking and knitting). Each carries its source URL and check date, and shows *Fits now*, *With an adult*, or *From age N* against the volunteer's age. Mark interest, *Plan it*, or *Start work item*.
+- **Catalog**: opportunities Sheila can do now, from Seattle Humane's youth projects and Seattle Children's youth service projects. Each carries its source URL and check date, and shows *Fits now*, *With an adult*, or *Age not stated* against the volunteer's age. Mark interest, *Plan it*, or *Start work item*.
 - **Calendar**: plan shifts and projects ahead; *Log hours* turns a plan into an entry, past plans wait under *Past plans to log* until logged or skipped; the dashboard shows what is up next.
 - **Work items, hours log, organizations, reports, settings** as before.
 

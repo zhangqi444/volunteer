@@ -60,8 +60,9 @@ async function fakeGoogle(ctx) {
   return drive;
 }
 
-/* Radix Select: click the trigger, then the option by visible text. */
+/* Pick: a native <select> on touch devices, otherwise Radix (click the trigger, then the option). */
 async function pick(pg, trigger, optionText) {
+  if ((await pg.$eval(trigger, (el) => el.tagName)) === 'SELECT') { await pg.selectOption(trigger, { label: optionText }); return; }
   await pg.click(trigger);
   await pg.waitForSelector('[role=option]');
   await pg.click(`[role=option]:has-text("${optionText}")`);
