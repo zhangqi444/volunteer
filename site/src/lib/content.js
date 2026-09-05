@@ -29,12 +29,14 @@ export function currentAge() {
   return p.age + Math.max(0, years)
 }
 
-/** How an item fits the volunteer: fits | adult | later | unknown, with a short label. */
+/** How an item fits the volunteer: fits | adult | later | past | unknown, with a short label.
+ *  Labels stay short (the long age note lives under Details); without a profile age the
+ *  label still states the rule, so a badge never depends on who is looking. */
 export function fit(item, age = currentAge()) {
   const a = item.ages || {}
-  if (age == null) return { key: "unknown", label: a.note || "Age not stated" }
-  if (a.min != null && age < a.min) return { key: "later", label: `From age ${a.min}` }
-  if (a.max != null && age > a.max) return { key: "past", label: `Up to age ${a.max}` }
+  if (age != null && a.min != null && age < a.min) return { key: "later", label: `From age ${a.min}` }
+  if (age != null && a.max != null && age > a.max) return { key: "past", label: `Up to age ${a.max}` }
+  if (age == null && a.min != null) return { key: "unknown", label: `From age ${a.min}` }
   if (a.withAdult) return { key: "adult", label: "With an adult" }
   if (a.min == null && a.max == null) return { key: "unknown", label: "Age not stated" }
   return { key: "fits", label: "Fits now" }

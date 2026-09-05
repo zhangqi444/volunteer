@@ -10,6 +10,8 @@ export const SCHEMA = 3
 export const DEFAULT_CATEGORIES = ["Community", "Education", "Environment", "Health", "Animals", "Arts & Culture", "Disaster Relief", "Faith-based", "Other"]
 export const ORG_COLORS = ["#0f7a6b", "#3b6fb6", "#7c3aed", "#c2417d", "#b4653a", "#9c6f16", "#2e7d5b", "#0891b2", "#64748b"]
 export const WORK_STATUSES = ["active", "paused", "completed"]
+/* This is Sheila's tracker (see AGENTS.md). A dataset that has never had a profile starts as her, 9 on 2026-09-05. */
+export const DEFAULT_PROFILE = { name: "Sheila", age: 9, ageAsOf: "2026-09-05" }
 export const PLAN_STATUSES = ["planned", "done", "skipped"]
 export const INTEREST_STATUSES = ["interested", "applied", "joined", "passed"]
 
@@ -26,7 +28,7 @@ export function emptyData() {
     interests: {},
     deleted: {},
     goals: { yearly: 50, at: "" },
-    settings: { categories: DEFAULT_CATEGORIES.slice(), profile: { name: "", age: null, ageAsOf: "" }, at: "" },
+    settings: { categories: DEFAULT_CATEGORIES.slice(), profile: { ...DEFAULT_PROFILE }, at: "" },
     theme: undefined,
   }
 }
@@ -103,11 +105,11 @@ export function normalize(raw) {
   const yearly = Number(raw.goals && raw.goals.yearly)
   out.goals = { yearly: Number.isFinite(yearly) && yearly >= 0 ? yearly : 50, at: (raw.goals && typeof raw.goals.at === "string" && raw.goals.at) || (raw.goals ? fileAt : "") }
   const cats = raw.settings && Array.isArray(raw.settings.categories) ? raw.settings.categories : null
-  const prof = (raw.settings && raw.settings.profile) || {}
-  const age = Number(prof.age)
+  const prof = raw.settings && raw.settings.profile && typeof raw.settings.profile === "object" ? raw.settings.profile : null
+  const age = prof ? Number(prof.age) : NaN
   out.settings = {
     categories: cats && cats.length ? [...new Set(cats.map((c) => str(c).trim()).filter(Boolean))] : DEFAULT_CATEGORIES.slice(),
-    profile: { name: str(prof.name).trim(), age: Number.isInteger(age) && age >= 0 && age < 120 ? age : null, ageAsOf: isISODate(prof.ageAsOf) ? prof.ageAsOf : "" },
+    profile: prof ? { name: str(prof.name).trim(), age: Number.isInteger(age) && age >= 0 && age < 120 ? age : null, ageAsOf: isISODate(prof.ageAsOf) ? prof.ageAsOf : "" } : { ...DEFAULT_PROFILE },
     at: (raw.settings && typeof raw.settings.at === "string" && raw.settings.at) || (cats ? fileAt : ""),
   }
   out.theme = raw.theme === "light" || raw.theme === "dark" ? raw.theme : undefined

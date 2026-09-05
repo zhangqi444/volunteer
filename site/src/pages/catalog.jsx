@@ -20,7 +20,7 @@ const INTEREST_LABEL = { interested: "Interested", applied: "Applied", joined: "
 
 export function FitBadge({ item, age }) {
   const f = fit(item, age)
-  return <Badge variant={FIT_VARIANT[f.key]} className={cn(f.key === "later" && "text-muted-foreground")} title={item.ages && item.ages.note} data-fit={f.key}>{f.label}</Badge>
+  return <Badge variant={FIT_VARIANT[f.key]} className={cn("max-w-full", f.key === "later" && "text-muted-foreground")} title={item.ages && item.ages.note} data-fit={f.key}>{f.label}</Badge>
 }
 
 function OpportunityCard({ item, age }) {
@@ -32,11 +32,11 @@ function OpportunityCard({ item, age }) {
   const interest = store.s.interests[item.id]
   const knownOrg = orgsSorted().find((o) => o.name.toLowerCase() === org.name.toLowerCase())
   return (
-    <Card className="gap-3 py-4" data-testid="catalog-item" data-id={item.id}>
+    <Card className="@container/card gap-3 py-4" data-testid="catalog-item" data-id={item.id}>
       <CardHeader className="gap-2">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <CardTitle className="leading-snug">{item.title}</CardTitle>
-          <div className="flex flex-wrap gap-1.5"><Badge variant="outline">{KIND_LABEL[item.kind] || item.kind}</Badge><FitBadge item={item} age={age} /></div>
+          <div className="flex min-w-0 flex-wrap gap-1.5"><Badge variant="outline">{KIND_LABEL[item.kind] || item.kind}</Badge><FitBadge item={item} age={age} /></div>
         </div>
         <CardDescription className="flex flex-wrap items-center gap-x-2">
           <a href={org.url} target="_blank" rel="noopener" className="text-primary inline-flex items-center gap-1 hover:underline">{org.name}<ExternalLink className="size-3" /></a>
@@ -62,11 +62,13 @@ function OpportunityCard({ item, age }) {
           <Button variant="link" size="sm" className="h-auto px-1 py-0 text-xs" onClick={() => setOpen((o) => !o)} data-testid="catalog-more">{open ? "Less" : "Details"}</Button>
         </div>
       </CardContent>
-      <CardFooter className="flex-wrap gap-2">
+      <CardFooter className="flex-col items-stretch gap-2 @sm/card:flex-row @sm/card:items-center">
         <Pick value={interest ? interest.status : ""} onChange={(v) => { Store.setInterest(item.id, v); toast(v ? `Marked ${INTEREST_LABEL[v].toLowerCase()}` : "Interest cleared") }}
-          options={INTEREST_STATUSES.map((s) => ({ value: s, label: INTEREST_LABEL[s] }))} noneLabel="Not marked" className="w-40" size="sm" testid="catalog-interest" />
-        <Button size="sm" variant="secondary" onClick={() => openPlan({ title: item.title, catalogId: item.id, orgId: knownOrg ? knownOrg.id : "", notes: item.howTo })} data-testid="catalog-plan"><CalendarPlus /> Plan it</Button>
-        <Button size="sm" variant="ghost" onClick={() => openWorkItem({ title: item.title, description: item.summary, orgId: knownOrg ? knownOrg.id : "" })} data-testid="catalog-workitem"><ClipboardPlus /> Start work item</Button>
+          options={INTEREST_STATUSES.map((s) => ({ value: s, label: INTEREST_LABEL[s] }))} noneLabel="Not marked" className="@sm/card:w-40" size="sm" testid="catalog-interest" />
+        <div className="flex gap-2">
+          <Button size="sm" variant="secondary" className="flex-1 @sm/card:flex-none" onClick={() => openPlan({ title: item.title, catalogId: item.id, orgId: knownOrg ? knownOrg.id : "", notes: item.howTo })} data-testid="catalog-plan"><CalendarPlus /> Plan it</Button>
+          <Button size="sm" variant="ghost" className="flex-1 @sm/card:flex-none" onClick={() => openWorkItem({ title: item.title, description: item.summary, orgId: knownOrg ? knownOrg.id : "" })} data-testid="catalog-workitem"><ClipboardPlus /> Start work item</Button>
+        </div>
       </CardFooter>
     </Card>
   )
