@@ -48,8 +48,10 @@ python3 -m http.server 8000
 
 ## Deploying to GitHub Pages
 
-1. Push this repository to GitHub.
-2. In the repository, open **Settings → Pages**, choose *Deploy from a branch*, select your branch and the `/ (root)` folder, and save.
+The workflow in `.github/workflows/pages.yml` publishes the site on every push to `main`.
+
+1. In the repository, open **Settings → Pages** and set **Source** to *GitHub Actions*.
+2. Push to `main` (or run the "Deploy to GitHub Pages" workflow from the Actions tab). The site appears at `https://<your-username>.github.io/<repo>/`.
 3. Add `https://<your-username>.github.io` to the OAuth client's authorized JavaScript origins.
 
 ## How data is stored
