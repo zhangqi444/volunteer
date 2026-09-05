@@ -85,12 +85,12 @@ export function Settings() {
             <CardDescription>{STATUS_LABEL[status]}{live && store.email ? ` · ${store.email}` : ""}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-3 text-sm">
-            <p className="text-muted-foreground">Your data is saved in this browser first. Sign in with Google to keep a copy in <code>volunteer-tracker-data.json</code> in your Drive, so it follows you to other devices. The app only sees the one file it creates.</p>
+            <p className="text-muted-foreground">Everything is saved to <code>volunteer-tracker-data.json</code> in your Google Drive, about a second after each change. A copy is cached in this browser so the app opens offline. The app only sees the one file it creates. Signing out clears this device; the file in Drive keeps everything.</p>
             <div className="flex flex-wrap gap-2">
-              {DRIVE_ENABLED && !live ? <Button onClick={() => store.signIn()} disabled={status === "connecting"} data-testid="settings-signin"><Cloud /> {status === "expired" ? "Reconnect Google Drive" : "Save to Google Drive"}</Button> : null}
+              {DRIVE_ENABLED && !live ? <Button onClick={() => store.signIn()} disabled={status === "connecting"} data-testid="settings-signin"><Cloud /> {status === "expired" ? "Reconnect Google Drive" : "Sign in with Google"}</Button> : null}
               {live ? <Button variant="secondary" onClick={() => store.push().then(() => toast("Saved to Drive")).catch((e) => toast(e.message, { error: true }))} data-testid="sync-now"><RefreshCw /> Sync now</Button> : null}
               {live && store.fileLink() ? <Button variant="outline" asChild><a href={store.fileLink()} target="_blank" rel="noopener"><ExternalLink /> Open file in Drive</a></Button> : null}
-              {live ? <Button variant="ghost" onClick={() => store.signOut()}><LogOut /> Disconnect</Button> : null}
+              {live ? <Button variant="ghost" onClick={() => store.signOut()} data-testid="settings-signout"><LogOut /> Sign out</Button> : null}
             </div>
             {status === "error" && store.lastError ? <p className="text-destructive text-xs">{store.lastError}</p> : null}
           </CardContent>

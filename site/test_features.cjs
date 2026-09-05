@@ -1,5 +1,5 @@
 /* Work items and memos, the hours log filters, reports, settings, sample data, dashboard charts. */
-const { serve, launch, check, failed, fakeGoogle, pick, errorsOf } = require('./test_helpers.cjs');
+const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = require('./test_helpers.cjs');
 
 (async () => {
   const { srv, base } = await serve(8152);
@@ -8,6 +8,8 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf } = require('./
   await fakeGoogle(ctx);
   const pg = await ctx.newPage(); const errs = errorsOf(pg);
 
+  await pg.goto(base, { waitUntil: 'networkidle' });
+  await signIn(pg);
   // sample data from settings
   await pg.goto(base + '#/settings', { waitUntil: 'networkidle' });
   await pg.click('[data-testid=data-sample]');

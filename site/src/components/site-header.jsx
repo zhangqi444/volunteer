@@ -30,6 +30,7 @@ export function SiteHeader({ route }) {
   const isDark = store.dark
   const busy = status === "connecting" || status === "syncing"
   const act = () => (status === "live" ? store.signOut() : store.signIn())
+  const signOutLabel = "Sign out"
   const icon = busy ? <Loader2 className="animate-spin" /> : status === "error" ? <CloudOff className="text-destructive" /> : <Cloud className={cn(status === "live" && "text-success", status === "expired" && "text-warning")} />
 
   return (
@@ -66,16 +67,16 @@ export function SiteHeader({ route }) {
               <TooltipTrigger asChild>
                 <Button variant={status === "live" ? "secondary" : "outline"} size="sm" className="hidden gap-2 sm:inline-flex" disabled={busy} onClick={act} data-testid="drive-button">
                   {icon}
-                  {status === "live" ? "Saved to Drive" : status === "connecting" ? "Connecting…" : status === "syncing" ? "Syncing…" : status === "error" ? "Retry Drive" : status === "expired" ? "Reconnect Drive" : status === "unavailable" ? "Drive unavailable" : "Save to Drive"}
+                  {status === "live" ? "Saved to Drive" : status === "connecting" ? "Connecting…" : status === "syncing" ? "Syncing…" : status === "error" ? "Retry Drive" : status === "expired" ? "Reconnect Drive" : status === "unavailable" ? "Drive unavailable" : "Sign in"}
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
                 {status === "live"
-                  ? `Your data is mirrored to volunteer-tracker-data.json in your Google Drive${store.email ? " (" + store.email + ")" : ""}. Click to disconnect.`
+                  ? `Saved to volunteer-tracker-data.json in your Google Drive${store.email ? " (" + store.email + ")" : ""}. Click to ${signOutLabel.toLowerCase()}; this device is cleared, the file stays.`
                   : status === "error" ? (store.lastError || "Google Drive could not be reached.")
                   : status === "expired" ? "Google sign-ins last an hour. Click to reconnect; no consent screen this time, and everything on this device is safe meanwhile."
                   : status === "unavailable" ? (store.lastError || "Google Sign-In did not load.")
-                  : "Sign in with Google to keep a copy of your data in a file this app creates in your Drive."}
+                  : "Sign in with Google to save to the file this app keeps in your Drive."}
               </TooltipContent>
             </Tooltip>
           )}

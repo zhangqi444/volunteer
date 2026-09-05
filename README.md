@@ -5,9 +5,9 @@ work with, the **work items** (projects and commitments) under each, the hours
 logged against them, and memos kept on each work item. Reports print for
 schools, employers and verification letters.
 
-There is no backend. Data is saved in the browser first and, once the volunteer
-signs in with Google, mirrored to a JSON file the app creates in **their own
-Google Drive**. Live at <https://zhangqi444.github.io/volunteer/>.
+There is no backend. You sign in with Google, and the app keeps your data in a
+JSON file it creates in **your own Google Drive**, with a copy cached in the
+browser so it opens offline. Live at <https://zhangqi444.github.io/volunteer/>.
 
 This project is the sibling of [`zhangqi444/isee`](https://github.com/zhangqi444/isee):
 same stack, same shell, same theme tokens, same Drive contract, same test layout.
@@ -56,10 +56,11 @@ OAuth client are in `site/oauth.json`. To set up your own:
    (for example `https://<user>.github.io`, no path) under Authorized JavaScript origins.
 4. Put the client id in `site/oauth.json`.
 
-The app works fully without signing in. With Drive connected, edits are pushed
-about a second after they happen; two devices merge per record, last write wins,
-and deletions are carried as tombstones so neither device resurrects the other's
-deleted records. Sign-ins last an hour and reconnect silently.
+Sign-in is required once per device. Edits are pushed about a second after they
+happen; two devices merge per record, last write wins, and deletions are carried
+as tombstones so neither device resurrects the other's deleted records. Sign-ins
+last an hour and reconnect silently; the app stays usable offline meanwhile.
+Signing out clears the device, and the file in Drive keeps everything.
 
 ## Data file
 

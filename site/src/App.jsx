@@ -1,7 +1,7 @@
 import * as React from "react"
 
 import { useRoute } from "@/lib/router"
-import { useStore } from "@/lib/store"
+import { DRIVE_ENABLED, useStore } from "@/lib/store"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { SiteHeader } from "@/components/site-header"
@@ -13,6 +13,7 @@ import { Log } from "@/pages/log"
 import { Orgs } from "@/pages/orgs"
 import { Reports } from "@/pages/reports"
 import { Settings } from "@/pages/settings"
+import { SignIn } from "@/pages/signin"
 
 function Screen({ route }) {
   const [top, a] = route
@@ -45,7 +46,9 @@ class ErrorBoundary extends React.Component {
 
 export default function App() {
   const route = useRoute()
-  useStore()
+  const store = useStore()
+  // Signed in once on this device? Then the app opens (offline too); otherwise the gate.
+  if (DRIVE_ENABLED && store.status !== "live" && !store.hasSession()) return <SignIn />
   return (
     <ToastProvider>
       <DialogsProvider>

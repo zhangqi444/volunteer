@@ -1,6 +1,8 @@
 /* Persistence: localStorage first, synchronously; a JSON file in the user's own
- * Google Drive is the mirror, pushed on a 1.2 s debounce once they sign in.
- * The app is fully usable signed out. */
+ * Google Drive is the mirror, pushed on a 1.2 s debounce.
+ * Sign-in is required once per device; after that the app opens offline and
+ * reconnects silently when the hourly token lapses. Signing out clears the
+ * device, so a second account never merges into the first one's file. */
 import { useSyncExternalStore } from "react"
 import { emptyData, normalize, ORG_COLORS, SCHEMA, WORK_STATUSES } from "./model"
 import { round2, ts, uid } from "./format"
@@ -32,6 +34,7 @@ const now = () => new Date().toISOString()
 export const Store = {
   s: null,
   status: "local",        // local | connecting | syncing | live | expired | error | unavailable
+  ready: false,           // Google Identity script loaded, sign-in can be requested
   email: null, name: null, picture: null,
   lastError: null, lastSync: null,
   dark: false,
@@ -44,10 +47,14 @@ export const Store = {
         clientId: CLIENT_ID, fileName: FILE,
         onState: (st, detail) => this.onDriveState(st, detail),
         onSaved: () => { this.lastSync = new Date() },
-      }).then(() => { if (Drive.hasSession()) this.resume() }).catch((e) => { this.lastError = e.message; this.setStatus("unavailable") })
+      }).then(() => { this.ready = true; emit(); if (Drive.hasSession()) this.resume() }).catch((e) => { this.lastError = e.message; this.setStatus("unavailable") })
+      const p = Drive.getProfile()
+      if (p) { this.email = p.email; this.name = p.name; this.picture = p.picture }
     }
     return this.s
   },
+  /** Signed in on this device at some point: the app is usable, even while the token is expired. */
+  hasSession() { return DRIVE_ENABLED && Drive.hasSession() },
   subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn) },
   snapshot() { return version },
   setStatus(v) { if (this.status !== v) { this.status = v; emit() } },
@@ -153,6 +160,9 @@ export const Store = {
   },
   afterAuth(p) {
     this.email = p.email; this.name = p.name; this.picture = p.picture
+    // A different Google account on this device: its data must not merge into this one's file.
+    if (this.s.owner && this.s.owner !== p.email) { this.s = { ...emptyData(), theme: this.s.theme }; lsSave(this.s); emit() }
+    this.s.owner = p.email; lsSave(this.s)
     this.setStatus("syncing")
     return this.pull().then(() => { this.lastSync = new Date(); this.setStatus("live") }).catch((e) => {
       this.lastError = e.message
@@ -162,10 +172,12 @@ export const Store = {
   signOut() {
     Drive.signOut()
     this.email = this.name = this.picture = null
+    this.s = { ...emptyData(), theme: this.s.theme }     // the device is cleared; the file in Drive keeps everything
+    lsSave(this.s)
     this.setStatus("local")
   },
   payload() {
-    const { theme, ...rest } = this.s
+    const { theme, owner, ...rest } = this.s
     return { ...rest, schema: SCHEMA, savedAt: now() }
   },
   pull() {

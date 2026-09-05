@@ -1,6 +1,6 @@
 /* Desktop + phone shells, navigation, first entry, persistence across a reload, theme.
  * Run:  npm run build && node test_e2e.cjs */
-const { serve, launch, check, failed, fakeGoogle, pick, errorsOf } = require('./test_helpers.cjs');
+const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = require('./test_helpers.cjs');
 
 (async () => {
   const { srv, base } = await serve(8150);
@@ -12,10 +12,13 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf } = require('./
     await fakeGoogle(ctx);
     const pg = await ctx.newPage(); const errs = errorsOf(pg);
     await pg.goto(base, { waitUntil: 'networkidle' });
-    await pg.waitForSelector('[data-testid=today]');
-    check('dashboard renders empty state', /Ready to log your first hours/.test(await pg.textContent('[data-testid=today]')));
+    await pg.waitForSelector('[data-testid=signin]');
+    check('sign-in gate shown first, nothing of the app behind it', (await pg.$('[data-slot=sidebar-trigger]')) === null);
     check('no Google prompt on load', (await pg.evaluate(() => window.__gisCalls.length)) === 0);
-    if (!phone) check('Save to Drive offered in the header', (await pg.textContent('[data-testid=drive-button]')).includes('Save to Drive'));
+    await signIn(pg);
+    await pg.waitForSelector('[data-testid=today]');
+    check('dashboard renders empty state after sign-in', /Ready to log your first hours/.test(await pg.textContent('[data-testid=today]')));
+    if (!phone) check('header shows Saved to Drive', (await pg.textContent('[data-testid=drive-button]')).includes('Saved to Drive'));
 
     // navigation: sidebar is a drawer on phones and must close after navigating
     if (phone) {
@@ -70,7 +73,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf } = require('./
     check('total hours 2.5 on dashboard', /2\.5/.test(await pg.textContent('[data-testid=stat-total]')));
     await pg.reload({ waitUntil: 'networkidle' });
     await pg.waitForSelector('[data-testid=stat-total]');
-    check('survives a reload without Drive', /2\.5/.test(await pg.textContent('[data-testid=stat-total]')));
+    check('reload opens the app directly, data intact', /2\.5/.test(await pg.textContent('[data-testid=stat-total]')) && (await pg.$('[data-testid=signin]')) === null);
     check('recent activity lists the entry', /Sorted donations/.test(await pg.textContent('[data-testid=recent]')));
 
     // breadcrumb: always a way out

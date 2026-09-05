@@ -67,6 +67,12 @@ async function pick(pg, trigger, optionText) {
   await pg.click(`[role=option]:has-text("${optionText}")`);
   await pg.waitForSelector('[role=option]', { state: 'detached' });
 }
+/* The gate: click Sign in with Google (stubbed) and wait for the app shell. */
+async function signIn(pg) {
+  await pg.waitForSelector('[data-testid=signin-button]:not([disabled])');
+  await pg.click('[data-testid=signin-button]');
+  await pg.waitForSelector('[data-slot=sidebar-trigger]', { timeout: 8000 });
+}
 const errorsOf = (pg) => { const errs = []; pg.on('pageerror', (e) => errs.push('PAGEERR ' + e.message)); pg.on('console', (m) => { if (m.type() === 'error' && !/gsi|accounts\.google|fonts\.g|favicon|net::ERR_FAILED|sw\.js/.test(m.text())) errs.push('CONSOLE ' + m.text()); }); return errs; };
 
-module.exports = { serve, launch, check, failed, fakeGoogle, pick, errorsOf };
+module.exports = { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn };

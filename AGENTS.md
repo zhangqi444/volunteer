@@ -47,7 +47,7 @@ site/
 | Font | the device's own UI stack | no webfont request |
 | Router | hash routing in `src/lib/router.js` | GitHub Pages has no server-side rewrites |
 | State | one plain object + `useSyncExternalStore` (`src/lib/store.js`) | no Redux, no context tree |
-| Storage | **localStorage first, Google Drive as the mirror** | see below |
+| Storage | **localStorage first, Google Drive as the mirror; sign-in required** | see below |
 | Hosting | GitHub Pages via Actions | |
 
 **No backend, ever.** No server, no database, no account system beyond Google's.
@@ -61,7 +61,13 @@ site/
   Drive, tagged with `appProperties.app = volunteer-tracker` so it is found again
   after a rename or move. The app can only see files it created.
 - **Order of truth**: localStorage is written first and synchronously; Drive is a
-  mirror pushed on a 1.2 s debounce. The app is fully usable signed out.
+  mirror pushed on a 1.2 s debounce.
+- **The gate**: sign-in is required. A device that has never signed in sees only the
+  sign-in screen (`src/pages/signin.jsx`). Once signed in, the app opens offline and
+  shows *Reconnect* when the hourly token lapses; nothing is lost meanwhile.
+  Signing out clears the device (the file in Drive keeps everything), and a
+  different Google account signing in on the same device starts from the file, never
+  from the previous account's local copy (`owner` on the local dataset).
 - **Merge** (`Store.merge`): per record, last write wins by `at`. `deleted` holds
   tombstones; a tombstone newer than a record beats the record on both sides, so a
   deletion on one device is not undone by another's copy. Goals and categories are
@@ -90,7 +96,7 @@ npm test           # all three Playwright suites, against the built dist/
 | Suite | Covers |
 |---|---|
 | `test_e2e.cjs` | desktop + phone shells, drawer, first organization and entry, validation, persistence, breadcrumb, theme |
-| `test_drive.cjs` | Google stubbed: sign in once, reload without a prompt, push, merge with tombstones, expiry + silent reconnect, disconnect |
+| `test_drive.cjs` | Google stubbed: the gate, sign in once, reload without a prompt, push, expiry + silent reconnect, merge with tombstones, sign out clears the device, sign in restores from Drive |
 | `test_features.cjs` | sample data, dashboard chart, work items + memos, log filters and sort, reports, settings |
 
 Rules: every feature gets checks in the suite it belongs to; a UI change that

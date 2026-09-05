@@ -10,7 +10,7 @@ import {
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
 
 export const STATUS_LABEL = {
-  local: "Saved on this device",
+  local: "Not signed in",
   connecting: "Connecting to Google…",
   syncing: "Syncing with Drive…",
   live: "Saved to Google Drive",
@@ -65,16 +65,16 @@ export function NavUser() {
                   <>
                     <DropdownMenuItem onSelect={() => store.push().catch(() => store.setStatus("error"))}><RefreshCw /> Sync now</DropdownMenuItem>
                     {link ? <DropdownMenuItem onSelect={() => window.open(link, "_blank", "noopener")}><ExternalLink /> Open file in Drive</DropdownMenuItem> : null}
-                    <DropdownMenuItem onSelect={() => store.signOut()}><LogOut /> Disconnect Drive</DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => store.signOut()}><LogOut /> Sign out</DropdownMenuItem>
                   </>
                 ) : (
                   <DropdownMenuItem onSelect={() => store.signIn()} disabled={busy}>
                     {status === "error" ? <CloudOff /> : <Cloud />}
-                    {status === "error" ? "Retry Google Drive" : status === "expired" ? "Reconnect Google Drive" : "Save to Google Drive"}
+                    {status === "error" ? "Retry Google Drive" : status === "expired" ? "Reconnect Google Drive" : "Sign in with Google"}
                   </DropdownMenuItem>
                 )
               ) : (
-                <DropdownMenuItem disabled><HardDrive /> Data stays in this browser</DropdownMenuItem>
+                <DropdownMenuItem disabled><HardDrive /> Drive is not configured</DropdownMenuItem>
               )}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

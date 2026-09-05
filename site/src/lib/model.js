@@ -86,6 +86,7 @@ export function normalize(raw) {
     at: (raw.settings && typeof raw.settings.at === "string" && raw.settings.at) || (cats ? fileAt : ""),
   }
   out.theme = raw.theme === "light" || raw.theme === "dark" ? raw.theme : undefined
+  if (typeof raw.owner === "string" && raw.owner) out.owner = raw.owner
   out.updatedAt = fileAt
   return out
 }
