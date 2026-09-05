@@ -1,0 +1,9 @@
+{
+  "client_id": "941038838276-6dh8m2nib9fbhi3d4qlv18r45nvjh9nq.apps.googleusercontent.com",
+  "scope": "https://www.googleapis.com/auth/drive.file",
+  "consent": "External / Testing",
+  "authorized_js_origins": ["https://zhangqi444.github.io"],
+  "test_user": "zhangqi444@gmail.com",
+  "file_name": "volunteer-tracker-data.json",
+  "note": "drive.file is non-sensitive; the app can stay in Testing with the owner as a test user, no verification, no warning. It only sees the one file it creates. Add http://localhost:5173 to the origins for local dev."
+}

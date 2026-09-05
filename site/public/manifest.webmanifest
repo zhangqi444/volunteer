@@ -1,0 +1,10 @@
+{
+  "name": "Volunteer Tracker",
+  "short_name": "Volunteer",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#F4F7F6",
+  "theme_color": "#0F7A6B",
+  "description": "Track volunteer hours, work items and memos. Your data lives in your own Google Drive.",
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
