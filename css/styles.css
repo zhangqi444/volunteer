@@ -483,3 +483,71 @@ textarea { resize: vertical; min-height: 44px; }
   .report-summary div { background: #f3f3f3; }
   .table th, .table td { border-color: #ccc; }
 }
+
+/* ---------- Work items ---------- */
+.wi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.wi-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px;
+  cursor: pointer; text-align: left; font: inherit; color: inherit; width: 100%;
+  transition: border-color 0.12s, transform 0.12s;
+}
+.wi-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.wi-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wi-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.wi-card h3 { font-size: 1.02rem; }
+.wi-card .org-chip { margin-top: 2px; }
+.wi-desc { color: var(--text-muted); font-size: 0.88rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.wi-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.82rem; color: var(--text-muted); }
+.wi-meta b { color: var(--text); font-weight: 600; }
+.wi-progress { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; color: var(--text-muted); }
+.wi-progress .progress { height: 8px; }
+
+.status {
+  display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap;
+}
+.status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.status-active { background: var(--accent-soft); color: var(--accent-text); }
+.status-paused { background: var(--warning-soft); color: var(--warning); }
+.status-completed { background: var(--surface-2); color: var(--text-muted); }
+
+.wi-back { margin-bottom: 14px; }
+.wi-detail-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.wi-detail-header h1 { margin: 6px 0 4px; }
+.wi-detail-header .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.wi-detail-desc { max-width: 720px; color: var(--text-muted); }
+.wi-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 20px; }
+.wi-layout { display: grid; grid-template-columns: minmax(0, 3fr) minmax(280px, 2fr); gap: 20px; align-items: start; }
+.wi-layout > .card { margin-bottom: 0; }
+
+.memo-compose { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.memo-compose textarea { min-height: 72px; }
+.memo-compose-row { display: flex; gap: 8px; align-items: center; justify-content: flex-end; }
+.memo-compose-row input[type="date"] { width: auto; }
+.memo-list { display: flex; flex-direction: column; gap: 10px; }
+.memo {
+  padding: 12px 14px; border-radius: var(--radius-sm); background: var(--surface-2);
+  border-left: 3px solid var(--accent);
+}
+.memo-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; font-size: 0.8rem; color: var(--text-muted); }
+.memo-text { white-space: pre-wrap; font-size: 0.92rem; }
+.memo .btn { padding: 2px 8px; font-size: 0.78rem; }
+
+.wi-status-select { width: auto; padding: 6px 30px 6px 10px; font-size: 0.85rem; }
+.wi-inline-tag { display: inline-block; margin-top: 2px; font-size: 0.78rem; color: var(--accent-text); }
+.dash-wi { display: grid; gap: 10px; }
+.dash-wi-row { display: grid; grid-template-columns: minmax(140px, 2fr) 3fr auto; align-items: center; gap: 12px; font-size: 0.9rem; }
+.dash-wi-row .progress { height: 8px; }
+.dash-wi-row .hbar-value { min-width: 84px; }
+.dash-wi-row .wi-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dash-wi-row .wi-name small { display: block; color: var(--text-muted); font-size: 0.78rem; }
+
+@media (max-width: 960px) {
+  .wi-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wi-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .dash-wi-row { grid-template-columns: 1fr auto; }
+  .dash-wi-row .progress { grid-column: 1 / -1; }
+}

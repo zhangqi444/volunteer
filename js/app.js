@@ -4,7 +4,7 @@
 (function () {
   "use strict";
 
-  const { DataStore, cache, normalize, emptyData, sampleData, toCSV, downloadFile, todayISO, toISODate, isISODate, ORG_COLORS } = window.Store;
+  const { DataStore, cache, normalize, emptyData, sampleData, toCSV, downloadFile, todayISO, toISODate, isISODate, ORG_COLORS, WORK_STATUSES } = window.Store;
   const CLIENT_ID_KEY = "vt:clientId";
   const THEME_KEY = "vt:theme";
 
@@ -49,16 +49,21 @@
   }
 
   /* ---------- navigation ---------- */
-  const VIEWS = ["dashboard", "log", "organizations", "reports", "settings"];
+  const VIEWS = ["dashboard", "workitems", "log", "organizations", "reports", "settings"];
+  const wiState = { selectedId: null };
   function showView(name, { push = true } = {}) {
+    let sub = "";
+    if (name && name.includes("/")) [name, sub] = name.split("/", 2);
     if (!VIEWS.includes(name)) name = "dashboard";
+    if (name === "workitems") { wiState.selectedId = sub && store.workItemById(sub) ? sub : null; renderWorkItems(); }
+    const hash = name === "workitems" && wiState.selectedId ? `#workitems/${wiState.selectedId}` : `#${name}`;
     $$(".view").forEach((v) => v.classList.toggle("is-active", v.id === `view-${name}`));
     $$(".nav-item").forEach((b) => {
       const active = b.dataset.view === name;
       b.classList.toggle("is-active", active);
       if (active) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
     });
-    if (push && location.hash !== `#${name}`) history.replaceState(null, "", `#${name}`);
+    if (push && location.hash !== hash) history.replaceState(null, "", hash);
     if (name === "reports" && !$("#report-output").innerHTML) generateReport();
     $("#main").scrollTop = 0;
   }
@@ -75,6 +80,16 @@
     sel.value = selected;
     if (sel.value !== selected) sel.value = "";
   }
+  function fillWorkItemSelect(sel, { orgId = "", allLabel = null, selected = "", includeCompleted = true } = {}) {
+    let items = orgId ? store.workItemsForOrg(orgId) : store.workItemsSorted();
+    if (!includeCompleted) items = items.filter((w) => w.status !== "completed" || w.id === selected);
+    sel.innerHTML = `<option value="">${esc(allLabel !== null ? allLabel : "None")}</option>` +
+      items.map((w) => `<option value="${esc(w.id)}">${esc(w.title)}${orgId ? "" : ` · ${esc(store.orgName(w.orgId))}`}</option>`).join("");
+    sel.value = selected;
+    if (sel.value !== selected) sel.value = "";
+    sel.disabled = items.length === 0;
+  }
+  const statusBadge = (st) => `<span class="status status-${esc(st)}">${esc(st)}</span>`;
   function fillCategorySelect(sel, { allLabel = null, selected = "" } = {}) {
     const cats = store.categories();
     sel.innerHTML = (allLabel !== null ? `<option value="">${esc(allLabel)}</option>` : `<option value="">None</option>`) +
@@ -114,7 +129,23 @@
 
     renderMonthChart();
     renderOrgBars();
+    renderDashWorkItems();
     renderRecent();
+  }
+
+  function renderDashWorkItems() {
+    const items = store.workItemsSorted().filter((w) => w.status === "active");
+    const el = $("#dash-workitems");
+    $("#dash-workitems-card").hidden = store.data.workItems.length === 0;
+    if (!items.length) { el.innerHTML = `<div class="empty"><p>No active work items.</p></div>`; return; }
+    el.innerHTML = `<div class="dash-wi">${items.slice(0, 6).map((w) => {
+      const st = store.workItemStats(w.id);
+      const pct = w.targetHours > 0 ? Math.min(100, (st.hours / w.targetHours) * 100) : 0;
+      return `<div class="dash-wi-row">
+        <a class="wi-name" href="#workitems/${esc(w.id)}" title="${esc(w.title)}">${esc(w.title)}<small>${esc(store.orgName(w.orgId))}${st.last ? ` · last ${esc(fmtDate(st.last, { month: "short", day: "numeric" }))}` : ""}</small></a>
+        <div class="progress" title="${w.targetHours ? `${fmtHours(st.hours)} of ${fmtHours(w.targetHours)} hours` : "No target set"}"><div class="progress-bar${pct >= 100 ? " is-complete" : ""}" style="width:${w.targetHours ? pct : 0}%"></div></div>
+        <div class="hbar-value">${fmtHours(st.hours)}${w.targetHours ? ` / ${fmtHours(w.targetHours)}` : ""} h</div>
+      </div>`; }).join("")}</div>`;
   }
 
   function renderMonthChart() {
@@ -172,6 +203,7 @@
     return {
       search: $("#filter-search").value,
       orgId: $("#filter-org").value,
+      workItemId: $("#filter-workitem").value,
       category: $("#filter-category").value,
       from: $("#filter-from").value,
       to: $("#filter-to").value,
@@ -179,6 +211,7 @@
   }
   function renderLog() {
     fillOrgSelect($("#filter-org"), { allLabel: "All organizations", selected: $("#filter-org").value });
+    fillWorkItemSelect($("#filter-workitem"), { orgId: $("#filter-org").value, allLabel: "All work items", selected: $("#filter-workitem").value });
     fillCategorySelect($("#filter-category"), { allLabel: "All categories", selected: $("#filter-category").value });
     const entries = store.filterEntries(store.entriesSorted(logState.sort, logState.dir), currentFilters());
     const total = store.sumHours(entries);
@@ -190,7 +223,7 @@
       <tr>
         <td style="white-space:nowrap">${esc(fmtDate(e.date))}</td>
         <td>${orgChip(e.orgId)}</td>
-        <td>${esc(e.activity)}${e.notes || e.supervisor ? `<div class="activity-notes">${esc([e.supervisor && `with ${e.supervisor}`, e.notes].filter(Boolean).join(" · "))}</div>` : ""}</td>
+        <td>${esc(e.activity)}${e.workItemId ? `<a class="wi-inline-tag" href="#workitems/${esc(e.workItemId)}">${esc(store.workItemTitle(e.workItemId))}</a>` : ""}${e.notes || e.supervisor ? `<div class="activity-notes">${esc([e.supervisor && `with ${e.supervisor}`, e.notes].filter(Boolean).join(" · "))}</div>` : ""}</td>
         <td>${e.category ? `<span class="tag">${esc(e.category)}</span>` : ""}</td>
         <td class="num">${fmtHours(e.hours)}</td>
         <td class="actions">
@@ -219,6 +252,7 @@
         <div class="org-stats">
           <div class="org-stat"><b>${fmtHours(r.hours)}</b><span>hours</span></div>
           <div class="org-stat"><b>${r.count}</b><span>${r.count === 1 ? "entry" : "entries"}</span></div>
+          <div class="org-stat"><b>${store.workItemsForOrg(o.id).length}</b><span>work items</span></div>
         </div>
         <div class="org-actions">
           <button class="btn btn-secondary btn-sm" data-log-org="${esc(o.id)}" type="button">+ Log hours</button>
@@ -241,6 +275,7 @@
 
   function renderAll() {
     renderDashboard();
+    renderWorkItems();
     renderLog();
     renderOrgs();
     renderSettings();
@@ -250,14 +285,20 @@
 
   /* ---------- entry dialog ---------- */
   const entryDlg = $("#entry-dialog");
-  function openEntryDialog({ id = null, orgId = "" } = {}) {
+  function syncEntryWorkItems(selected = "") {
+    fillWorkItemSelect($("#entry-workitem"), { orgId: $("#entry-org").value, selected, includeCompleted: false });
+  }
+  $("#entry-org").addEventListener("change", () => syncEntryWorkItems());
+  function openEntryDialog({ id = null, orgId = "", workItemId = "" } = {}) {
     const e = id ? store.entryById(id) : null;
+    if (workItemId && !orgId) { const w = store.workItemById(workItemId); if (w) orgId = w.orgId; }
     $("#entry-dialog-title").textContent = e ? "Edit entry" : "Log hours";
     $("#entry-id").value = e ? e.id : "";
     $("#entry-date").value = e ? e.date : todayISO();
     $("#entry-date").max = todayISO();
     $("#entry-hours").value = e ? e.hours : "";
     fillOrgSelect($("#entry-org"), { selected: e ? e.orgId : orgId });
+    syncEntryWorkItems(e ? e.workItemId : workItemId);
     $("#entry-activity").value = e ? e.activity : "";
     fillCategorySelect($("#entry-category"), { selected: e ? e.category : "" });
     $("#entry-supervisor").value = e ? e.supervisor : "";
@@ -272,6 +313,7 @@
       date: $("#entry-date").value,
       hours: parseFloat($("#entry-hours").value),
       orgId: $("#entry-org").value,
+      workItemId: $("#entry-workitem").value,
       activity: $("#entry-activity").value.trim(),
       category: $("#entry-category").value,
       supervisor: $("#entry-supervisor").value.trim(),
@@ -304,14 +346,14 @@
   $("#entry-new-org").addEventListener("click", () => {
     pendingEntryDraft = readEntryFormRaw();
     entryDlg.close();
-    openOrgDialog({ returnToEntry: true });
+    openOrgDialog({ returnTo: "entry" });
   });
   let pendingEntryDraft = null;
   function readEntryFormRaw() {
     return {
       date: $("#entry-date").value, hours: $("#entry-hours").value, activity: $("#entry-activity").value,
       category: $("#entry-category").value, supervisor: $("#entry-supervisor").value, notes: $("#entry-notes").value,
-      id: $("#entry-id").value,
+      workItemId: $("#entry-workitem").value, id: $("#entry-id").value,
     };
   }
   function restoreEntryDraft(orgId) {
@@ -319,12 +361,12 @@
     openEntryDialog({ id: d.id || null, orgId });
     $("#entry-date").value = d.date || todayISO(); $("#entry-hours").value = d.hours; $("#entry-activity").value = d.activity;
     $("#entry-category").value = d.category; $("#entry-supervisor").value = d.supervisor; $("#entry-notes").value = d.notes;
-    if (orgId) $("#entry-org").value = orgId;
+    if (orgId) { $("#entry-org").value = orgId; syncEntryWorkItems(); }
   }
 
   /* ---------- organization dialog ---------- */
   const orgDlg = $("#org-dialog");
-  let orgDlgReturnToEntry = false;
+  let orgDlgReturnTo = null; // "entry" | "workitem" | null
   function renderSwatches(selected) {
     $("#org-swatches").innerHTML = ORG_COLORS.map((c) => `<button class="swatch" type="button" role="radio" aria-checked="${c === selected}" aria-label="${esc(c)}" data-color="${esc(c)}" style="background:${esc(c)}"></button>`).join("");
     $("#org-color").value = selected;
@@ -333,9 +375,9 @@
     const b = ev.target.closest("[data-color]"); if (!b) return;
     renderSwatches(b.dataset.color);
   });
-  function openOrgDialog({ id = null, returnToEntry = false } = {}) {
+  function openOrgDialog({ id = null, returnTo = null } = {}) {
     const o = id ? store.orgById(id) : null;
-    orgDlgReturnToEntry = returnToEntry;
+    orgDlgReturnTo = returnTo;
     $("#org-dialog-title").textContent = o ? "Edit organization" : "Add organization";
     $("#org-id").value = o ? o.id : "";
     $("#org-name").value = o ? o.name : "";
@@ -368,14 +410,16 @@
     let orgId = id;
     if (id) { store.updateOrg(id, fields); toast("Organization updated"); }
     else { orgId = store.addOrg(fields).id; toast("Organization added"); }
-    const back = orgDlgReturnToEntry; orgDlgReturnToEntry = false;
+    const back = orgDlgReturnTo; orgDlgReturnTo = null;
     orgDlg.close();
-    if (back && pendingEntryDraft) restoreEntryDraft(orgId);
+    if (back === "entry" && pendingEntryDraft) restoreEntryDraft(orgId);
+    if (back === "workitem" && pendingWiDraft) restoreWiDraft(orgId);
   });
   orgDlg.addEventListener("close", () => {
-    // Cancelled while creating an org from the entry form: bring the entry form back.
-    if (orgDlgReturnToEntry && pendingEntryDraft) restoreEntryDraft("");
-    orgDlgReturnToEntry = false;
+    // Cancelled while creating an org from another form: bring that form back.
+    if (orgDlgReturnTo === "entry" && pendingEntryDraft) restoreEntryDraft("");
+    if (orgDlgReturnTo === "workitem" && pendingWiDraft) restoreWiDraft("");
+    orgDlgReturnTo = null;
   });
   $("#org-delete").addEventListener("click", async () => {
     const id = $("#org-id").value;
@@ -386,6 +430,201 @@
       message: n ? `This also deletes the ${n} ${n === 1 ? "entry" : "entries"} (${hoursWord(store.sumHours(store.data.entries.filter((e) => e.orgId === id)))}) logged with this organization.` : "This organization has no logged hours.",
     });
     if (ok) { store.deleteOrg(id); toast("Organization deleted"); }
+  });
+
+  /* ---------- work items ---------- */
+  function renderWorkItems() {
+    const list = $("#wi-list"), detail = $("#wi-detail");
+    if (wiState.selectedId && !store.workItemById(wiState.selectedId)) wiState.selectedId = null;
+    list.hidden = Boolean(wiState.selectedId);
+    detail.hidden = !wiState.selectedId;
+    if (wiState.selectedId) renderWorkItemDetail(wiState.selectedId); else renderWorkItemList();
+  }
+
+  function workItemCard(w) {
+    const st = store.workItemStats(w.id);
+    const org = store.orgById(w.orgId);
+    const pct = w.targetHours > 0 ? Math.min(100, (st.hours / w.targetHours) * 100) : 0;
+    return `<button class="wi-card" type="button" data-open-workitem="${esc(w.id)}" style="border-top:4px solid ${esc(org ? org.color : "#64748b")}">
+      <div class="wi-card-top"><h3>${esc(w.title)}</h3>${statusBadge(w.status)}</div>
+      ${orgChip(w.orgId)}
+      ${w.description ? `<p class="wi-desc">${esc(w.description)}</p>` : ""}
+      <div class="wi-meta">
+        <span><b>${fmtHours(st.hours)}</b> h</span>
+        <span><b>${st.count}</b> ${st.count === 1 ? "entry" : "entries"}</span>
+        <span><b>${st.memos}</b> ${st.memos === 1 ? "memo" : "memos"}</span>
+        ${st.last ? `<span>last ${esc(fmtDate(st.last, { month: "short", day: "numeric" }))}</span>` : ""}
+      </div>
+      ${w.targetHours ? `<div class="wi-progress"><div class="progress" style="flex:1"><div class="progress-bar${pct >= 100 ? " is-complete" : ""}" style="width:${pct}%"></div></div><span>${Math.round(pct)}% of ${fmtHours(w.targetHours)} h</span></div>` : ""}
+    </button>`;
+  }
+
+  function renderWorkItemList() {
+    fillOrgSelect($("#wi-filter-org"), { allLabel: "All organizations", selected: $("#wi-filter-org").value });
+    const q = $("#wi-search").value.trim().toLowerCase();
+    const org = $("#wi-filter-org").value;
+    const status = $("#wi-filter-status").value;
+    const items = store.workItemsSorted().filter((w) =>
+      (!org || w.orgId === org) && (!status || w.status === status) &&
+      (!q || `${w.title} ${w.description} ${store.orgName(w.orgId)}`.toLowerCase().includes(q)));
+    $("#wi-empty").hidden = items.length > 0;
+    $("#wi-grid").innerHTML = items.map(workItemCard).join("");
+  }
+
+  function renderWorkItemDetail(id) {
+    const w = store.workItemById(id);
+    const st = store.workItemStats(id);
+    const entries = store.entriesForWorkItem(id);
+    const memos = store.memosFor(id);
+    const pct = w.targetHours > 0 ? Math.min(100, (st.hours / w.targetHours) * 100) : 0;
+    const org = store.orgById(w.orgId);
+    $("#wi-detail").innerHTML = `
+      <button class="btn btn-ghost btn-sm wi-back" type="button" data-wi-back>&larr; All work items</button>
+      <div class="wi-detail-header">
+        <div>
+          <div class="inline" style="align-items:center;gap:10px">${orgChip(w.orgId)}${statusBadge(w.status)}${w.startDate ? `<span class="muted small">since ${esc(fmtDate(w.startDate))}</span>` : ""}</div>
+          <h1>${esc(w.title)}</h1>
+          ${w.description ? `<p class="wi-detail-desc">${esc(w.description)}</p>` : ""}
+        </div>
+        <div class="actions">
+          <select class="wi-status-select" data-wi-status="${esc(w.id)}" aria-label="Status">
+            ${WORK_STATUSES.map((s) => `<option value="${s}"${s === w.status ? " selected" : ""}>${s[0].toUpperCase() + s.slice(1)}</option>`).join("")}
+          </select>
+          <button class="btn btn-secondary" type="button" data-edit-workitem="${esc(w.id)}">Edit</button>
+          <button class="btn btn-primary" type="button" data-log-workitem="${esc(w.id)}">+ Log hours</button>
+        </div>
+      </div>
+      <div class="wi-stats">
+        <div class="stat"><div class="stat-label">Hours tracked</div><div class="stat-value">${fmtHours(st.hours)}</div><div class="stat-sub">${w.targetHours ? `${Math.round(pct)}% of ${fmtHours(w.targetHours)} h target` : "no target set"}</div></div>
+        <div class="stat"><div class="stat-label">Entries</div><div class="stat-value">${st.count}</div><div class="stat-sub">${st.last ? `last on ${esc(fmtDate(st.last))}` : "nothing logged yet"}</div></div>
+        <div class="stat"><div class="stat-label">Memos</div><div class="stat-value">${memos.length}</div><div class="stat-sub">${memos.length ? `latest ${esc(fmtDate(memos[0].date))}` : "none yet"}</div></div>
+        <div class="stat"><div class="stat-label">Contact</div><div class="stat-value" style="font-size:1.1rem;margin-top:10px">${esc(org && org.contact ? org.contact : "—")}</div><div class="stat-sub">${esc(org && org.contactInfo ? org.contactInfo : "")}</div></div>
+      </div>
+      ${w.targetHours ? `<div class="card"><div class="goal-row"><div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pct)}"><div class="progress-bar${pct >= 100 ? " is-complete" : ""}" style="width:${pct}%"></div></div><div class="goal-text">${fmtHours(st.hours)} / ${fmtHours(w.targetHours)} h${st.hours >= w.targetHours ? " · target reached" : ` · ${fmtHours(w.targetHours - st.hours)} to go`}</div></div></div>` : ""}
+      <div class="wi-layout">
+        <div class="card">
+          <div class="card-header"><h2>Work tracker</h2><span class="muted small">${hoursWord(st.hours)} in ${st.count} ${st.count === 1 ? "entry" : "entries"}</span></div>
+          ${entries.length ? `<div class="table-wrap"><table class="table"><thead><tr><th>Date</th><th>Activity</th><th class="num">Hours</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>
+            ${entries.map((e) => `<tr>
+              <td style="white-space:nowrap">${esc(fmtDate(e.date))}</td>
+              <td>${esc(e.activity)}${e.notes || e.supervisor ? `<div class="activity-notes">${esc([e.supervisor && `with ${e.supervisor}`, e.notes].filter(Boolean).join(" · "))}</div>` : ""}</td>
+              <td class="num">${fmtHours(e.hours)}</td>
+              <td class="actions"><button class="btn btn-ghost btn-sm" data-edit-entry="${esc(e.id)}" type="button">Edit</button></td>
+            </tr>`).join("")}</tbody>
+            <tfoot><tr><td colspan="2">Total</td><td class="num">${fmtHours(st.hours)}</td><td></td></tr></tfoot></table></div>`
+          : `<div class="empty"><p>No hours tracked against this item yet.</p><button class="btn btn-primary" type="button" data-log-workitem="${esc(w.id)}">+ Log hours</button></div>`}
+        </div>
+        <div class="card">
+          <div class="card-header"><h2>Memos</h2><span class="muted small">Notes, contacts, reminders</span></div>
+          <form class="memo-compose" id="memo-compose">
+            <textarea id="memo-compose-text" placeholder="Write a memo… (Ctrl+Enter to save)" rows="3"></textarea>
+            <div class="memo-compose-row">
+              <input type="date" id="memo-compose-date" value="${todayISO()}" max="${todayISO()}" aria-label="Memo date" />
+              <button class="btn btn-primary btn-sm" type="submit">Add memo</button>
+            </div>
+          </form>
+          <div class="memo-list">
+            ${memos.length ? memos.map((m) => `<article class="memo">
+              <div class="memo-head"><span>${esc(fmtDate(m.date))}</span><span><button class="btn btn-ghost" type="button" data-edit-memo="${esc(m.id)}">Edit</button></span></div>
+              <div class="memo-text">${esc(m.text)}</div>
+            </article>`).join("") : `<p class="muted small" style="text-align:center;padding:12px 0">No memos yet.</p>`}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  ["#wi-search", "#wi-filter-org", "#wi-filter-status"].forEach((sel) => $(sel).addEventListener("input", renderWorkItemList));
+
+  document.addEventListener("submit", (ev) => {
+    if (ev.target.id !== "memo-compose") return;
+    ev.preventDefault();
+    const text = $("#memo-compose-text").value.trim();
+    if (!text) { $("#memo-compose-text").focus(); return; }
+    store.addMemo({ workItemId: wiState.selectedId, text, date: $("#memo-compose-date").value || todayISO() });
+    toast("Memo added");
+    $("#memo-compose-text").focus();
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (ev.target.id === "memo-compose-text" && ev.key === "Enter" && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); $("#memo-compose").requestSubmit(); }
+  });
+  document.addEventListener("change", (ev) => {
+    const sel = ev.target.closest("[data-wi-status]");
+    if (sel) { store.setWorkItemStatus(sel.dataset.wiStatus, sel.value); toast(`Marked ${sel.value}`); }
+  });
+
+  /* --- work item dialog --- */
+  const wiDlg = $("#wi-dialog");
+  let pendingWiDraft = null;
+  function openWorkItemDialog({ id = null, orgId = "" } = {}) {
+    const w = id ? store.workItemById(id) : null;
+    $("#wi-dialog-title").textContent = w ? "Edit work item" : "New work item";
+    $("#wi-id").value = w ? w.id : "";
+    $("#wi-title-input").value = w ? w.title : "";
+    fillOrgSelect($("#wi-org"), { selected: w ? w.orgId : orgId });
+    $("#wi-status").value = w ? w.status : "active";
+    $("#wi-start").value = w ? w.startDate : todayISO();
+    $("#wi-target").value = w && w.targetHours ? w.targetHours : "";
+    $("#wi-description").value = w ? w.description : "";
+    $("#wi-delete").hidden = !w;
+    $("#wi-error").hidden = true;
+    wiDlg.showModal();
+    $("#wi-title-input").focus();
+  }
+  function readWiFormRaw() {
+    return { id: $("#wi-id").value, title: $("#wi-title-input").value, status: $("#wi-status").value, startDate: $("#wi-start").value, targetHours: $("#wi-target").value, description: $("#wi-description").value };
+  }
+  function restoreWiDraft(orgId) {
+    const d = pendingWiDraft; pendingWiDraft = null;
+    openWorkItemDialog({ id: d.id || null, orgId });
+    $("#wi-title-input").value = d.title; $("#wi-status").value = d.status; $("#wi-start").value = d.startDate;
+    $("#wi-target").value = d.targetHours; $("#wi-description").value = d.description;
+    if (orgId) $("#wi-org").value = orgId;
+  }
+  $("#wi-new-org").addEventListener("click", () => { pendingWiDraft = readWiFormRaw(); wiDlg.close(); openOrgDialog({ returnTo: "workitem" }); });
+  $("#wi-form").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    const fields = {
+      title: $("#wi-title-input").value.trim(), orgId: $("#wi-org").value, status: $("#wi-status").value,
+      startDate: $("#wi-start").value, targetHours: $("#wi-target").value, description: $("#wi-description").value.trim(),
+    };
+    const err = $("#wi-error");
+    const fail = (m) => { err.textContent = m; err.hidden = false; };
+    if (!fields.title) return fail("Give the work item a title.");
+    if (!fields.orgId) return fail("Choose an organization, or create a new one.");
+    if (fields.startDate && !isISODate(fields.startDate)) return fail("The start date isn't valid.");
+    if (fields.targetHours && !(Number(fields.targetHours) >= 0)) return fail("Target hours must be a positive number.");
+    const id = $("#wi-id").value;
+    if (id) { store.updateWorkItem(id, fields); toast("Work item updated"); }
+    else { const w = store.addWorkItem(fields); toast("Work item created"); wiDlg.close(); showView(`workitems/${w.id}`); return; }
+    wiDlg.close();
+  });
+  $("#wi-delete").addEventListener("click", async () => {
+    const id = $("#wi-id").value;
+    const st = store.workItemStats(id);
+    wiDlg.close();
+    const ok = await confirmDialog({
+      title: `Delete "${store.workItemTitle(id)}"?`,
+      message: `${st.memos ? `Its ${st.memos} ${st.memos === 1 ? "memo is" : "memos are"} deleted. ` : ""}${st.count ? `The ${st.count} logged ${st.count === 1 ? "entry" : "entries"} (${hoursWord(st.hours)}) are kept in your hours log but no longer linked to a work item.` : "No hours are logged against it."}`,
+    });
+    if (ok) { store.deleteWorkItem(id); toast("Work item deleted"); if (wiState.selectedId === id) showView("workitems"); }
+  });
+
+  /* --- memo dialog (edit) --- */
+  const memoDlg = $("#memo-dialog");
+  function openMemoDialog(id) {
+    const m = store.memoById(id); if (!m) return;
+    $("#memo-id").value = m.id; $("#memo-date").value = m.date; $("#memo-date").max = todayISO(); $("#memo-text").value = m.text; $("#memo-error").hidden = true;
+    memoDlg.showModal(); $("#memo-text").focus();
+  }
+  $("#memo-form").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    const text = $("#memo-text").value.trim();
+    if (!text) { $("#memo-error").textContent = "A memo can't be empty."; $("#memo-error").hidden = false; return; }
+    store.updateMemo($("#memo-id").value, { text, date: $("#memo-date").value }); toast("Memo updated"); memoDlg.close();
+  });
+  $("#memo-delete").addEventListener("click", async () => {
+    const id = $("#memo-id").value; memoDlg.close();
+    if (await confirmDialog({ title: "Delete this memo?", message: "This can't be undone." })) { store.deleteMemo(id); toast("Memo deleted"); }
   });
 
   /* ---------- reports ---------- */
@@ -436,10 +675,16 @@
         <tbody>${byOrg.map((r) => `<tr><td>${esc(r.name)}</td><td>${esc(r.org ? [r.org.contact, r.org.contactInfo].filter(Boolean).join(" · ") : "")}</td><td class="num">${r.count}</td><td class="num">${fmtHours(r.hours)}</td></tr>`).join("")}</tbody>
         <tfoot><tr><td colspan="3">Total</td><td class="num">${fmtHours(total)}</td></tr></tfoot>
       </table></div>
+      ${(() => { const rows = store.hoursByWorkItem(entries); return rows.length ? `
+      <h3>Hours by work item</h3>
+      <div class="table-wrap"><table class="table">
+        <thead><tr><th>Work item</th><th>Organization</th><th>Status</th><th class="num">Entries</th><th class="num">Hours</th></tr></thead>
+        <tbody>${rows.map((r) => `<tr><td>${esc(r.item.title)}</td><td>${esc(store.orgName(r.item.orgId))}</td><td>${esc(r.item.status)}</td><td class="num">${r.count}</td><td class="num">${fmtHours(r.hours)}</td></tr>`).join("")}</tbody>
+      </table></div>` : ""; })()}
       <h3>Detailed log</h3>
       <div class="table-wrap"><table class="table">
         <thead><tr><th>Date</th><th>Organization</th><th>Activity</th><th>Supervisor</th><th class="num">Hours</th></tr></thead>
-        <tbody>${entries.map((e) => `<tr><td style="white-space:nowrap">${esc(fmtDate(e.date))}</td><td>${esc(store.orgName(e.orgId))}</td><td>${esc(e.activity)}${e.notes ? `<div class="activity-notes">${esc(e.notes)}</div>` : ""}</td><td>${esc(e.supervisor)}</td><td class="num">${fmtHours(e.hours)}</td></tr>`).join("")}</tbody>
+        <tbody>${entries.map((e) => `<tr><td style="white-space:nowrap">${esc(fmtDate(e.date))}</td><td>${esc(store.orgName(e.orgId))}${e.workItemId ? `<div class="activity-notes">${esc(store.workItemTitle(e.workItemId))}</div>` : ""}</td><td>${esc(e.activity)}${e.notes ? `<div class="activity-notes">${esc(e.notes)}</div>` : ""}</td><td>${esc(e.supervisor)}</td><td class="num">${fmtHours(e.hours)}</td></tr>`).join("")}</tbody>
       </table></div>
       <div class="report-signature">
         <div>Volunteer signature &amp; date</div>
@@ -470,7 +715,7 @@
       const incoming = normalize(JSON.parse(await file.text()));
       const ok = await confirmDialog({
         title: "Replace your data?",
-        message: `The backup has ${incoming.entries.length} entries and ${incoming.organizations.length} organizations. It will replace everything currently in Google Drive.`,
+        message: `The backup has ${incoming.entries.length} entries, ${incoming.workItems.length} work items and ${incoming.organizations.length} organizations. It will replace everything currently in Google Drive.`,
         okLabel: "Import",
       });
       if (!ok) return;
@@ -501,6 +746,12 @@
     if (t.dataset.viewLink) return showView(t.dataset.viewLink);
     if (t.dataset.action === "add-entry" || t.id === "quick-add") return openEntryDialog();
     if (t.dataset.action === "add-org") return openOrgDialog();
+    if (t.dataset.action === "add-workitem") return openWorkItemDialog({ orgId: $("#wi-filter-org").value });
+    if (t.dataset.openWorkitem) return showView(`workitems/${t.dataset.openWorkitem}`);
+    if (t.hasAttribute("data-wi-back")) return showView("workitems");
+    if (t.dataset.editWorkitem) return openWorkItemDialog({ id: t.dataset.editWorkitem });
+    if (t.dataset.logWorkitem) return openEntryDialog({ workItemId: t.dataset.logWorkitem });
+    if (t.dataset.editMemo) return openMemoDialog(t.dataset.editMemo);
     if (t.dataset.editEntry) return openEntryDialog({ id: t.dataset.editEntry });
     if (t.dataset.logOrg) return openEntryDialog({ orgId: t.dataset.logOrg });
     if (t.dataset.editOrg) return openOrgDialog({ id: t.dataset.editOrg });
@@ -513,8 +764,9 @@
   });
   $$(".dialog").forEach((d) => d.addEventListener("click", (ev) => { if (ev.target === d) d.close(); }));
 
-  ["#filter-search", "#filter-org", "#filter-category", "#filter-from", "#filter-to"].forEach((sel) => $(sel).addEventListener("input", renderLog));
-  $("#filter-clear").addEventListener("click", () => { ["#filter-search", "#filter-org", "#filter-category", "#filter-from", "#filter-to"].forEach((s) => $(s).value = ""); renderLog(); });
+  ["#filter-search", "#filter-org", "#filter-workitem", "#filter-category", "#filter-from", "#filter-to"].forEach((sel) => $(sel).addEventListener("input", renderLog));
+  $("#filter-org").addEventListener("change", () => { $("#filter-workitem").value = ""; renderLog(); });
+  $("#filter-clear").addEventListener("click", () => { ["#filter-search", "#filter-org", "#filter-workitem", "#filter-category", "#filter-from", "#filter-to"].forEach((s) => $(s).value = ""); renderLog(); });
   $$("#log-table .sort").forEach((b) => b.addEventListener("click", () => {
     if (logState.sort === b.dataset.sort) logState.dir = logState.dir === "asc" ? "desc" : "asc";
     else { logState.sort = b.dataset.sort; logState.dir = b.dataset.sort === "date" ? "desc" : "asc"; }

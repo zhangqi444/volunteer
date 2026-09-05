@@ -6,8 +6,9 @@ There is no backend. You sign in with Google, and the app keeps all of your data
 
 ## Features
 
-- **Dashboard**: total hours, this month, this year, yearly goal progress, hours by month, hours by organization, recent activity.
-- **Hours log**: add, edit, and delete entries (date, hours, organization, activity, category, supervisor, notes) with search, filters, sorting, and CSV export.
+- **Dashboard**: total hours, this month, this year, yearly goal progress, hours by month, hours by organization, active work items, recent activity.
+- **Work items**: create a project or commitment under an organization (title, description, status, start date, optional target hours). Each item has a **work tracker** listing the hours logged against it with progress toward the target, and a **memo** stream for notes, contacts, and reminders.
+- **Hours log**: add, edit, and delete entries (date, hours, organization, work item, activity, category, supervisor, notes) with search, filters, sorting, and CSV export.
 - **Organizations**: contacts, website, color, notes, and per-organization totals.
 - **Reports**: year-to-date, last year, last 12 months, all time, or a custom range, with a printable summary and signature lines.
 - **Settings**: yearly goal, categories, light/dark theme, JSON backup export/import, sample data.
@@ -66,7 +67,9 @@ The file format is a plain JSON object:
   "version": 1,
   "updatedAt": "2026-09-05T10:00:00.000Z",
   "organizations": [{ "id": "…", "name": "Riverside Food Bank", "contact": "…", "color": "#0f766e" }],
-  "entries": [{ "id": "…", "date": "2026-09-02", "orgId": "…", "activity": "Sorted donations", "category": "Community", "hours": 3 }],
+  "workItems": [{ "id": "…", "orgId": "…", "title": "Saturday warehouse shifts", "status": "active", "targetHours": 40 }],
+  "entries": [{ "id": "…", "date": "2026-09-02", "orgId": "…", "workItemId": "…", "activity": "Sorted donations", "category": "Community", "hours": 3 }],
+  "memos": [{ "id": "…", "workItemId": "…", "date": "2026-09-02", "text": "Sign in at the side entrance." }],
   "goals": { "yearly": 60 },
   "settings": { "categories": ["Community", "Education", "…"] }
 }
