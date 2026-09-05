@@ -16,7 +16,8 @@ and **plans** on a calendar. A **catalog** of researched opportunities, filtered
 by what fits her age, is where new work starts. Reports print for schools,
 employers and verification letters.
 
-Live at <https://zhangqi444.github.io/volunteer/>.
+Live at <https://qizhang.top/volunteer/> (the custom domain of `zhangqi444.github.io`;
+also reachable at <https://zhangqi444.github.io/volunteer/>).
 
 ## Repository layout
 

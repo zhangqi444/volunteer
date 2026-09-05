@@ -1,15 +1,51 @@
 {
   "note": "Opportunities Sheila may take part in. Every item names its source URL and the date it was checked. Facts come from the source page (or its search summary when the page could not be opened from the sandbox); confirm details on the page before signing up. Never add a fact without a source.",
   "organizations": {
-    "seattle-humane": { "name": "Seattle Humane", "url": "https://www.seattlehumane.org/", "contact": { "email": "EducationServices@seattlehumane.org", "phone": "(425) 373-5385, option 2" } },
-    "seattle-childrens": { "name": "Seattle Children's", "url": "https://www.seattlechildrens.org/giving/volunteer/", "contact": { "phone": "206-987-7078" } },
-    "ud-food-bank": { "name": "University District Food Bank", "url": "https://www.udistrictfoodbank.org/" },
-    "familyworks": { "name": "FamilyWorks", "url": "https://www.familyworksseattle.org/" },
-    "food-lifeline": { "name": "Food Lifeline", "url": "https://foodlifeline.org/" },
-    "wta": { "name": "Washington Trails Association", "url": "https://www.wta.org/volunteer" },
-    "community-loaves": { "name": "Community Loaves", "url": "https://communityloaves.org/" },
-    "knit-it-alls": { "name": "Knit-It-Alls", "url": "https://www.solid-ground.org/" },
-    "humane-tacoma": { "name": "Humane Society for Tacoma & Pierce County", "url": "https://www.thehumanesociety.org/" }
+    "seattle-humane": {
+      "name": "Seattle Humane",
+      "url": "https://www.seattlehumane.org/",
+      "contact": {
+        "email": "EducationServices@seattlehumane.org",
+        "phone": "(425) 373-5385, option 2"
+      }
+    },
+    "seattle-childrens": {
+      "name": "Seattle Children's",
+      "url": "https://www.seattlechildrens.org/giving/volunteer/",
+      "contact": {
+        "email": "inkind@seattlechildrens.org",
+        "phone": "206-987-7078",
+        "address": "Seattle Children's In-Kind Donations, M/S RC.3.800, 4800 Sand Point Way NE, Seattle, WA 98105"
+      }
+    },
+    "ud-food-bank": {
+      "name": "University District Food Bank",
+      "url": "https://www.udistrictfoodbank.org/"
+    },
+    "familyworks": {
+      "name": "FamilyWorks",
+      "url": "https://www.familyworksseattle.org/"
+    },
+    "food-lifeline": {
+      "name": "Food Lifeline",
+      "url": "https://foodlifeline.org/"
+    },
+    "wta": {
+      "name": "Washington Trails Association",
+      "url": "https://www.wta.org/volunteer"
+    },
+    "community-loaves": {
+      "name": "Community Loaves",
+      "url": "https://communityloaves.org/"
+    },
+    "knit-it-alls": {
+      "name": "Knit-It-Alls",
+      "url": "https://www.solid-ground.org/"
+    },
+    "humane-tacoma": {
+      "name": "Humane Society for Tacoma & Pierce County",
+      "url": "https://www.thehumanesociety.org/"
+    }
   },
   "items": [
     {
@@ -23,13 +59,23 @@
         "Blankets around 18 × 20 inches are suggested for cats.",
         "Written and video instructions for making no-sew blankets are on the project page."
       ],
-      "ages": { "min": null, "max": null, "withAdult": false, "note": "No age limit stated on the page." },
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": false,
+        "note": "No age limit stated on the page."
+      },
       "commitment": "One sitting per batch; drop off when you have a few.",
       "location": "At home; deliver to Seattle Humane",
       "howTo": "Follow the no-sew instructions on the project page, then bring the blankets to the shelter. Contact Education Services for drop-off details.",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/projects/",
       "verified": "2026-09-05",
-      "tags": ["animals", "crafts", "at home", "service hours"]
+      "tags": [
+        "animals",
+        "crafts",
+        "at home",
+        "service hours"
+      ]
     },
     {
       "id": "sh-cat-toys",
@@ -41,13 +87,23 @@
         "Old socks become catnip toys when stuffed with scrap paper, toilet paper tubes, or other crinkly items with catnip.",
         "The project page lists more ways to make cat toys from recycled or reusable objects."
       ],
-      "ages": { "min": null, "max": null, "withAdult": false, "note": "No age limit stated on the page." },
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": false,
+        "note": "No age limit stated on the page."
+      },
       "commitment": "An afternoon per batch.",
       "location": "At home; deliver to Seattle Humane",
       "howTo": "Make the toys following the project page, then bring them to the shelter with any blankets.",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/projects/",
       "verified": "2026-09-05",
-      "tags": ["animals", "crafts", "at home", "recycling"]
+      "tags": [
+        "animals",
+        "crafts",
+        "at home",
+        "recycling"
+      ]
     },
     {
       "id": "sh-pet-food-drive",
@@ -60,13 +116,23 @@
         "Items are distributed through Oogie's Ohana Pet Food Bank at Seattle Humane, which helps provide 1 million meals each year to pets in the community.",
         "Youth can help pets and earn school service hours by donating, fundraising or supporting the pet food bank."
       ],
-      "ages": { "min": null, "max": null, "withAdult": true, "note": "No age limit stated; collecting from neighbors and delivering needs an adult." },
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age limit stated; collecting from neighbors and delivering needs an adult."
+      },
       "commitment": "A few weeks of collecting, then one delivery.",
       "location": "Neighborhood or school; deliver to Seattle Humane",
       "howTo": "Pick a collection window, tell neighbors or the class what to bring, then deliver the donations to the shelter. Email Education Services for current needs.",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/projects/",
       "verified": "2026-09-05",
-      "tags": ["animals", "drive", "school", "service hours"]
+      "tags": [
+        "animals",
+        "drive",
+        "school",
+        "service hours"
+      ]
     },
     {
       "id": "sh-teen-club",
@@ -78,13 +144,22 @@
         "For teens ages 13–17 to learn about Seattle Humane, explore animal welfare topics and prepare for future volunteer opportunities.",
         "Members meet two Saturdays per month."
       ],
-      "ages": { "min": 13, "max": 17, "withAdult": false, "note": "Ages 13–17." },
+      "ages": {
+        "min": 13,
+        "max": 17,
+        "withAdult": false,
+        "note": "Ages 13–17."
+      },
       "commitment": "Two Saturdays a month during the school year.",
       "location": "Seattle Humane",
       "howTo": "Sign up through the Youth Programs page when the school-year session opens.",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/youth-programs/",
       "verified": "2026-09-05",
-      "tags": ["animals", "club", "teens"]
+      "tags": [
+        "animals",
+        "club",
+        "teens"
+      ]
     },
     {
       "id": "sh-hs-service-shifts",
@@ -97,13 +172,23 @@
         "Tasks such as washing food and water bowls, cleaning crates, or packing pet food.",
         "Offered during winter months; students register for shifts in December and January."
       ],
-      "ages": { "min": 14, "max": 18, "withAdult": false, "note": "Entering grades 9–12." },
+      "ages": {
+        "min": 14,
+        "max": 18,
+        "withAdult": false,
+        "note": "Entering grades 9–12."
+      },
       "commitment": "Individual shifts in December and January.",
       "location": "Seattle Humane",
       "howTo": "Register on the High School Service Shifts page when winter registration opens.",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/high-school-service-shifts/",
       "verified": "2026-09-05",
-      "tags": ["animals", "shelter", "teens", "service hours"]
+      "tags": [
+        "animals",
+        "shelter",
+        "teens",
+        "service hours"
+      ]
     },
     {
       "id": "sh-hstp",
@@ -114,13 +199,22 @@
       "details": [
         "Designed for motivated 16–17-year-olds interested in animal welfare, community service, and career exploration in the field of animal care."
       ],
-      "ages": { "min": 16, "max": 17, "withAdult": false, "note": "Ages 16–17." },
+      "ages": {
+        "min": 16,
+        "max": 17,
+        "withAdult": false,
+        "note": "Ages 16–17."
+      },
       "commitment": "Structured program; see the page for the schedule.",
       "location": "Seattle Humane",
       "howTo": "Apply through the Youth Programs page.",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/youth-programs/",
       "verified": "2026-09-05",
-      "tags": ["animals", "career", "teens"]
+      "tags": [
+        "animals",
+        "career",
+        "teens"
+      ]
     },
     {
       "id": "sh-day-camp",
@@ -133,67 +227,111 @@
         "Runs Monday to Thursday, 8:30 a.m.–3:30 p.m.",
         "Tuition is $695."
       ],
-      "ages": { "min": null, "max": null, "withAdult": false, "note": "Camp age groups are listed on the page." },
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": false,
+        "note": "Camp age groups are listed on the page."
+      },
       "commitment": "One camp week.",
       "location": "Seattle Humane",
       "howTo": "Register on the Youth & School Programs page. This is a paid camp, not volunteering, but a way to learn the shelter before volunteering.",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/",
       "verified": "2026-09-05",
-      "tags": ["animals", "camp", "learning", "paid"]
+      "tags": [
+        "animals",
+        "camp",
+        "learning",
+        "paid"
+      ]
     },
     {
       "id": "sc-donation-drive",
       "org": "seattle-childrens",
-      "title": "Donation drive for patients and families",
+      "title": "Wish-list donation drive for patients and families",
       "kind": "drive",
-      "summary": "Collect toys, books, blankets or toiletries for hospital patients.",
+      "summary": "Collect new toys, books, blankets or toiletries from the hospital's wish list.",
       "details": [
-        "Youth can hold a donation drive to collect toys, books, blankets, toiletries or other high-need items for patients and families.",
-        "Groups can also collect and donate items from the hospital's wish list."
+        "Youth can hold a donation drive to collect toys, books, blankets, toiletries or other high-need items for patients and families; groups can collect and donate items from the hospital's wish list.",
+        "Only new toys can be accepted, to reduce the spread of infection.",
+        "Blankets are a particular need: the goal is that each child admitted overnight receives one, and they are often kept for years as a keepsake.",
+        "Items bought online and shipped straight from the retailer to the hospital are preferred, because they do not have to be quarantined. New items can also be mailed to the In-Kind Donations address.",
+        "Drop-offs at the hospital are accepted by scheduling in advance."
       ],
-      "ages": { "min": null, "max": null, "withAdult": true, "note": "No age limit stated; organizing and delivering needs an adult." },
-      "commitment": "A few weeks of collecting, then one delivery.",
-      "location": "Neighborhood or school; deliver to Seattle Children's",
-      "howTo": "Check the wish list on the Youth Service Projects page, run the drive, then arrange delivery with the volunteer office (206-987-7078).",
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age limit stated for running a drive; delivering needs an adult."
+      },
+      "commitment": "A few weeks of collecting, then one scheduled delivery or a shipment.",
+      "location": "Neighborhood or school; ship or deliver to Seattle Children's",
+      "howTo": "Download the wish list (seattlechildrens.org/globalassets/documents/giving/wish-list.pdf), collect only new items, then email the In-Kind Gift Coordinator to schedule the drop-off or ship items directly.",
       "url": "https://www.seattlechildrens.org/giving/volunteer/youth-service-projects/",
       "verified": "2026-09-05",
-      "tags": ["hospital", "drive", "kids helping kids", "service hours"]
+      "tags": [
+        "hospital",
+        "drive",
+        "kids helping kids",
+        "service hours",
+        "blankets"
+      ]
     },
     {
       "id": "sc-make-items",
       "org": "seattle-childrens",
-      "title": "Make items to donate",
+      "title": "Make blankets or comfort items (approval first)",
       "kind": "at-home",
-      "summary": "Make comfort items at home for patients, or turn an activity you love into a fundraiser.",
+      "summary": "Handmade items for patients are accepted case by case; ask before making a batch.",
       "details": [
-        "Groups can help by holding a toy drive or making items to donate.",
-        "Hosting an event or promotion is a creative way to help patients and families; youth can form a junior guild to turn activities they love into ways to support Seattle Children's."
+        "Handmade items are accepted on a case-by-case basis with advance approval from the In-Kind Gift Coordinator.",
+        "Blankets bring much comfort and are a particular need; each child admitted overnight should receive one.",
+        "Groups can help by holding a toy drive or making items to donate."
       ],
-      "ages": { "min": null, "max": null, "withAdult": true, "note": "No age limit stated." },
-      "commitment": "Flexible.",
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age limit stated; approval and delivery go through an adult."
+      },
+      "commitment": "One batch at a time, after approval.",
       "location": "At home",
-      "howTo": "Ask the volunteer office which handmade items are currently accepted before starting (206-987-7078).",
+      "howTo": "Email inkind@seattlechildrens.org (or call 206-987-7078) describing what you want to make, wait for approval, then make the batch and schedule the drop-off.",
       "url": "https://www.seattlechildrens.org/giving/volunteer/youth-service-projects/",
       "verified": "2026-09-05",
-      "tags": ["hospital", "crafts", "at home", "fundraising"]
+      "tags": [
+        "hospital",
+        "crafts",
+        "at home",
+        "blankets"
+      ]
     },
     {
       "id": "sc-grounds",
       "org": "seattle-childrens",
-      "title": "Hospital grounds projects (groups)",
+      "title": "Hospital grounds projects (groups of 3–10)",
       "kind": "on-site",
-      "summary": "Small groups help the grounds staff outdoors.",
+      "summary": "Small groups help the grounds staff outdoors; the playroom is adults only.",
       "details": [
         "Groups of 3–10 people can assist with grounds projects.",
-        "Groups can also help with projects in the playroom."
+        "Playroom sessions are for small groups under five people, ages 18 and older; volunteer positions at the hospital start at 16, and patient-facing roles at 18."
       ],
-      "ages": { "min": null, "max": null, "withAdult": true, "note": "Group opportunity; age rules are set by the volunteer office." },
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "Group opportunity arranged with the volunteer office; hospital volunteer roles themselves start at 16 (18 for patient-facing)."
+      },
       "commitment": "One session per project.",
       "location": "Seattle Children's",
-      "howTo": "Gather a group of 3–10 (a family counts) and contact the volunteer office (206-987-7078).",
+      "howTo": "Gather a group of 3–10 (a family counts) and ask the volunteer office (206-987-7078) whether a grounds project is open to children with adults.",
       "url": "https://www.seattlechildrens.org/giving/volunteer/youth-service-projects/",
       "verified": "2026-09-05",
-      "tags": ["hospital", "outdoors", "group"]
+      "tags": [
+        "hospital",
+        "outdoors",
+        "group"
+      ]
     },
     {
       "id": "udfb-family",
@@ -205,13 +343,22 @@
         "The University District Food Bank has helped prevent hunger in northeast Seattle for 40 years.",
         "Kids younger than 12 are welcome to volunteer with an adult family member; youths ages 13–18 are welcome with parental permission."
       ],
-      "ages": { "min": null, "max": null, "withAdult": true, "note": "Under 12 with an adult family member; 13–18 with parental permission." },
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "Under 12 with an adult family member; 13–18 with parental permission."
+      },
       "commitment": "Individual shifts.",
       "location": "University District, Seattle",
       "howTo": "Sign up for a shift on the food bank's volunteer page and bring an adult family member.",
       "url": "https://www.parentmap.com/family-wellness/volunteer-opportunities-for-kids/",
       "verified": "2026-09-05",
-      "tags": ["food", "family", "service hours"]
+      "tags": [
+        "food",
+        "family",
+        "service hours"
+      ]
     },
     {
       "id": "familyworks-teens",
@@ -223,13 +370,21 @@
         "High school students ages 14 and 15 can volunteer at the FamilyWorks food bank during school breaks.",
         "Teens 16 or older can volunteer on Thursday afternoons, 3–6 p.m."
       ],
-      "ages": { "min": 14, "max": null, "withAdult": false, "note": "14–15 during school breaks; 16+ Thursdays 3–6 p.m." },
+      "ages": {
+        "min": 14,
+        "max": null,
+        "withAdult": false,
+        "note": "14–15 during school breaks; 16+ Thursdays 3–6 p.m."
+      },
       "commitment": "Shifts during school breaks (14–15) or Thursday afternoons (16+).",
       "location": "Seattle",
       "howTo": "Contact FamilyWorks through their volunteer page.",
       "url": "https://www.parentmap.com/family-wellness/volunteer-opportunities-for-kids/",
       "verified": "2026-09-05",
-      "tags": ["food", "teens"]
+      "tags": [
+        "food",
+        "teens"
+      ]
     },
     {
       "id": "food-lifeline-family",
@@ -240,13 +395,22 @@
       "details": [
         "Kids as young as six can work alongside their parents to help Shoreline-based Food Lifeline package large food donations for local food banks and shelters."
       ],
-      "ages": { "min": 6, "max": null, "withAdult": true, "note": "From age 6, alongside a parent." },
+      "ages": {
+        "min": 6,
+        "max": null,
+        "withAdult": true,
+        "note": "From age 6, alongside a parent."
+      },
       "commitment": "Individual shifts.",
       "location": "Shoreline",
       "howTo": "Book a family shift on Food Lifeline's volunteer page.",
       "url": "https://www.parentmap.com/family-wellness/volunteer-opportunities-for-kids/",
       "verified": "2026-09-05",
-      "tags": ["food", "family", "service hours"]
+      "tags": [
+        "food",
+        "family",
+        "service hours"
+      ]
     },
     {
       "id": "wta-work-party",
@@ -258,13 +422,22 @@
         "Kids can join a Washington Trails Association work party to maintain trails around Puget Sound.",
         "Kids younger than 14 are welcome with an adult; WTA also offers teen work parties and volunteer vacations for ages 14 and up."
       ],
-      "ages": { "min": null, "max": null, "withAdult": true, "note": "Under 14 with an adult; teen work parties from 14." },
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "Under 14 with an adult; teen work parties from 14."
+      },
       "commitment": "One day per work party.",
       "location": "Trails around Puget Sound",
       "howTo": "Pick a work party on WTA's volunteer calendar that allows youth and register with an adult.",
       "url": "https://www.parentmap.com/family-wellness/volunteer-opportunities-for-kids/",
       "verified": "2026-09-05",
-      "tags": ["outdoors", "environment", "family"]
+      "tags": [
+        "outdoors",
+        "environment",
+        "family"
+      ]
     },
     {
       "id": "community-loaves",
@@ -275,13 +448,23 @@
       "details": [
         "Community Loaves works with volunteer bakers of all skill levels who bake and package bread and cookies for local food banks."
       ],
-      "ages": { "min": null, "max": null, "withAdult": true, "note": "No age limit stated; baking is done at home with an adult." },
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age limit stated; baking is done at home with an adult."
+      },
       "commitment": "Bake on your own schedule; deliver to a drop-off hub.",
       "location": "At home",
       "howTo": "Join through Community Loaves' website to get the recipe and your nearest hub.",
       "url": "https://www.parentmap.com/family-wellness/volunteer-opportunities-for-kids/",
       "verified": "2026-09-05",
-      "tags": ["food", "at home", "baking", "family"]
+      "tags": [
+        "food",
+        "at home",
+        "baking",
+        "family"
+      ]
     },
     {
       "id": "knit-it-alls",
@@ -292,13 +475,22 @@
       "details": [
         "Knit-It-Alls accepts fiber artists who knit and crochet warm clothing items year-round and donate them to Solid Ground for people experiencing homelessness."
       ],
-      "ages": { "min": null, "max": null, "withAdult": false, "note": "No age limit stated; needs basic knitting or crochet." },
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": false,
+        "note": "No age limit stated; needs basic knitting or crochet."
+      },
       "commitment": "Ongoing, at your own pace.",
       "location": "At home",
       "howTo": "Learn a simple scarf or hat pattern, then contact Knit-It-Alls about drop-off.",
       "url": "https://www.parentmap.com/family-wellness/volunteer-opportunities-for-kids/",
       "verified": "2026-09-05",
-      "tags": ["crafts", "at home", "housing"]
+      "tags": [
+        "crafts",
+        "at home",
+        "housing"
+      ]
     },
     {
       "id": "humane-tacoma-teens",
@@ -309,13 +501,51 @@
       "details": [
         "Tacoma and Pierce County teens ages 16 and older can work with animals by volunteering at the Humane Society, which requires a six-month commitment."
       ],
-      "ages": { "min": 16, "max": null, "withAdult": false, "note": "Ages 16 and older." },
+      "ages": {
+        "min": 16,
+        "max": null,
+        "withAdult": false,
+        "note": "Ages 16 and older."
+      },
       "commitment": "Six months.",
       "location": "Tacoma",
       "howTo": "Apply on the Humane Society for Tacoma & Pierce County volunteer page.",
       "url": "https://www.parentmap.com/family-wellness/volunteer-opportunities-for-kids/",
       "verified": "2026-09-05",
-      "tags": ["animals", "shelter", "teens"]
+      "tags": [
+        "animals",
+        "shelter",
+        "teens"
+      ]
+    },
+    {
+      "id": "sc-junior-guild",
+      "org": "seattle-childrens",
+      "title": "Host a fundraiser or form a junior guild",
+      "kind": "event",
+      "summary": "Turn an activity you love into a way to support the hospital.",
+      "details": [
+        "Hosting an event or promotion is a creative way for volunteers to help patients and families at Seattle Children's.",
+        "Youth can form a junior guild to turn activities they love into ways to support Seattle Children's.",
+        "The hospital publishes a getting-involved guide for middle and high school students."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "The published guide is for middle and high school students; younger children can run a small fundraiser with an adult."
+      },
+      "commitment": "One event, or an ongoing guild.",
+      "location": "Anywhere",
+      "howTo": "Read the middle & high school guide (seattlechildrens.org/globalassets/documents/giving/guilds/resources/getting-involved---a-guide-for-middle-and-high-school-students---seattle-childrens.pdf), pick an activity, and register the fundraiser through Community Fundraising (seattlechildrens.org/giving/community-fundraising/).",
+      "url": "https://www.seattlechildrens.org/giving/volunteer/youth-service-projects/",
+      "verified": "2026-09-05",
+      "tags": [
+        "hospital",
+        "fundraising",
+        "event",
+        "kids helping kids"
+      ]
     }
   ]
 }

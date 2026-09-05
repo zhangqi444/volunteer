@@ -8,7 +8,7 @@ schools, employers and verification letters.
 It is built for Sheila (9); the catalog checks each opportunity against her age.
 There is no backend. You sign in with Google, and the app keeps your data in a
 JSON file it creates in **your own Google Drive**, with a copy cached in the
-browser so it opens offline. Live at <https://zhangqi444.github.io/volunteer/>.
+browser so it opens offline. Live at <https://qizhang.top/volunteer/>.
 
 This project is the sibling of [`zhangqi444/isee`](https://github.com/zhangqi444/isee):
 same stack, same shell, same theme tokens, same Drive contract, same test layout.
@@ -50,7 +50,9 @@ same stack, same shell, same theme tokens, same Drive contract, same test layout
 `.github/workflows/pages.yml` runs on every push to `main` that touches `site/`
 or `content/`, rebuilds the bundle and fails if it differs from the committed
 one, builds with `npm ci && npm run build` and publishes `site/dist`. Pages must be
-set to **Source: GitHub Actions** (Settings → Pages). Every asset path is
+set to **Source: GitHub Actions** (Settings → Pages). With *Deploy from a branch*
+GitHub runs Jekyll over the repo root instead and serves this README as the home
+page, even though the Actions deploy also succeeds. Every asset path is
 relative (`base: './'`), so the same build works at a domain root or under
 `user.github.io/volunteer/`.
 
@@ -63,8 +65,9 @@ OAuth client are in `site/oauth.json`. To set up your own:
 
 1. In Google Cloud Console, enable the **Google Drive API**.
 2. OAuth consent screen: *External*, add yourself as a test user, add the scope above.
-3. Credentials → OAuth client ID → *Web application*; add your site's origin
-   (for example `https://<user>.github.io`, no path) under Authorized JavaScript origins.
+3. Credentials → OAuth client ID → *Web application*; add every origin the site is
+   served from (`https://qizhang.top` and `https://zhangqi444.github.io`, no path)
+   under Authorized JavaScript origins.
 4. Put the client id in `site/oauth.json`.
 
 Sign-in is required once per device. Edits are pushed about a second after they
