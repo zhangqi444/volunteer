@@ -3,11 +3,12 @@
   "scope": "https://www.googleapis.com/auth/drive.file",
   "consent": "External / Testing",
   "authorized_js_origins": [
+    "https://volunteer.sheilazhang.org",
     "https://qizhang.top",
     "https://zhangqi444.github.io"
   ],
   "test_user": "zhangqi444@gmail.com",
   "file_name": "volunteer-tracker-data.json",
   "note": "drive.file is non-sensitive; the app can stay in Testing with the owner as a test user, no verification, no warning. It only sees the one file it creates. Add http://localhost:5173 to the origins for local dev.",
-  "live_url": "https://qizhang.top/volunteer/"
+  "live_url": "https://volunteer.sheilazhang.org/"
 }

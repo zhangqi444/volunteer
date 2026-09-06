@@ -16,8 +16,8 @@ and **plans** on a calendar. A **catalog** of researched opportunities, filtered
 by what fits her age, is where new work starts. Reports print for schools,
 employers and verification letters.
 
-Live at <https://qizhang.top/volunteer/> (the custom domain of `zhangqi444.github.io`;
-also reachable at <https://zhangqi444.github.io/volunteer/>).
+Live at <https://volunteer.sheilazhang.org/> (custom domain on the repo's GitHub Pages;
+`zhangqi444.github.io/volunteer/` redirects there).
 
 ## Repository layout
 
@@ -51,7 +51,7 @@ docs/                      architecture.md (structure and why), design.md (look,
 
 | Layer | Choice | Why |
 |---|---|---|
-| Build | **Vite 8**, `base: './'` | static output, works under `/volunteer/` |
+| Build | **Vite 8**, `base: './'` | static output, works at a domain root or under `/volunteer/` |
 | UI | **React 19** + **Tailwind v4** + **shadcn/ui** | components live in `src/components/ui/`, owned by the repo and editable |
 | Icons / charts | **lucide-react**, **recharts 3** | |
 | Font | the device's own UI stack | no webfont request |

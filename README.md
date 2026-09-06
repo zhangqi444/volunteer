@@ -8,7 +8,7 @@ schools, employers and verification letters.
 It is built for Sheila (9); the catalog checks each opportunity against her age.
 There is no backend. You sign in with Google, and the app keeps your data in a
 JSON file it creates in **your own Google Drive**, with a copy cached in the
-browser so it opens offline. Live at <https://qizhang.top/volunteer/>.
+browser so it opens offline. Live at <https://volunteer.sheilazhang.org/>.
 
 This project is the sibling of [`zhangqi444/isee`](https://github.com/zhangqi444/isee):
 same stack, same shell, same theme tokens, same Drive contract, same test layout.
@@ -72,7 +72,7 @@ OAuth client are in `site/oauth.json`. To set up your own:
 1. In Google Cloud Console, enable the **Google Drive API**.
 2. OAuth consent screen: *External*, add yourself as a test user, add the scope above.
 3. Credentials → OAuth client ID → *Web application*; add every origin the site is
-   served from (`https://qizhang.top` and `https://zhangqi444.github.io`, no path)
+   served from (`https://volunteer.sheilazhang.org` and `https://zhangqi444.github.io`, no path)
    under Authorized JavaScript origins.
 4. Put the client id in `site/oauth.json`.
 
