@@ -4,7 +4,7 @@ import { Store } from "./store"
 import { todayISO } from "./format"
 
 export const C = { schema: 0, note: "", organizations: {}, items: [] }
-export const KIND_LABEL = { "at-home": "At home", drive: "Donation drive", "on-site": "On site", program: "Program", event: "Event" }
+export const KIND_LABEL = { "at-home": "At home", drive: "Donation drive", "on-site": "On site", program: "Program", event: "Event", remote: "Online" }
 
 export async function loadCatalog() {
   try {

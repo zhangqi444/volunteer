@@ -3,6 +3,63 @@
     {
       "ages": {
         "max": null,
+        "min": 10,
+        "note": "From age 10 with an adult; alone from 16.",
+        "withAdult": true
+      },
+      "commitment": "Shifts.",
+      "details": [
+        "Children under 10 are not eligible to volunteer; ages 10–15 can volunteer with a parent, guardian or adult 18+; 16 and older can volunteer on their own."
+      ],
+      "howTo": "Apply through the volunteer page once she is 10, with the adult who will come along.",
+      "id": "auburn-valley-youth",
+      "kind": "on-site",
+      "location": "Auburn",
+      "org": "auburn-valley-hs",
+      "summary": "Shelter volunteering that opens at ten with a parent along.",
+      "tags": [
+        "animals",
+        "cats",
+        "shelter",
+        "with a parent"
+      ],
+      "title": "Auburn Valley Humane Society (from age 10, with an adult)",
+      "url": "https://auburnvalleyhs.org/get-involved/volunteer/",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "Written for under-18s; no minimum stated.",
+        "withAdult": false
+      },
+      "commitment": "An afternoon per batch.",
+      "details": [
+        "For volunteers under 18, Best Friends lists at-home projects made for the comfort and care of animals at its centers, such as baking dog treats and making cat toys.",
+        "Its videos show how to make dog and cat toys from things already around the house: ice-block toys, frozen broth treats, toys from recycled material, and 'Adopt me' bandanas.",
+        "Best Friends also has remote roles for adults and a Scout patch program for caring for a kitten in need."
+      ],
+      "howTo": "Pick a project from the Best Friends pages, then ask PAWS or RASKC (in this catalog) what they accept before delivering.",
+      "id": "best-friends-diy",
+      "kind": "at-home",
+      "location": "At home; deliver to a local shelter that accepts handmade items",
+      "org": "best-friends",
+      "summary": "A national rescue's list of things kids can make at home for cats and dogs; give them to a local shelter from this catalog.",
+      "tags": [
+        "animals",
+        "cats",
+        "crafts",
+        "at home",
+        "online"
+      ],
+      "title": "At-home projects for shelter animals (Best Friends' ideas for under-18s)",
+      "url": "https://bestfriends.org/volunteer/volunteer-from-home",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
         "min": null,
         "note": "The registered foster is an adult; the child helps at home.",
         "withAdult": true
@@ -28,6 +85,64 @@
       ],
       "title": "Foster with Homeward Pet (families with young children)",
       "url": "https://www.homewardpet.org/volunteer/foster-care/",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": 17,
+        "min": 12,
+        "note": "Ages 12–17 with a parent, who also applies.",
+        "withAdult": true
+      },
+      "commitment": "Shifts.",
+      "details": [
+        "Animal lovers aged 12–17 can join the junior volunteer program to learn about animal welfare and spend time with shelter animals.",
+        "Youth volunteers require parent or guardian supervision, and every adult accompanying a youth volunteer must also submit a volunteer application.",
+        "Roles: dog walking, feline socialization, small animal enrichment, laundry and dishes."
+      ],
+      "howTo": "Apply together through the volunteer page when she is 12.",
+      "id": "kitsap-junior",
+      "kind": "on-site",
+      "location": "Kitsap County, a ferry ride from Seattle",
+      "org": "kitsap-humane",
+      "summary": "Dog walking, cat socialization and small-animal enrichment with a parent alongside.",
+      "tags": [
+        "animals",
+        "cats",
+        "shelter",
+        "with a parent"
+      ],
+      "title": "Kitsap Humane Society junior volunteers (ages 12–17, with a parent)",
+      "url": "https://www.kitsap-humane.org/get-involved/volunteer/",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "Kids from age 2 (cats) or 5 (dogs) in the household; the adult is the registered foster.",
+        "withAdult": true
+      },
+      "commitment": "Weeks per foster.",
+      "details": [
+        "On-site volunteering at Motley Zoo's boarding and training facility is 18+, but fostering can be done at home as early as age 2 for cats and kittens and age 5 for dogs.",
+        "Families with kids under 5 can foster cats and kittens at Motley Zoo's discretion.",
+        "Fostering cats does not need much space: a half-bath or laundry room is plenty for a litter box, bowls and a soft place to nap, and Motley Zoo can provide the supplies, including food."
+      ],
+      "howTo": "Email cats@motleyzoo.org about fostering kittens as a family, or info@motleyzoo.org for how to get involved.",
+      "id": "motley-foster-cats",
+      "kind": "at-home",
+      "location": "At home; Redmond and Monroe",
+      "org": "motley-zoo",
+      "summary": "A Redmond rescue that welcomes young families as foster homes for cats and kittens.",
+      "tags": [
+        "cats",
+        "foster",
+        "family",
+        "at home"
+      ],
+      "title": "Foster kittens with Motley Zoo (families with kids from age 2)",
+      "url": "https://www.motleyzooanimalrescue.org/fostering",
       "verified": "2026-09-06"
     },
     {
@@ -118,6 +233,34 @@
       ],
       "title": "Wish-list drive or birthday donations for PAWS",
       "url": "https://www.paws.org/volunteer/opportunities/kids-teen-opportunities/",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": 12,
+        "note": "From age 12 alongside a legal guardian.",
+        "withAdult": true
+      },
+      "commitment": "Shifts.",
+      "details": [
+        "Volunteer opportunities are available for youths 12 and older; volunteers 12–15 must volunteer alongside a legal guardian; 16 and 17 may volunteer with guardian consent and a background check.",
+        "Compassion Days group volunteer events are for groups 18 and older, typically 10:00 a.m.–2:30 p.m."
+      ],
+      "howTo": "Email volunteer@pasadosafehaven.org or call (360) 793-9393 when she is 12.",
+      "id": "pasados-youth",
+      "kind": "on-site",
+      "location": "Sultan",
+      "org": "pasados",
+      "summary": "A sanctuary in Sultan for rescued farm animals, dogs and cats.",
+      "tags": [
+        "animals",
+        "farm animals",
+        "sanctuary",
+        "with a parent"
+      ],
+      "title": "Pasado's Safe Haven farm sanctuary (from age 12, with a guardian until 16)",
+      "url": "https://www.pasadosafehaven.org/get-involved/volunteer/opportunities/",
       "verified": "2026-09-06"
     },
     {
@@ -236,6 +379,32 @@
       ],
       "title": "Foster Cat Program (Seattle Animal Shelter)",
       "url": "https://my.seattle.gov/animal-shelter/get-involved/foster-cat-program",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": 18,
+        "min": 14,
+        "note": "Grades 9–12.",
+        "withAdult": false
+      },
+      "commitment": "Program schedule on the page.",
+      "details": [
+        "Open to students in grades 9–12, who volunteer for marine conservation and advocacy activities."
+      ],
+      "howTo": "Apply through the Youth Ocean Advocates page in high school.",
+      "id": "aquarium-yoa",
+      "kind": "program",
+      "location": "Seattle Aquarium",
+      "org": "seattle-aquarium",
+      "summary": "High-schoolers volunteer for marine conservation and advocacy at the Aquarium.",
+      "tags": [
+        "marine animals",
+        "teens",
+        "conservation"
+      ],
+      "title": "Youth Ocean Advocates at the Seattle Aquarium (grades 9–12)",
+      "url": "https://www.seattleaquarium.org/act-for-the-ocean/volunteer/youth-ocean-advocates/",
       "verified": "2026-09-06"
     },
     {
@@ -496,10 +665,133 @@
       "title": "Kid's Volunteer Day at The NOAH Center",
       "url": "https://www.thenoahcenter.org/kidsday/",
       "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": 18,
+        "min": 15,
+        "note": "Entering grades 10–12.",
+        "withAdult": false
+      },
+      "commitment": "Program schedule on the page.",
+      "details": [
+        "The teen volunteer program is open to teens entering grades 10–12; it lets teens explore different departments within the zoo, from animal care to horticulture, and provide education at exhibits and camps."
+      ],
+      "howTo": "Apply through the teen volunteer page in 10th grade.",
+      "id": "zoo-teen",
+      "kind": "program",
+      "location": "Woodland Park Zoo, Seattle",
+      "org": "woodland-park-zoo",
+      "summary": "Teens explore zoo departments from animal care to horticulture and help teach at exhibits and camps.",
+      "tags": [
+        "animals",
+        "zoo",
+        "teens"
+      ],
+      "title": "Woodland Park Zoo teen volunteers (grades 10–12)",
+      "url": "https://zoo.org/volunteer/teen/",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "No age stated; no account needed to start.",
+        "withAdult": false
+      },
+      "commitment": "Any time.",
+      "details": [
+        "ZSL's Instant Wild brings images and videos from camera traps around the world; identifying the species you spot helps track threatened wildlife and their ecosystems.",
+        "No qualifications or special expertise are needed; lots of help is provided to make the right identification.",
+        "You can start online at instantwild.zsl.org without creating an account, or use the free iOS or Android app; an account adds badges for milestones."
+      ],
+      "howTo": "Open instantwild.zsl.org or the app and start tagging; log the time as an entry.",
+      "id": "instant-wild",
+      "kind": "remote",
+      "location": "Online",
+      "org": "zsl",
+      "summary": "Photos arrive from cameras around the world as animals walk past; you say what you see.",
+      "tags": [
+        "animals",
+        "online",
+        "citizen science"
+      ],
+      "title": "Tag wildlife in live camera-trap photos (Instant Wild)",
+      "url": "https://www.zsl.org/what-we-do/projects/instant-wild",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "No age limit; under 16 a parent approves the account.",
+        "withAdult": true
+      },
+      "commitment": "Any time, ten minutes or an hour.",
+      "details": [
+        "Hundreds of camera traps in Serengeti National Park, Tanzania, produce millions of images; volunteers identify the species, count individuals, classify behaviour and note whether young are present.",
+        "There is no age limit for Zooniverse projects, but children under 16 need a parent or guardian to sign off on their account registration.",
+        "The project is described as ideally suited to primary and elementary school children, combining ecology, geography and literacy; Zooniverse also publishes guidance on fulfilling service-hour requirements."
+      ],
+      "howTo": "Create her Zooniverse account with a parent's approval, open Snapshot Serengeti, and classify together; log the time as an entry.",
+      "id": "zooniverse-serengeti",
+      "kind": "remote",
+      "location": "Online",
+      "org": "zooniverse",
+      "summary": "Real research from home: name the animals in camera-trap photos from Serengeti National Park.",
+      "tags": [
+        "animals",
+        "online",
+        "citizen science",
+        "service hours"
+      ],
+      "title": "Classify Serengeti camera-trap animals (Zooniverse)",
+      "url": "https://www.zooniverse.org/projects/zooniverse/snapshot-serengeti",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "No age stated in the sources; do it on a parent's account.",
+        "withAdult": true
+      },
+      "commitment": "Any walk.",
+      "details": [
+        "Volunteering roundups list joining a citizen science project on iNaturalist, and learning about birding and contributing your findings to eBird, as ways to help from home.",
+        "Observations are made outdoors and uploaded from a phone or computer."
+      ],
+      "howTo": "Photograph animals and birds on walks and upload them to iNaturalist or record bird counts in eBird; log the time as an entry.",
+      "id": "inaturalist-ebird",
+      "kind": "remote",
+      "location": "Outdoors, uploaded online",
+      "org": "inaturalist",
+      "summary": "Turn walks in the park into wildlife records scientists use.",
+      "tags": [
+        "animals",
+        "birds",
+        "online",
+        "citizen science",
+        "outdoors"
+      ],
+      "title": "Log the birds and animals you see (iNaturalist and eBird)",
+      "url": "https://www.thegoodtrade.com/features/volunteering-online/",
+      "verified": "2026-09-06"
     }
   ],
-  "note": "Cat and animal volunteer work around Seattle for Sheila (9): what she can do now, with an adult where the source says so, and what opens at 13 or 16 so she can look ahead. Every item names its source URL and the date it was checked; confirm details on the page before signing up. Never add a fact without a source.",
+  "note": "Cat and animal volunteer work for Sheila (9): around Seattle and online. What she can do now leads, with an adult where the source says so; what opens at 10, 12, 13 or 16 is listed too so she can look ahead. Every item names its source URL and the date it was checked; confirm details on the page before signing up. Never add a fact without a source.",
   "organizations": {
+    "auburn-valley-hs": {
+      "contact": {
+        "address": "Auburn, WA"
+      },
+      "name": "Auburn Valley Humane Society",
+      "url": "https://auburnvalleyhs.org/get-involved/volunteer/"
+    },
+    "best-friends": {
+      "name": "Best Friends Animal Society",
+      "url": "https://bestfriends.org/volunteer/volunteer-from-home"
+    },
     "homeward-pet": {
       "contact": {
         "address": "13132 NE 177th Place, Woodinville, WA 98072",
@@ -508,6 +800,25 @@
       "name": "Homeward Pet Adoption Center",
       "url": "https://www.homewardpet.org/volunteer/foster-care/"
     },
+    "inaturalist": {
+      "name": "iNaturalist and eBird (citizen science)",
+      "url": "https://www.inaturalist.org/"
+    },
+    "kitsap-humane": {
+      "contact": {
+        "address": "Kitsap County, WA (a ferry ride from Seattle)"
+      },
+      "name": "Kitsap Humane Society",
+      "url": "https://www.kitsap-humane.org/get-involved/volunteer/"
+    },
+    "motley-zoo": {
+      "contact": {
+        "address": "Redmond and Monroe, WA",
+        "email": "cats@motleyzoo.org · volunteer@motleyzoo.org"
+      },
+      "name": "Motley Zoo Animal Rescue",
+      "url": "https://www.motleyzooanimalrescue.org/fostering"
+    },
     "noah": {
       "contact": {
         "address": "31300 Brandstrom Rd, Stanwood, WA",
@@ -515,6 +826,15 @@
       },
       "name": "The NOAH Center",
       "url": "https://www.thenoahcenter.org/youthvolunteers/"
+    },
+    "pasados": {
+      "contact": {
+        "address": "Sultan, WA",
+        "email": "volunteer@pasadosafehaven.org",
+        "phone": "(360) 793-9393"
+      },
+      "name": "Pasado's Safe Haven",
+      "url": "https://www.pasadosafehaven.org/get-involved/volunteer/"
     },
     "paws": {
       "contact": {
@@ -558,6 +878,13 @@
       "name": "Seattle Animal Shelter",
       "url": "https://www.seattle.gov/animal-shelter/get-involved/volunteer"
     },
+    "seattle-aquarium": {
+      "contact": {
+        "address": "Seattle waterfront"
+      },
+      "name": "Seattle Aquarium",
+      "url": "https://www.seattleaquarium.org/act-for-the-ocean/volunteer/youth-ocean-advocates/"
+    },
     "seattle-humane": {
       "contact": {
         "address": "13212 SE Eastgate Way, Bellevue, WA 98005",
@@ -574,6 +901,21 @@
       "name": "Seattle Humane",
       "url": "https://www.seattlehumane.org/",
       "verified": "2026-09-06"
+    },
+    "woodland-park-zoo": {
+      "contact": {
+        "address": "Seattle"
+      },
+      "name": "Woodland Park Zoo",
+      "url": "https://zoo.org/volunteer/teen/"
+    },
+    "zooniverse": {
+      "name": "Zooniverse",
+      "url": "https://www.zooniverse.org/projects"
+    },
+    "zsl": {
+      "name": "ZSL Instant Wild (Zoological Society of London)",
+      "url": "https://www.zsl.org/what-we-do/projects/instant-wild"
     }
   },
   "schema": 1

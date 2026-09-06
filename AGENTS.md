@@ -174,9 +174,13 @@ All three must pass before a commit.
   its search summary when the page cannot be opened from the sandbox — say so in
   `note`) or are left out with "not stated". Confirming on the page before signing
   up is the volunteer's step, and the UI says so.
-- **Scope**: cat and animal volunteer work around Seattle, from organizations the
-  owner has pointed at or asked for (Seattle Humane, RASKC, PAWS, The NOAH Center,
-  Seattle Area Feline Rescue, Seattle Animal Shelter, Homeward Pet, Purrfect Pals).
+- **Scope**: cat and animal volunteer work around Seattle and online, from
+  organizations the owner has pointed at or asked for (Seattle Humane, RASKC, PAWS,
+  The NOAH Center, Seattle Area Feline Rescue, Seattle Animal Shelter, Homeward Pet,
+  Purrfect Pals, Motley Zoo, Auburn Valley Humane Society, Pasado's Safe Haven,
+  Kitsap Humane Society, Seattle Aquarium, Woodland Park Zoo; online: Zooniverse,
+  ZSL Instant Wild, Best Friends, iNaturalist/eBird). Kind `remote` marks work done
+  from home over the internet.
   What Sheila can do now leads (with an adult where the source says so); age-gated
   programs are listed too, badged *From age N*, so she can look ahead. Where a
   shelter's own volunteering starts at 16 or 18, its family fostering program is

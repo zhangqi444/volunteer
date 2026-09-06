@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "content" / "catalog.json"
 OUT = ROOT / "site" / "public" / "content" / "bundle.json"
-KINDS = {"at-home", "drive", "on-site", "program", "event"}
+KINDS = {"at-home", "drive", "on-site", "program", "event", "remote"}
 REQUIRED = ("id", "org", "title", "kind", "summary", "url", "verified")
 
 def main():
