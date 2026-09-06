@@ -131,11 +131,18 @@
     },
     "best-friends": {
       "name": "Best Friends Animal Society",
-      "url": "https://bestfriends.org/volunteer/volunteer-from-home"
+      "url": "https://bestfriends.org/volunteer/volunteer-from-home",
+      "contact": {
+        "email": "nationalvolunteers@bestfriends.org"
+      }
     },
     "inaturalist": {
       "name": "iNaturalist and eBird (citizen science)",
       "url": "https://www.inaturalist.org/"
+    },
+    "ldcrf": {
+      "name": "Lost Dog & Cat Rescue Foundation",
+      "url": "https://www.lostdogrescue.org/volunteer/support-remote-roles/"
     }
   },
   "items": [
@@ -915,6 +922,66 @@
         "online",
         "citizen science",
         "outdoors"
+      ]
+    },
+    {
+      "id": "best-friends-nova",
+      "org": "best-friends",
+      "title": "Best Friends NOVA: remote shelter support (an adult's role, done together)",
+      "kind": "remote",
+      "summary": "Two hours a week from home helping Best Friends' lifesaving centers: pet bios, records, adopter follow-up.",
+      "details": [
+        "NOVA (National Operations Volunteers and Ambassadors) lets volunteers lend a virtual hand in real time to Best Friends' centers from anywhere with a secure internet connection; roles include connecting adoptable animals to potential adopters, supporting foster volunteers, record management and pet behavior support.",
+        "Remote volunteers also write animal bios, enter data, follow up with adopters, write appreciation notes to members, produce Zoom calls, edit videos and create content.",
+        "NOVA volunteers commit to two hours per week; a computer with antivirus protection, an internet connection and a willingness to learn software such as Shelterluv, Trello and Airtable are required; onboarding takes about two weeks."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age stated; the volunteer of record is the parent, and writing a pet's bio is something to do together."
+      },
+      "commitment": "Two hours a week.",
+      "location": "Online",
+      "howTo": "Apply on the Volunteer From Home page or email nationalvolunteers@bestfriends.org; log the shared hours as entries.",
+      "url": "https://bestfriends.org/volunteer/volunteer-from-home/national-opportunities",
+      "verified": "2026-09-06",
+      "tags": [
+        "animals",
+        "cats",
+        "online",
+        "writing",
+        "with a parent"
+      ]
+    },
+    {
+      "id": "ldcrf-remote",
+      "org": "ldcrf",
+      "title": "Pet poster and Animal Advocate: keep adoptable pets' profiles up to date (remote)",
+      "kind": "remote",
+      "summary": "Fifteen to thirty minutes a day posting pets to adoption sites and checking that every profile has good photos and a bio.",
+      "details": [
+        "The Pet Poster role posts pets on adoption sites and inputs new arrivals into the rescue's online software, about 15–30 minutes daily.",
+        "Animal Advocate volunteers regularly check that all animal profiles online have enough pictures and good-looking bios, because a pet's profile is everything when it comes to finding an interested adopter.",
+        "Some adoption follow-up work is also done remotely from home."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age stated; an adult signs up and a child can help choose photos and read the bios."
+      },
+      "commitment": "15–30 minutes a day, or as agreed.",
+      "location": "Online",
+      "howTo": "Apply through the Support & Remote Roles page; log the shared time as entries.",
+      "url": "https://www.lostdogrescue.org/volunteer/support-remote-roles/",
+      "verified": "2026-09-06",
+      "tags": [
+        "animals",
+        "cats",
+        "online",
+        "writing",
+        "with a parent"
       ]
     }
   ]

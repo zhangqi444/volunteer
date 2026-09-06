@@ -61,6 +61,36 @@
       "ages": {
         "max": null,
         "min": null,
+        "note": "No age stated; the volunteer of record is the parent, and writing a pet's bio is something to do together.",
+        "withAdult": true
+      },
+      "commitment": "Two hours a week.",
+      "details": [
+        "NOVA (National Operations Volunteers and Ambassadors) lets volunteers lend a virtual hand in real time to Best Friends' centers from anywhere with a secure internet connection; roles include connecting adoptable animals to potential adopters, supporting foster volunteers, record management and pet behavior support.",
+        "Remote volunteers also write animal bios, enter data, follow up with adopters, write appreciation notes to members, produce Zoom calls, edit videos and create content.",
+        "NOVA volunteers commit to two hours per week; a computer with antivirus protection, an internet connection and a willingness to learn software such as Shelterluv, Trello and Airtable are required; onboarding takes about two weeks."
+      ],
+      "howTo": "Apply on the Volunteer From Home page or email nationalvolunteers@bestfriends.org; log the shared hours as entries.",
+      "id": "best-friends-nova",
+      "kind": "remote",
+      "location": "Online",
+      "org": "best-friends",
+      "summary": "Two hours a week from home helping Best Friends' lifesaving centers: pet bios, records, adopter follow-up.",
+      "tags": [
+        "animals",
+        "cats",
+        "online",
+        "writing",
+        "with a parent"
+      ],
+      "title": "Best Friends NOVA: remote shelter support (an adult's role, done together)",
+      "url": "https://bestfriends.org/volunteer/volunteer-from-home/national-opportunities",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
         "note": "The registered foster is an adult; the child helps at home.",
         "withAdult": true
       },
@@ -114,6 +144,36 @@
       ],
       "title": "Kitsap Humane Society junior volunteers (ages 12–17, with a parent)",
       "url": "https://www.kitsap-humane.org/get-involved/volunteer/",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "No age stated; an adult signs up and a child can help choose photos and read the bios.",
+        "withAdult": true
+      },
+      "commitment": "15–30 minutes a day, or as agreed.",
+      "details": [
+        "The Pet Poster role posts pets on adoption sites and inputs new arrivals into the rescue's online software, about 15–30 minutes daily.",
+        "Animal Advocate volunteers regularly check that all animal profiles online have enough pictures and good-looking bios, because a pet's profile is everything when it comes to finding an interested adopter.",
+        "Some adoption follow-up work is also done remotely from home."
+      ],
+      "howTo": "Apply through the Support & Remote Roles page; log the shared time as entries.",
+      "id": "ldcrf-remote",
+      "kind": "remote",
+      "location": "Online",
+      "org": "ldcrf",
+      "summary": "Fifteen to thirty minutes a day posting pets to adoption sites and checking that every profile has good photos and a bio.",
+      "tags": [
+        "animals",
+        "cats",
+        "online",
+        "writing",
+        "with a parent"
+      ],
+      "title": "Pet poster and Animal Advocate: keep adoptable pets' profiles up to date (remote)",
+      "url": "https://www.lostdogrescue.org/volunteer/support-remote-roles/",
       "verified": "2026-09-06"
     },
     {
@@ -789,6 +849,9 @@
       "url": "https://auburnvalleyhs.org/get-involved/volunteer/"
     },
     "best-friends": {
+      "contact": {
+        "email": "nationalvolunteers@bestfriends.org"
+      },
       "name": "Best Friends Animal Society",
       "url": "https://bestfriends.org/volunteer/volunteer-from-home"
     },
@@ -810,6 +873,10 @@
       },
       "name": "Kitsap Humane Society",
       "url": "https://www.kitsap-humane.org/get-involved/volunteer/"
+    },
+    "ldcrf": {
+      "name": "Lost Dog & Cat Rescue Foundation",
+      "url": "https://www.lostdogrescue.org/volunteer/support-remote-roles/"
     },
     "motley-zoo": {
       "contact": {

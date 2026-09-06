@@ -179,8 +179,10 @@ All three must pass before a commit.
   The NOAH Center, Seattle Area Feline Rescue, Seattle Animal Shelter, Homeward Pet,
   Purrfect Pals, Motley Zoo, Auburn Valley Humane Society, Pasado's Safe Haven,
   Kitsap Humane Society, Seattle Aquarium, Woodland Park Zoo; online: Zooniverse,
-  ZSL Instant Wild, Best Friends, iNaturalist/eBird). Kind `remote` marks work done
-  from home over the internet.
+  ZSL Instant Wild, Best Friends including its NOVA remote roles, Lost Dog & Cat
+  Rescue Foundation's remote roles, iNaturalist/eBird). Kind `remote` marks work
+  done from home over the internet; adult remote roles are listed when a child can
+  take part alongside the parent, and say so.
   What Sheila can do now leads (with an adult where the source says so); age-gated
   programs are listed too, badged *From age N*, so she can look ahead. Where a
   shelter's own volunteering starts at 16 or 18, its family fostering program is
