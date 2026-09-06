@@ -1,11 +1,9 @@
 import * as React from "react"
-import { ArrowRight, Award, Plus } from "lucide-react"
+import { ArrowRight, Plus } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
-import { activeWorkItems, earnedMilestoneIds, entriesSorted, hoursByMonth, hoursByOrg, milestones, orgColor, orgName, stats, workItemStats } from "@/lib/engine"
-import { Store } from "@/lib/store"
-import { useToast } from "@/components/toast"
-import { Badge } from "@/components/ui/badge"
+import { activeWorkItems, entriesSorted, hoursByMonth, hoursByOrg, orgColor, orgName, stats, workItemStats } from "@/lib/engine"
+import { RewardsCard } from "@/pages/rewards"
 import { fmtDate, fmtHours, fmtShort, hoursWord, plural } from "@/lib/format"
 import { go, href } from "@/lib/router"
 import { useStore } from "@/lib/store"
@@ -20,46 +18,6 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import { UpNextCard } from "@/pages/calendar"
 
 const chartConfig = { hours: { label: "Hours", color: "var(--chart-1)" } }
-
-/** Pins newly reached milestones (once, quietly) and shows earned ones plus the next few. */
-export function MilestonesCard() {
-  useStore()
-  const toast = useToast()
-  const list = milestones()
-  React.useEffect(() => {
-    const fresh = Store.pinBadges(earnedMilestoneIds())
-    if (fresh.length) { const names = list.filter((m) => fresh.includes(m.id)).map((m) => m.title); toast(fresh.length === 1 ? `Milestone: ${names[0]}` : `${fresh.length} milestones reached: ${names.join(", ")}`) }
-  })
-  const earned = list.filter((m) => m.done).sort((a, b) => (a.earnedAt || "").localeCompare(b.earnedAt || ""))
-  const next = list.filter((m) => !m.done).sort((a, b) => b.progress - a.progress).slice(0, 3)
-  if (!Store.s.entries.length) return null
-  return (
-    <Card data-testid="milestones">
-      <CardHeader>
-        <CardTitle>Milestones</CardTitle>
-        <CardDescription>{earned.length ? `${plural(earned.length, "milestone")} so far` : "The first ones are close"}</CardDescription>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-4">
-        {earned.length ? (
-          <ul className="flex flex-wrap gap-2" data-testid="milestones-earned">
-            {earned.map((m) => <li key={m.id}><Badge variant="success" className="gap-1 py-1" title={`${m.detail}${m.earnedAt ? ` · ${fmtDate(m.earnedAt.slice(0, 10))}` : ""}`}><Award className="size-3" /> {m.title}</Badge></li>)}
-          </ul>
-        ) : null}
-        {next.length ? (
-          <ul className="flex flex-col gap-2" data-testid="milestones-next">
-            {next.map((m) => (
-              <li key={m.id} className="grid items-center gap-x-3 gap-y-1 text-sm @md/main:grid-cols-[minmax(0,2fr)_3fr_auto]">
-                <span className="min-w-0"><span className="block truncate font-medium">{m.title}</span><span className="text-muted-foreground block truncate text-xs">{m.detail}</span></span>
-                <Progress value={m.progress * 100} className="h-2" aria-label={m.title} />
-                <span className="text-muted-foreground text-right text-xs tabular-nums">{m.value || `${Math.round(m.progress * 100)}%`}</span>
-              </li>
-            ))}
-          </ul>
-        ) : null}
-      </CardContent>
-    </Card>
-  )
-}
 
 export function Home() {
   const store = useStore()
@@ -174,7 +132,7 @@ export function Home() {
         </Card>
       )}
 
-      <MilestonesCard />
+      <RewardsCard />
 
       <Card>
         <CardHeader>

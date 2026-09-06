@@ -16,6 +16,7 @@ import { Settings } from "@/pages/settings"
 import { SignIn } from "@/pages/signin"
 import { Catalog } from "@/pages/catalog"
 import { Calendar } from "@/pages/calendar"
+import { Rewards } from "@/pages/rewards"
 
 function Screen({ route }) {
   const [top, a] = route
@@ -23,6 +24,7 @@ function Screen({ route }) {
   if (top === "work") return <WorkList />
   if (top === "calendar") return <Calendar />
   if (top === "catalog") return <Catalog />
+  if (top === "rewards") return <Rewards />
   if (top === "log") return <Log />
   if (top === "orgs") return <Orgs />
   if (top === "reports") return <Reports />

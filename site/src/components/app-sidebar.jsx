@@ -1,8 +1,9 @@
 import * as React from "react"
-import { BookOpen, Building2, CalendarDays, ClipboardList, Clock, FileText, HeartHandshake, LayoutDashboard, Plus, Settings as SettingsIcon } from "lucide-react"
+import { Award, BookOpen, Building2, CalendarDays, ClipboardList, Clock, FileText, HeartHandshake, LayoutDashboard, Plus, Settings as SettingsIcon } from "lucide-react"
 
 import { activeWorkItems, upcomingPlans } from "@/lib/engine"
 import { todayISO } from "@/lib/format"
+import { recentBadges } from "@/lib/rewards"
 import { go } from "@/lib/router"
 import { useStore } from "@/lib/store"
 import { useDialogs } from "@/components/dialogs"
@@ -24,6 +25,7 @@ const NAV = [
   { path: "/catalog", top: "catalog", label: "Catalog", icon: BookOpen },
   { path: "/work", top: "work", label: "Work items", icon: ClipboardList },
   { path: "/log", top: "log", label: "Hours log", icon: Clock },
+  { path: "/rewards", top: "rewards", label: "Rewards", icon: Award },
   { path: "/orgs", top: "orgs", label: "Organizations", icon: Building2 },
   { path: "/reports", top: "reports", label: "Reports", icon: FileText },
   { path: "/settings", top: "settings", label: "Settings", icon: SettingsIcon },
@@ -37,6 +39,7 @@ export function AppSidebar({ route, ...props }) {
   const top = route[0] || ""
   const active = activeWorkItems().length
   const planned = upcomingPlans(todayISO(), 99).length
+  const fresh = recentBadges(3).length
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -82,6 +85,7 @@ export function AppSidebar({ route, ...props }) {
                   </SidebarMenuButton>
                   {n.top === "work" && active ? <SidebarMenuBadge className="text-muted-foreground">{active}</SidebarMenuBadge> : null}
                   {n.top === "calendar" && planned ? <SidebarMenuBadge className="text-muted-foreground">{planned}</SidebarMenuBadge> : null}
+                  {n.top === "rewards" && fresh ? <SidebarMenuBadge className="pointer-events-none" data-testid="rewards-new"><span className="bg-primary size-2 rounded-full" title={`${fresh} new badge${fresh === 1 ? "" : "s"}`} /></SidebarMenuBadge> : null}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

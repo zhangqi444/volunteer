@@ -82,8 +82,11 @@ docs/                      architecture.md (structure and why), design.md (look,
   tombstones; a tombstone newer than a record beats the record on both sides, so a
   deletion on one device is not undone by another's copy. Goals and categories are
   last-write-wins as a block. A record only one side has is always kept.
-- **Payload**: `schema: 4` — `organizations, workItems, entries, memos, plans,
-  interests, badges, suggestions, deleted, goals, settings`. `plans` are calendar
+- **Payload**: `schema: 5` — `organizations, workItems, entries, memos, plans,
+  interests, badges, rewards, suggestions, deleted, goals, settings`. `rewards` is
+  keyed like isee's: `item:<id>` rows are what the parent put on the shelf,
+  `claim:<id>` rows are claims (last write wins per key, tombstoned as
+  `reward:<key>`). `plans` are calendar
   records (a plan turns into an hours entry through *Log hours* and keeps the
   `entryId`); `interests` is keyed by catalog item id, tombstoned as
   `interest:<id>`; `badges` maps milestone id → the time it was first earned
@@ -103,8 +106,12 @@ docs/                      architecture.md (structure and why), design.md (look,
 
 ## Data model
 
-Milestones (`engine.milestones()`) are computed, then **pinned on first earning**
-by `Store.pinBadges` and never recomputed away, the same rule as isee's badges.
+**Rewards** (`lib/rewards.js`, the same shape as isee's): effort points are
+computed from the record (10 per hour, 5 for a reflection, 5 for a photo, 5 for a
+plan carried out, 2 per memo) and never stored; lifetime points fix the level and
+spending never lowers it. Badges are computed from the record, then **pinned on
+first earning** by `Store.pinBadges` and never recomputed away. The shelf is
+parent-curated; a claim spends points and can be marked given or cancelled.
 Plans leave the app through `lib/calendar.js`: a Google Calendar template link per
 plan (no API, no extra scope) and an `.ics` export for everything still planned.
 
@@ -137,7 +144,7 @@ whenever `content/**` changes — CI fails the build if the committed bundle has
 |---|---|
 | `test_e2e.cjs` | desktop + phone shells, drawer, first organization and entry, validation, persistence, breadcrumb, theme |
 | `test_drive.cjs` | Google stubbed: the gate, sign in once, reload without a prompt, push, expiry + silent reconnect, merge with tombstones, sign out clears the device, sign in restores from Drive |
-| `test_features.cjs` | sample data, dashboard chart, milestones, work items + memos, reflections + photos (fake Drive), log filters and sort, catalog fit filters + interest + Log hours/Plan it + suggestions, calendar (grid, Google Calendar link, .ics export, log hours from a plan, overdue, skipped), profile age, summary report + verification letters, settings |
+| `test_features.cjs` | sample data, dashboard chart, rewards (points, level, badges, shelf, claim), work items + memos, reflections + photos (fake Drive), log filters and sort, catalog fit filters + interest + Log hours/Plan it + suggestions, calendar (grid, Google Calendar link, .ics export, log hours from a plan, overdue, skipped), profile age, summary report + verification letters, settings |
 
 Rules: every feature gets checks in the suite it belongs to; a UI change that
 breaks a selector means fixing the test's *assumption*, not deleting the check.
@@ -181,4 +188,6 @@ All three must pass before a commit.
 2. **No backend, no accounts, no third-party analytics.** The data belongs to the
    volunteer and stays in their browser and their Drive.
 3. **Honest numbers.** Reports say hours are self-reported. Estimates are labelled.
+   Points reward the doing, never the amount relative to someone else; there is no
+   streak that punishes a missed week and no leaderboard.
 4. Pushes go to `main` and deploy immediately; a red build is fixed before anything else.

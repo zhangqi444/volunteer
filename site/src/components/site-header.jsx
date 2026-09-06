@@ -12,7 +12,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { STATUS_LABEL } from "@/components/nav-user"
 
-const LABEL = { calendar: "Calendar", catalog: "Catalog", work: "Work items", log: "Hours log", orgs: "Organizations", reports: "Reports", settings: "Settings" }
+const LABEL = { calendar: "Calendar", catalog: "Catalog", work: "Work items", log: "Hours log", rewards: "Rewards", orgs: "Organizations", reports: "Reports", settings: "Settings" }
 
 /** Breadcrumb trail for the current hash route: every crumb is a real link, so there is always a way out. */
 function crumbs(route) {

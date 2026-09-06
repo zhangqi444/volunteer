@@ -43,6 +43,7 @@ feature seems to need one, it is the wrong feature.
 | Store | `lib/store.js` | The single mutable object `Store.s`, every write (`addEntry`, `deleteOrg`, …), `commit()`, `merge()`, and the Drive session states. `useStore()` subscribes React. |
 | Drive | `lib/drive.js` | Token client, `ensureToken()` before every call, one 401 retry, `hasGrantedAllScopes`, find/create/update the file by `appProperties`, debounced save with an offline queue and a `pagehide` keepalive flush. Knows nothing about the data shape. |
 | Engine | `lib/engine.js` | Every derived number: totals, per month, per organization, per work item, plans due. Pure functions over `Store.s`. Nothing here is persisted. |
+| Rewards | `lib/rewards.js` | Effort points, levels, the badge catalogue with pinning, the reward shelf and claims. Mirrors isee's module. |
 | Calendar out | `lib/calendar.js` | Google Calendar template links and `.ics` text for plans. No API, no extra scope. |
 | Photos | `lib/photos.js` | Shrink in the browser, upload through `drive.js`, resolve a cached object URL for display. |
 | Content helpers | `lib/content.js` | `fit(item, age)`, `currentAge()`, and `ensureFromCatalog()` which turns a catalog item into an organization + work item on first use. |
@@ -60,7 +61,8 @@ organization ──< workItem ──< entry
       └──────────────────< plan
 catalog item ─(catalogOrgId / catalogId)─ organization / workItem   ← created on first use
 interests[catalogId] = { status, note, at }
-badges[milestoneId] = firstEarnedAt         computed by engine.milestones(), pinned once
+badges[badgeId] = firstEarnedAt              computed by rewards.badgeState(), pinned once
+rewards["item:<id>"|"claim:<id>"]            the reward shelf and its claims (points are computed, never stored)
 suggestions[] = { url, note, status }        links dropped for the catalog
 entry.reflection, entry.photos[] = { id }    photos are separate Drive files (kind = photo)
 goals { yearly, at }      settings { categories, profile { name, age, ageAsOf }, at }
@@ -74,7 +76,7 @@ work item from the item the first time either is needed, and reuses them after.
 
 Every record has `id`, `createdAt` and `at` (last edit). `normalize()` accepts any
 older shape, including files written by the first vanilla version of the site, and
-fills the gaps; the payload declares `schema: 4`.
+fills the gaps; the payload declares `schema: 5`.
 
 ## Order of truth
 

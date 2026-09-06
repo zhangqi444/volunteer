@@ -20,11 +20,32 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   check('month chart drawn', (await pg.$$('[data-testid=month-chart] .recharts-bar-rectangle')).length > 0);
   check('org bars: 3 organizations', (await pg.$$('[data-testid=org-bars] li')).length === 3);
   check('active work items listed', (await pg.$$('[data-testid=dash-workitems] li')).length === 3);
-  await pg.waitForSelector('[data-testid=milestones-earned]');
-  const earned = await pg.$$eval('[data-testid=milestones-earned] li', (n) => n.map((x) => x.textContent.trim()));
-  check('milestones earned from the sample are pinned', earned.includes('First hours logged') && earned.includes('25 hours') && earned.includes('Three months in a row') && earned.includes('A work item completed') && !earned.includes('50 hours'), earned.join(' | '));
-  check('pinned milestones are stored with a date', await pg.evaluate(() => { const b = JSON.parse(localStorage.getItem('volunteer.v2')).badges; return b['hours-25'] && b['first-entry'] && !b['hours-50']; }));
-  check('next milestones show progress', (await pg.$$('[data-testid=milestones-next] li')).length === 3);
+  await pg.waitForSelector('[data-testid=rewards-card]');
+  check('rewards card shows a level and points to spend', /Level 5 · Dependable/.test(await pg.textContent('[data-testid=rewards-card]')) && (await pg.textContent('[data-testid=dash-balance]')) === '480');
+  check('badges earned from the sample are pinned with a date', await pg.evaluate(() => { const b = JSON.parse(localStorage.getItem('volunteer.v2')).badges; return b['hours-25'] && b['first-entry'] && b['three-months'] && b['work-item-done'] && !b['hours-50']; }));
+  check('closest badge shown with progress', (await pg.$('[data-testid=next-badge]')) !== null);
+  check('sidebar marks new badges with a dot, not a count', (await pg.$('[data-testid=rewards-new]')) !== null && !/\d/.test(await pg.textContent('[data-testid=rewards-new]')));
+
+  // rewards page: points breakdown, badges, the shelf, a claim, marked given
+  await pg.click('[data-slot=sidebar-menu-button]:has-text("Rewards")');
+  await pg.waitForSelector('[data-testid=level-card]');
+  check('points total is 480 (46.5 h × 10 + 1 reflection + 5 memos)', (await pg.textContent('[data-testid=points-total]')) === '480');
+  check('11 badges earned (the sample spans ten consecutive months), the rest locked with progress', (await pg.$$('[data-testid=badge][data-done="1"]')).length === 11 && (await pg.$$('[data-testid=badge][data-done="0"]')).length === 11, String((await pg.$$('[data-testid=badge][data-done="1"]')).length));
+  await pg.click('[data-testid=suggested-reward]:has-text("Pick Friday")');
+  await pg.waitForSelector('[data-testid=reward-item]');
+  check('a suggested reward lands on the shelf', /Pick Friday/.test(await pg.textContent('[data-testid=reward-item]')));
+  await pg.fill('[data-testid=reward-name]', 'Ice cream after the shift'); await pg.fill('[data-testid=reward-cost]', '30'); await pg.click('[data-testid=reward-add]');
+  await pg.waitForFunction(() => document.querySelectorAll('[data-testid=reward-item]').length === 2);
+  check('a custom reward is added and the shelf sorts by cost', /Ice cream/.test(await pg.$eval('[data-testid=reward-item]', (x) => x.textContent)));
+  await pg.click('[data-testid=reward-item]:has-text("Ice cream") [data-testid=claim]');
+  await pg.waitForSelector('[data-testid=claims]');
+  check('claiming spends points but not the level', (await pg.textContent('[data-testid=balance]')) === '450 to spend' && /Level 5/.test(await pg.textContent('[data-testid=level-card]')));
+  await pg.click('[data-testid=mark-given]');
+  await pg.waitForSelector('[data-testid=claims] li[data-status=given]');
+  check('a claim can be marked given', true);
+  await pg.screenshot({ path: 'shot-rewards.png', fullPage: true });
+  await pg.click('[data-slot=sidebar-menu-button]:has-text("Dashboard")');
+  await pg.waitForSelector('[data-testid=today]');
   await pg.screenshot({ path: 'shot-dashboard-sample.png', fullPage: true });
 
   // work items list + filters

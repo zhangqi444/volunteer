@@ -37,7 +37,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   await pg.waitForFunction(() => document.querySelector('[data-testid=drive-button]').textContent.includes('Saved to Drive'), null, { timeout: 8000 });
   await pg.waitForTimeout(1500);
   check('edits pushed to Drive (PATCH)', drive.calls.some((c) => /PATCH/.test(c)) && body().entries.some((e) => e.activity === 'Pushed entry') && body().organizations.some((o) => o.name === 'Local Org'));
-  check('payload is schema 4 with plans, interests, badges and suggestions', body().schema === 4 && Array.isArray(body().plans) && typeof body().interests === 'object' && typeof body().badges === 'object' && Array.isArray(body().suggestions));
+  check('payload is schema 5 with plans, interests, badges, rewards and suggestions', body().schema === 5 && Array.isArray(body().plans) && typeof body().interests === 'object' && typeof body().badges === 'object' && typeof body().rewards === 'object' && Array.isArray(body().suggestions));
 
   // another device added an entry and deleted ours; our token has meanwhile expired
   const remote = body();

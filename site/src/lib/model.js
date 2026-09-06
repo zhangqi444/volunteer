@@ -6,7 +6,7 @@
  * deletion on one device is not undone by the other's copy. */
 import { isISODate, round2, todayISO, toISODate, uid } from "./format"
 
-export const SCHEMA = 4
+export const SCHEMA = 5
 export const DEFAULT_CATEGORIES = ["Community", "Education", "Environment", "Health", "Animals", "Arts & Culture", "Disaster Relief", "Faith-based", "Other"]
 export const ORG_COLORS = ["#0f7a6b", "#3b6fb6", "#7c3aed", "#c2417d", "#b4653a", "#9c6f16", "#2e7d5b", "#0891b2", "#64748b"]
 export const WORK_STATUSES = ["active", "paused", "completed"]
@@ -27,6 +27,7 @@ export function emptyData() {
     plans: [],
     interests: {},
     badges: {},
+    rewards: {},
     suggestions: [],
     deleted: {},
     goals: { yearly: 50, at: "" },
@@ -102,6 +103,12 @@ export function normalize(raw) {
     }
   }
 
+  if (raw.rewards && typeof raw.rewards === "object") {
+    for (const k of Object.keys(raw.rewards)) {
+      const v = raw.rewards[k]
+      if (v && typeof v === "object" && /^(item|claim):/.test(k)) out.rewards[k] = { ...v, at: stamp(v, fileAt) }
+    }
+  }
   if (raw.badges && typeof raw.badges === "object") {
     for (const k of Object.keys(raw.badges)) if (typeof raw.badges[k] === "string" && raw.badges[k]) out.badges[k] = raw.badges[k]
   }

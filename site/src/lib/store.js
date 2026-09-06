@@ -137,6 +137,14 @@ export const Store = {
     return fresh
   },
 
+  /* --- reward shelf: keyed rows, "item:<id>" and "claim:<id>" --- */
+  setReward(key, fn) {
+    const cur = this.s.rewards[key] || {}
+    const next = fn(cur) || cur
+    this.s.rewards[key] = { ...next, at: now() }
+    this.commit()
+  },
+
   /* --- catalog suggestions --- */
   addSuggestion(f) { const x = { id: uid(), url: (f.url || "").trim(), note: (f.note || "").trim(), status: "open", createdAt: now(), at: now() }; this.s.suggestions.push(x); this.commit(); return x },
   setSuggestionStatus(id, status) { const x = this.s.suggestions.find((s) => s.id === id); if (x) { x.status = status; x.at = now(); this.commit() } },
@@ -187,10 +195,12 @@ export const Store = {
     const deleted = { ...this.s.deleted }
     for (const r of [...this.s.organizations, ...this.s.workItems, ...this.s.entries, ...this.s.memos, ...this.s.plans, ...this.s.suggestions]) if (!keep.has(r.id)) deleted[r.id] = now()
     for (const k of Object.keys(this.s.badges)) if (!data.badges[k]) deleted["badge:" + k] = now()
+    for (const k of Object.keys(this.s.rewards)) if (!data.rewards[k]) deleted["reward:" + k] = now()
     for (const k of Object.keys(this.s.interests)) if (!data.interests[k]) deleted["interest:" + k] = now()
     const t = now()
     for (const r of [...data.organizations, ...data.workItems, ...data.entries, ...data.memos, ...data.plans, ...data.suggestions]) r.at = t
     for (const k of Object.keys(data.interests)) data.interests[k].at = t
+    for (const k of Object.keys(data.rewards)) data.rewards[k].at = t
     this.s = { ...data, deleted, theme: this.s.theme, owner: this.s.owner, goals: { ...data.goals, at: t }, settings: { ...data.settings, at: t } }
     this.commit()
   },
@@ -274,12 +284,15 @@ export const Store = {
     const badges = { ...this.s.badges }
     for (const k of Object.keys(remote.badges)) if (!badges[k] || ts(remote.badges[k]) < ts(badges[k])) badges[k] = remote.badges[k]   // earliest earning wins
     for (const k of Object.keys(badges)) { const d = dead["badge:" + k]; if (d && ts(d) >= ts(badges[k])) delete badges[k] }
+    const rewards = { ...this.s.rewards }
+    for (const k of Object.keys(remote.rewards)) { const r = remote.rewards[k], l = rewards[k]; if (!l || ts(r.at) > ts(l.at)) rewards[k] = r }
+    for (const k of Object.keys(rewards)) { const d = dead["reward:" + k]; if (d && ts(d) >= ts(rewards[k].at)) delete rewards[k] }
     const interests = { ...this.s.interests }
     for (const k of Object.keys(remote.interests)) { const r = remote.interests[k], l = interests[k]; if (!l || ts(r.at) > ts(l.at)) interests[k] = r }
     for (const k of Object.keys(interests)) { const d = dead["interest:" + k]; if (d && ts(d) >= ts(interests[k].at)) delete interests[k] }
     const goals = ts(remote.goals.at) > ts(this.s.goals.at) ? remote.goals : this.s.goals
     const settings = ts(remote.settings.at) > ts(this.s.settings.at) ? remote.settings : this.s.settings
-    this.s = { ...this.s, organizations: orgs, workItems: items, entries, memos, plans, interests, badges, suggestions, deleted: dead, goals, settings, updatedAt: now() }
+    this.s = { ...this.s, organizations: orgs, workItems: items, entries, memos, plans, interests, badges, rewards, suggestions, deleted: dead, goals, settings, updatedAt: now() }
     this.pruneTombstones()
     lsSave(this.s); emit()
   },

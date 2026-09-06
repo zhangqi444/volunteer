@@ -8,6 +8,7 @@ import { ORG_COLORS, WORK_STATUSES } from "@/lib/model"
 import { planHours } from "@/lib/engine"
 import { C, ensureFromCatalog } from "@/lib/content"
 import { PhotoStrip } from "@/components/photos"
+import { entryPoints } from "@/lib/rewards"
 import { hoursWord, isISODate, todayISO } from "@/lib/format"
 import { orgName, orgsSorted, sumHours, workItemById, workItemsForOrg, workItemStats, workItemTitle } from "@/lib/engine"
 import { go } from "@/lib/router"
@@ -110,7 +111,7 @@ function EntryDialog({ init, close }) {
     if (e) { Store.updateEntry(e.id, fields); toast("Entry updated"); close(); return }
     const n = Store.addEntry(fields)
     if (plan) Store.setPlanStatus(plan.id, "done", n.id)
-    toast(plan ? `Logged ${hoursWord(hours)} · plan marked done` : `Logged ${hoursWord(hours)}`)
+    toast(`Logged ${hoursWord(hours)} · +${entryPoints(n) + (plan ? 5 : 0)} points${plan ? " · plan marked done" : ""}`)
     close()
     openReflection(n.id)
   }

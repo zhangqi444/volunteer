@@ -102,6 +102,7 @@ missing, it is added there rather than hand-rolled. App-level pieces live in
 | Work items | Track a commitment | Cards with organization colour, status, totals, target progress. Detail: stats, target bar, the tracker table, and memos with a compose box (Ctrl+Enter saves). |
 | Hours log | The record | Filters, sortable table, work-item tag under the activity, CSV export. |
 | Organizations | Who she works with | Cards with contact, website, last date, totals, and shortcuts to log or start an item. |
+| Rewards | Something to work toward | Level card with the ten levels, how points are earned (a table that can only grow), the shelf with suggested rewards and claims to mark given, and the badges in four groups: Hours, Habits, Projects, Story. |
 | Reports | Something to hand over | Two formats: the summary (tiles, by organization, by work item, detailed log with reflections) and **verification letters**, one printed page per organization with the hours listed, a confirmation sentence naming the volunteer and age, and supervisor, printed-name, date and parent signature lines. Print styles hide everything else. |
 | Settings | Profile, goal, categories, theme, Drive, data | Age is stored with the date it was set and advances by itself. |
 
@@ -118,8 +119,10 @@ missing, it is added there rather than hand-rolled. App-level pieces live in
 - **After logging, one question**: "How did it go?" with a textarea in her words and a
   photo button, skippable in one tap. Reflections render in italics under the entry
   wherever it appears; photos as small square thumbnails, in a grid on the work item.
-- **Milestones** are green badges once earned and quiet progress rows before; the
-  toast names the milestone once, the moment it is pinned. Nothing counts down or nags.
+- **Rewards** follow isee: a level line on the dashboard, medallions for earned
+  badges and dashed locked ones with a thin progress bar, a shelf where the parent
+  writes what points buy. The toast names a badge once, the moment it is pinned; the
+  sidebar shows a dot for new badges, never a number. Nothing counts down or nags.
 - **Leaving the app**: a plan's calendar icon opens Google Calendar prefilled; the
   `.ics` button hands the calendar file to whatever app the device uses.
 
