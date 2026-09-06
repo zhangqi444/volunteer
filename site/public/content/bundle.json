@@ -123,6 +123,35 @@
     {
       "ages": {
         "max": null,
+        "min": 13,
+        "note": "From age 13; under 16 with a parent or guardian.",
+        "withAdult": true
+      },
+      "commitment": "Shifts and project days.",
+      "details": [
+        "At the main sanctuary in Arlington, volunteers must be 13 or older, and anyone under 16 must be with a parent or guardian.",
+        "Volunteers organize fundraising events, sew cat blankets, brush cats, pick up donations, maintain sanctuary grounds, take photos of cats, and more.",
+        "Ongoing project needs at the sanctuary include gardening and landscaping, maintenance, painting, cleaning and construction."
+      ],
+      "howTo": "Email volunteers@purrfectpals.org from the volunteer page when she turns 13.",
+      "id": "purrfect-pals-sanctuary",
+      "kind": "on-site",
+      "location": "230 McRae Rd NE, Arlington",
+      "org": "purrfect-pals",
+      "summary": "The region's first no-kill cat shelter, on five acres in Arlington.",
+      "tags": [
+        "cats",
+        "shelter",
+        "teens",
+        "with a parent"
+      ],
+      "title": "Purrfect Pals cat sanctuary (from age 13, with a parent until 16)",
+      "url": "https://purrfectpals.org/volunteer/",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
         "min": null,
         "note": "Group and family project; no age stated.",
         "withAdult": true
@@ -242,118 +271,57 @@
     {
       "ages": {
         "max": null,
-        "min": null,
-        "note": "Group opportunity arranged with the volunteer office; hospital volunteer roles themselves start at 16 (18 for patient-facing).",
-        "withAdult": true
+        "min": 16,
+        "note": "From age 16.",
+        "withAdult": false
       },
-      "commitment": "One session per project.",
+      "commitment": "Regular shifts.",
       "details": [
-        "Groups of 3–10 people can assist with grounds projects.",
-        "Playroom sessions are for small groups under five people, ages 18 and older; volunteer positions at the hospital start at 16, and patient-facing roles at 18."
+        "Volunteers in the rescue must be at least 16 years old.",
+        "Until then the rescue recommends fostering as a family (listed separately)."
       ],
-      "howTo": "Gather a group of 3–10 (a family counts) and ask the volunteer office (206-987-7078) whether a grounds project is open to children with adults.",
-      "id": "sc-grounds",
+      "howTo": "Apply through the volunteer page at 16.",
+      "id": "safr-volunteer",
       "kind": "on-site",
-      "location": "Seattle Children's",
-      "org": "seattle-childrens",
-      "summary": "Small groups help the grounds staff outdoors; the playroom is adults only.",
+      "location": "Shoreline",
+      "org": "safr",
+      "summary": "Cat care and adoption-center roles at the Shoreline rescue once she is 16.",
       "tags": [
-        "hospital",
-        "outdoors",
-        "group"
+        "cats",
+        "shelter",
+        "teens"
       ],
-      "title": "Hospital grounds projects (groups of 3–10)",
-      "url": "https://www.seattlechildrens.org/giving/volunteer/youth-service-projects/",
-      "verified": "2026-09-05"
+      "title": "Seattle Area Feline Rescue volunteering (from age 16)",
+      "url": "https://seattleareafelinerescue.org/volunteer/",
+      "verified": "2026-09-06"
     },
     {
       "ages": {
-        "max": null,
-        "min": null,
-        "note": "The published guide is for middle and high school students; younger children can run a small fundraiser with an adult.",
-        "withAdult": true
+        "max": 18,
+        "min": 14,
+        "note": "Entering grades 9–12.",
+        "withAdult": false
       },
-      "commitment": "One event, or an ongoing guild.",
+      "commitment": "Individual shifts in December and January.",
       "details": [
-        "Hosting an event or promotion is a creative way for volunteers to help patients and families at Seattle Children's.",
-        "Youth can form a junior guild to turn activities they love into ways to support Seattle Children's.",
-        "The hospital publishes a getting-involved guide for middle and high school students."
+        "For students entering grades 9–12: assist with routine shelter tasks, meet other teens and earn community service hours.",
+        "Tasks such as washing food and water bowls, cleaning crates, or packing pet food.",
+        "Offered during winter months; students register for shifts in December and January."
       ],
-      "howTo": "Read the middle & high school guide (seattlechildrens.org/globalassets/documents/giving/guilds/resources/getting-involved---a-guide-for-middle-and-high-school-students---seattle-childrens.pdf), pick an activity, and register the fundraiser through Community Fundraising (seattlechildrens.org/giving/community-fundraising/).",
-      "id": "sc-junior-guild",
-      "kind": "event",
-      "location": "Anywhere",
-      "org": "seattle-childrens",
-      "summary": "Turn an activity you love into a way to support the hospital.",
+      "howTo": "Register on the High School Service Shifts page when winter registration opens.",
+      "id": "sh-hs-service-shifts",
+      "kind": "on-site",
+      "location": "Seattle Humane, Bellevue",
+      "org": "seattle-humane",
+      "summary": "Routine shelter tasks in winter that earn community service hours.",
       "tags": [
-        "hospital",
-        "fundraising",
-        "event",
-        "kids helping kids"
+        "animals",
+        "shelter",
+        "teens",
+        "service hours"
       ],
-      "title": "Host a fundraiser or form a junior guild",
-      "url": "https://www.seattlechildrens.org/giving/volunteer/youth-service-projects/",
-      "verified": "2026-09-05"
-    },
-    {
-      "ages": {
-        "max": null,
-        "min": null,
-        "note": "No age limit stated; approval and delivery go through an adult.",
-        "withAdult": true
-      },
-      "commitment": "One batch at a time, after approval.",
-      "details": [
-        "Handmade items are accepted on a case-by-case basis with advance approval from the In-Kind Gift Coordinator.",
-        "Blankets bring much comfort and are a particular need; each child admitted overnight should receive one.",
-        "Groups can help by holding a toy drive or making items to donate."
-      ],
-      "howTo": "Email inkind@seattlechildrens.org (or call 206-987-7078) describing what you want to make, wait for approval, then make the batch and schedule the drop-off.",
-      "id": "sc-make-items",
-      "kind": "at-home",
-      "location": "At home",
-      "org": "seattle-childrens",
-      "summary": "Handmade items for patients are accepted case by case; ask before making a batch.",
-      "tags": [
-        "hospital",
-        "crafts",
-        "at home",
-        "blankets"
-      ],
-      "title": "Make blankets or comfort items (approval first)",
-      "url": "https://www.seattlechildrens.org/giving/volunteer/youth-service-projects/",
-      "verified": "2026-09-05"
-    },
-    {
-      "ages": {
-        "max": null,
-        "min": null,
-        "note": "No age limit stated for running a drive; delivering needs an adult.",
-        "withAdult": true
-      },
-      "commitment": "A few weeks of collecting, then one scheduled delivery or a shipment.",
-      "details": [
-        "Youth can hold a donation drive to collect toys, books, blankets, toiletries or other high-need items for patients and families; groups can collect and donate items from the hospital's wish list.",
-        "Only new toys can be accepted, to reduce the spread of infection.",
-        "Blankets are a particular need: the goal is that each child admitted overnight receives one, and they are often kept for years as a keepsake.",
-        "Items bought online and shipped straight from the retailer to the hospital are preferred, because they do not have to be quarantined. New items can also be mailed to the In-Kind Donations address.",
-        "Drop-offs at the hospital are accepted by scheduling in advance."
-      ],
-      "howTo": "Download the wish list (seattlechildrens.org/globalassets/documents/giving/wish-list.pdf), collect only new items, then email the In-Kind Gift Coordinator to schedule the drop-off or ship items directly.",
-      "id": "sc-donation-drive",
-      "kind": "drive",
-      "location": "Neighborhood or school; ship or deliver to Seattle Children's",
-      "org": "seattle-childrens",
-      "summary": "Collect new toys, books, blankets or toiletries from the hospital's wish list.",
-      "tags": [
-        "hospital",
-        "drive",
-        "kids helping kids",
-        "service hours",
-        "blankets"
-      ],
-      "title": "Wish-list donation drive for patients and families",
-      "url": "https://www.seattlechildrens.org/giving/volunteer/youth-service-projects/",
+      "title": "High School Service Shifts (grades 9–12)",
+      "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/high-school-service-shifts/",
       "verified": "2026-09-05"
     },
     {
@@ -383,6 +351,60 @@
       ],
       "title": "Homemade cat toys from recycled objects",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/projects/",
+      "verified": "2026-09-05"
+    },
+    {
+      "ages": {
+        "max": 17,
+        "min": 16,
+        "note": "Ages 16–17.",
+        "withAdult": false
+      },
+      "commitment": "Structured program; see the page for the schedule.",
+      "details": [
+        "Designed for motivated 16–17-year-olds interested in animal welfare, community service, and career exploration in the field of animal care."
+      ],
+      "howTo": "Apply through the Youth Programs page at 16.",
+      "id": "sh-hstp",
+      "kind": "program",
+      "location": "Seattle Humane, Bellevue",
+      "org": "seattle-humane",
+      "summary": "Structured, hands-on learning for older teens exploring animal-care careers.",
+      "tags": [
+        "animals",
+        "career",
+        "teens"
+      ],
+      "title": "Humane Service Training Program (ages 16–17)",
+      "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/youth-programs/",
+      "verified": "2026-09-05"
+    },
+    {
+      "ages": {
+        "max": 17,
+        "min": 13,
+        "note": "Ages 13–17.",
+        "withAdult": false
+      },
+      "commitment": "Two Saturdays a month during the school year.",
+      "details": [
+        "For teens ages 13–17 to learn about Seattle Humane, explore animal welfare topics and prepare for future volunteer opportunities.",
+        "Members meet two Saturdays per month."
+      ],
+      "howTo": "Sign up through the Youth Programs page when the school-year session opens.",
+      "id": "sh-teen-club",
+      "kind": "program",
+      "location": "Seattle Humane, Bellevue",
+      "org": "seattle-humane",
+      "summary": "A school-year club for animal-loving teens at Seattle Humane.",
+      "tags": [
+        "animals",
+        "cats",
+        "club",
+        "teens"
+      ],
+      "title": "Humane Teen Club (ages 13–17)",
+      "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/youth-programs/",
       "verified": "2026-09-05"
     },
     {
@@ -476,7 +498,7 @@
       "verified": "2026-09-06"
     }
   ],
-  "note": "Opportunities Sheila (9) can take part in now, with an adult where the source says so, from organizations the owner has pointed at or asked for (animal and cat groups around Seattle). Every item names its source URL and the date it was checked; confirm details on the page before signing up. Never add a fact without a source.",
+  "note": "Cat and animal volunteer work around Seattle for Sheila (9): what she can do now, with an adult where the source says so, and what opens at 13 or 16 so she can look ahead. Every item names its source URL and the date it was checked; confirm details on the page before signing up. Never add a fact without a source.",
   "organizations": {
     "homeward-pet": {
       "contact": {
@@ -502,6 +524,15 @@
       "name": "PAWS (Progressive Animal Welfare Society)",
       "url": "https://www.paws.org/volunteer/opportunities/kids-teen-opportunities/"
     },
+    "purrfect-pals": {
+      "contact": {
+        "address": "230 McRae Rd NE, Arlington, WA 98223",
+        "email": "volunteers@purrfectpals.org",
+        "phone": "(360) 652-9611"
+      },
+      "name": "Purrfect Pals",
+      "url": "https://purrfectpals.org/volunteer/"
+    },
     "raskc": {
       "contact": {
         "address": "Kent Pet Adoption Center, 21615 64th Ave S, Kent, WA",
@@ -526,15 +557,6 @@
       },
       "name": "Seattle Animal Shelter",
       "url": "https://www.seattle.gov/animal-shelter/get-involved/volunteer"
-    },
-    "seattle-childrens": {
-      "contact": {
-        "address": "Seattle Children's In-Kind Donations, M/S RC.3.800, 4800 Sand Point Way NE, Seattle, WA 98105",
-        "email": "inkind@seattlechildrens.org",
-        "phone": "206-987-7078"
-      },
-      "name": "Seattle Children's",
-      "url": "https://www.seattlechildrens.org/giving/volunteer/"
     },
     "seattle-humane": {
       "contact": {
