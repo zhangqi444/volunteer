@@ -49,7 +49,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
     if (phone) { await pg.click('[data-slot=sidebar-trigger]'); await pg.waitForSelector('[data-slot=sidebar][data-mobile=true]'); }
     await pg.click('[data-testid=log-hours]');
     await pg.waitForSelector('[data-testid=entry-dialog]');
-    check('date defaults to today', (await pg.inputValue('[data-testid=entry-date]')) === new Date().toISOString().slice(0, 10));
+    check('date defaults to today', (await pg.inputValue('[data-testid=entry-date]')) === new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10));
     check(phone ? 'touch device gets the native organization picker' : 'desktop gets the Radix organization picker', (await pg.$eval('[data-testid=entry-org]', (el) => el.tagName)) === (phone ? 'SELECT' : 'BUTTON'));
     await pg.fill('[data-testid=entry-hours]', '2.5');
     await pick(pg, '[data-testid=entry-org]', 'Riverside Food Bank');
