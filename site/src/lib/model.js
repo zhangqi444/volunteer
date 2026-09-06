@@ -6,7 +6,7 @@
  * deletion on one device is not undone by the other's copy. */
 import { isISODate, round2, todayISO, toISODate, uid } from "./format"
 
-export const SCHEMA = 3
+export const SCHEMA = 4
 export const DEFAULT_CATEGORIES = ["Community", "Education", "Environment", "Health", "Animals", "Arts & Culture", "Disaster Relief", "Faith-based", "Other"]
 export const ORG_COLORS = ["#0f7a6b", "#3b6fb6", "#7c3aed", "#c2417d", "#b4653a", "#9c6f16", "#2e7d5b", "#0891b2", "#64748b"]
 export const WORK_STATUSES = ["active", "paused", "completed"]
@@ -26,6 +26,8 @@ export function emptyData() {
     memos: [],
     plans: [],
     interests: {},
+    badges: {},
+    suggestions: [],
     deleted: {},
     goals: { yearly: 50, at: "" },
     settings: { categories: DEFAULT_CATEGORIES.slice(), profile: { ...DEFAULT_PROFILE }, at: "" },
@@ -69,6 +71,7 @@ export function normalize(raw) {
       id: str(e.id || uid()), date: e.date, orgId: orgIds.has(str(e.orgId)) ? str(e.orgId) : "",
       workItemId: itemIds.has(str(e.workItemId)) ? str(e.workItemId) : "", activity: str(e.activity).trim() || "Volunteer work",
       category: str(e.category), hours: Math.max(0, round2(Number(e.hours) || 0)), supervisor: str(e.supervisor), notes: str(e.notes),
+      reflection: str(e.reflection), photos: Array.isArray(e.photos) ? e.photos.filter((p) => p && typeof p === "object" && str(p.id)).map((p) => ({ id: str(p.id), name: str(p.name), at: str(p.at) || fileAt })) : [],
       createdAt: e.createdAt || fileAt, at: stamp(e, fileAt),
     }))
     .filter((e) => e.hours > 0)
@@ -98,6 +101,14 @@ export function normalize(raw) {
       if (v && typeof v === "object" && INTEREST_STATUSES.includes(v.status)) out.interests[k] = { status: v.status, note: str(v.note), at: stamp(v, fileAt) }
     }
   }
+
+  if (raw.badges && typeof raw.badges === "object") {
+    for (const k of Object.keys(raw.badges)) if (typeof raw.badges[k] === "string" && raw.badges[k]) out.badges[k] = raw.badges[k]
+  }
+  const sugg = Array.isArray(raw.suggestions) ? raw.suggestions : []
+  out.suggestions = sugg
+    .filter((x) => x && typeof x === "object" && (str(x.url).trim() || str(x.note).trim()))
+    .map((x) => ({ id: str(x.id || uid()), url: str(x.url).trim(), note: str(x.note).trim(), status: x.status === "done" ? "done" : "open", createdAt: x.createdAt || fileAt, at: stamp(x, fileAt) }))
 
   if (raw.deleted && typeof raw.deleted === "object") {
     for (const k of Object.keys(raw.deleted)) if (typeof raw.deleted[k] === "string") out.deleted[k] = raw.deleted[k]
@@ -168,11 +179,11 @@ export function sampleData() {
     [ago(4, 11), "org-food", "Sorted and shelved donations", "Community", 3, "Maria Lopez", ""],
     [ago(3, 7), "org-lib", "Reading buddies session", "Education", 1.5, "Dev Patel", ""],
     [ago(3, 21), "org-food", "Packed weekend meal boxes", "Community", 3.5, "Maria Lopez", ""],
-    [ago(2, 9), "org-park", "Tree planting day", "Environment", 5, "", "Planted 40 saplings with the neighborhood association."],
+    [ago(2, 9), "org-park", "Tree planting day", "Environment", 5, "", "Planted 40 saplings with the neighborhood association.", "My tree is the third one from the bench. I want to see how tall it is next spring."],
     [ago(1, 5), "org-food", "Mobile pantry distribution", "Community", 4, "Maria Lopez", ""],
     [ago(1, 19), "org-lib", "Reading buddies session", "Education", 1.5, "Dev Patel", ""],
     [ago(0, Math.max(1, now.getDate() - 3)), "org-food", "Sorted and shelved donations", "Community", 3, "Maria Lopez", ""],
-  ].map(([date, orgId, activity, category, hours, supervisor, notes]) => rec({ id: uid(), date, orgId, workItemId: link[activity] || "", activity, category, hours, supervisor, notes }))
+  ].map(([date, orgId, activity, category, hours, supervisor, notes, reflection]) => rec({ id: uid(), date, orgId, workItemId: link[activity] || "", activity, category, hours, supervisor, notes, reflection: reflection || "", photos: [] }))
   d.goals = { yearly: 60, at: iso }
   d.settings.profile = { name: "Sheila", age: 9, ageAsOf: toISODate(now) }
   d.settings.at = iso

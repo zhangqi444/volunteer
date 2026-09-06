@@ -1,6 +1,6 @@
 /* Desktop + phone shells, navigation, first entry, persistence across a reload, theme.
  * Run:  npm run build && node test_e2e.cjs */
-const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = require('./test_helpers.cjs');
+const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEntry, PNG } = require('./test_helpers.cjs');
 
 (async () => {
   const { srv, base } = await serve(8150);
@@ -57,6 +57,10 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
     await pg.click('[data-testid=entry-save]');
     await pg.waitForSelector('[data-testid=entry-dialog]', { state: 'detached' });
     check('toast confirms the entry', /Logged 2\.5 hours/.test(await pg.textContent('[data-testid=toast]')));
+    await pg.waitForSelector('[data-testid=reflection-dialog]');
+    check('a new entry asks how it went', /How did it go/.test(await pg.textContent('[data-testid=reflection-dialog]')));
+    await pg.click('[data-testid=reflection-skip]');
+    await pg.waitForSelector('[data-testid=reflection-dialog]', { state: 'detached' });
 
     // validation: zero hours is refused
     if (phone) { await pg.click('[data-slot=sidebar-trigger]'); await pg.waitForSelector('[data-slot=sidebar][data-mobile=true]'); }

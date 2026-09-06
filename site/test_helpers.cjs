@@ -36,9 +36,12 @@ const FAKE_GIS = `
     revoke: (t, cb) => { window.__revoked = t; cb && cb(); }
   } } };`;
 
-/* Fake Drive: one file found by appProperties, media download, multipart create, PATCH update. */
+/* A 1×1 PNG, used as the uploaded photo and served back for it. */
+const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64');
+
+/* Fake Drive: one file found by appProperties, media download, multipart create, PATCH update, photos. */
 async function fakeGoogle(ctx) {
-  const drive = { file: null, body: null, calls: [] };
+  const drive = { file: null, body: null, calls: [], photos: {}, photoSeq: 0 };
   await ctx.route(/accounts\.google\.com|fonts\.g/, (r) => r.abort());
   await ctx.route(/googleapis\.com/, (r) => {
     const req = r.request(), u = req.url(), m = req.method();
@@ -50,9 +53,13 @@ async function fakeGoogle(ctx) {
     if (/drive\/v3\/files\?/.test(u) && m === 'GET') return json({ files: drive.file ? [{ id: drive.file, name: 'volunteer-tracker-data.json', modifiedTime: new Date().toISOString(), webViewLink: 'https://drive.google.com/file/d/' + drive.file + '/view' }] : [] });
     if (/drive\/v3\/files\/file1\?alt=media/.test(u)) return r.fulfill({ status: 200, contentType: 'application/json', body: drive.body });
     if (/upload\/drive\/v3\/files\?/.test(u) && m === 'POST') {
-      drive.file = 'file1'; const parts = req.postData().split(/--vt_[a-z0-9]+/); drive.body = parts[2].split('\r\n\r\n')[1].trim();
+      const raw = (req.postDataBuffer() || Buffer.from(req.postData() || '')).toString('latin1');
+      if (/"kind":"photo"/.test(raw)) { const id = 'photo' + (++drive.photoSeq); drive.photos[id] = raw.length; return json({ id, name: 'photo.jpg' }); }
+      drive.file = 'file1'; const parts = raw.split(/--vt_[a-z0-9]+/); drive.body = parts[2].split('\r\n\r\n')[1].trim();
       return json({ id: 'file1', webViewLink: 'https://drive.google.com/file/d/file1/view', modifiedTime: new Date().toISOString() });
     }
+    if (/drive\/v3\/files\/photo\d+\?alt=media/.test(u)) return r.fulfill({ status: 200, contentType: 'image/png', body: PNG });
+    if (/drive\/v3\/files\/photo\d+$/.test(u) && m === 'DELETE') { delete drive.photos[u.split('/').pop()]; return r.fulfill({ status: 204, body: '' }); }
     if (/upload\/drive\/v3\/files\/file1/.test(u) && m === 'PATCH') { drive.body = req.postData(); return json({ id: 'file1', webViewLink: 'https://drive.google.com/file/d/file1/view', modifiedTime: new Date().toISOString() }); }
     return r.fulfill({ status: 404, body: '{}' });
   });
@@ -74,6 +81,16 @@ async function signIn(pg) {
   await pg.click('[data-testid=signin-button]');
   await pg.waitForSelector('[data-slot=sidebar-trigger]', { timeout: 8000 });
 }
+/* Saving a NEW entry opens the reflection dialog; this saves the entry and skips (or fills) it. */
+async function saveEntry(pg, reflection) {
+  await pg.click('[data-testid=entry-save]');
+  await pg.waitForSelector('[data-testid=entry-dialog]', { state: 'detached' });
+  const refl = await pg.waitForSelector('[data-testid=reflection-dialog]', { timeout: 3000 }).catch(() => null);
+  if (!refl) return;
+  if (reflection) { await pg.fill('[data-testid=reflection-text]', reflection); await pg.click('[data-testid=reflection-save]'); }
+  else await pg.click('[data-testid=reflection-skip]');
+  await pg.waitForSelector('[data-testid=reflection-dialog]', { state: 'detached' });
+}
 const errorsOf = (pg) => { const errs = []; pg.on('pageerror', (e) => errs.push('PAGEERR ' + e.message)); pg.on('console', (m) => { if (m.type() === 'error' && !/gsi|accounts\.google|fonts\.g|favicon|net::ERR_FAILED|sw\.js/.test(m.text())) errs.push('CONSOLE ' + m.text()); }); return errs; };
 
-module.exports = { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn };
+module.exports = { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEntry, PNG };

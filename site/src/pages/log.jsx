@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ArrowDown, ArrowUp, Download, Plus } from "lucide-react"
+import { ArrowDown, ArrowUp, Camera, Download, Plus } from "lucide-react"
 
 import { entriesSorted, filterEntries, orgsSorted, sumHours, workItemTitle, workItemsForOrg, workItemsSorted } from "@/lib/engine"
 import { fmtDate, fmtHours, hoursWord, plural, todayISO } from "@/lib/format"
@@ -16,8 +16,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { orgName } from "@/lib/engine"
 
 export function entriesCSV(entries) {
-  return toCSV(entries.map((e) => [e.date, orgName(e.orgId), workItemTitle(e.workItemId), e.activity, e.category, e.hours, e.supervisor, e.notes]),
-    ["Date", "Organization", "Work item", "Activity", "Category", "Hours", "Supervisor", "Notes"])
+  return toCSV(entries.map((e) => [e.date, orgName(e.orgId), workItemTitle(e.workItemId), e.activity, e.category, e.hours, e.supervisor, e.notes, e.reflection]),
+    ["Date", "Organization", "Work item", "Activity", "Category", "Hours", "Supervisor", "Notes", "Reflection"])
 }
 
 export function Log() {
@@ -84,6 +84,8 @@ export function Log() {
                       <div>{e.activity}</div>
                       {e.workItemId ? <a href={href(`/work/${e.workItemId}`)} className="text-primary text-xs hover:underline" data-testid="log-wi-tag">{workItemTitle(e.workItemId)}</a> : null}
                       {e.notes || e.supervisor ? <div className="text-muted-foreground text-xs">{[e.supervisor && `with ${e.supervisor}`, e.notes].filter(Boolean).join(" · ")}</div> : null}
+                      {e.reflection ? <div className="text-muted-foreground text-xs italic">“{e.reflection}”</div> : null}
+                      {e.photos.length ? <span className="text-muted-foreground inline-flex items-center gap-1 text-xs"><Camera className="size-3" /> {e.photos.length}</span> : null}
                     </TableCell>
                     <TableCell className="hidden @2xl/main:table-cell">{e.category ? <Badge variant="outline">{e.category}</Badge> : null}</TableCell>
                     <TableCell className="text-right tabular-nums">{fmtHours(e.hours)}</TableCell>

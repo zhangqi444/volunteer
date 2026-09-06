@@ -111,11 +111,36 @@ export const Store = {
 
   addEntry(f) {
     const e = { id: uid(), date: f.date, orgId: f.orgId, workItemId: f.workItemId || "", activity: f.activity.trim(), category: f.category || "",
-      hours: round2(Number(f.hours)), supervisor: f.supervisor || "", notes: f.notes || "", createdAt: now(), at: now() }
+      hours: round2(Number(f.hours)), supervisor: f.supervisor || "", notes: f.notes || "", reflection: f.reflection || "", photos: [], createdAt: now(), at: now() }
     this.s.entries.push(e); this.commit(); return e
   },
   updateEntry(id, f) { const e = this.entry(id); if (!e) return; Object.assign(e, f, { activity: f.activity.trim(), hours: round2(Number(f.hours)), at: now() }); this.commit() },
-  deleteEntry(id) { this.s.entries = this.s.entries.filter((e) => e.id !== id || (this.bury(e.id), false)); this.commit() },
+  deleteEntry(id) {
+    const e = this.entry(id)
+    if (e && e.photos.length) Drive.deleteFiles(e.photos.map((p) => p.id))   // best effort; the record goes regardless
+    this.s.entries = this.s.entries.filter((x) => x.id !== id || (this.bury(x.id), false)); this.commit()
+  },
+  setReflection(id, text) { const e = this.entry(id); if (!e) return; e.reflection = String(text || "").trim(); e.at = now(); this.commit() },
+  addPhoto(entryId, photo) { const e = this.entry(entryId); if (!e) return; e.photos = [...e.photos, { id: photo.id, name: photo.name || "", at: now() }]; e.at = now(); this.commit() },
+  removePhoto(entryId, photoId) {
+    const e = this.entry(entryId); if (!e) return
+    e.photos = e.photos.filter((p) => p.id !== photoId); e.at = now(); this.commit()
+    Drive.deleteFiles([photoId])
+  },
+
+  /* --- milestones: pinned on first earning, never recomputed away --- */
+  pinBadges(ids) {
+    const fresh = ids.filter((id) => !this.s.badges[id])
+    if (!fresh.length) return []
+    for (const id of fresh) this.s.badges[id] = now()
+    this.commit()
+    return fresh
+  },
+
+  /* --- catalog suggestions --- */
+  addSuggestion(f) { const x = { id: uid(), url: (f.url || "").trim(), note: (f.note || "").trim(), status: "open", createdAt: now(), at: now() }; this.s.suggestions.push(x); this.commit(); return x },
+  setSuggestionStatus(id, status) { const x = this.s.suggestions.find((s) => s.id === id); if (x) { x.status = status; x.at = now(); this.commit() } },
+  deleteSuggestion(id) { this.s.suggestions = this.s.suggestions.filter((x) => x.id !== id || (this.bury(x.id), false)); this.commit() },
   entry(id) { return this.s.entries.find((e) => e.id === id) || null },
 
   addMemo(f) { const m = { id: uid(), workItemId: f.workItemId, date: f.date, text: f.text.trim(), createdAt: now(), at: now() }; this.s.memos.push(m); this.commit(); return m },
@@ -158,12 +183,13 @@ export const Store = {
 
   /** Import / sample / clear: everything not in `data` is buried so Drive does not bring it back. */
   replaceAll(data) {
-    const keep = new Set([...data.organizations, ...data.workItems, ...data.entries, ...data.memos, ...data.plans].map((r) => r.id))
+    const keep = new Set([...data.organizations, ...data.workItems, ...data.entries, ...data.memos, ...data.plans, ...data.suggestions].map((r) => r.id))
     const deleted = { ...this.s.deleted }
-    for (const r of [...this.s.organizations, ...this.s.workItems, ...this.s.entries, ...this.s.memos, ...this.s.plans]) if (!keep.has(r.id)) deleted[r.id] = now()
+    for (const r of [...this.s.organizations, ...this.s.workItems, ...this.s.entries, ...this.s.memos, ...this.s.plans, ...this.s.suggestions]) if (!keep.has(r.id)) deleted[r.id] = now()
+    for (const k of Object.keys(this.s.badges)) if (!data.badges[k]) deleted["badge:" + k] = now()
     for (const k of Object.keys(this.s.interests)) if (!data.interests[k]) deleted["interest:" + k] = now()
     const t = now()
-    for (const r of [...data.organizations, ...data.workItems, ...data.entries, ...data.memos, ...data.plans]) r.at = t
+    for (const r of [...data.organizations, ...data.workItems, ...data.entries, ...data.memos, ...data.plans, ...data.suggestions]) r.at = t
     for (const k of Object.keys(data.interests)) data.interests[k].at = t
     this.s = { ...data, deleted, theme: this.s.theme, owner: this.s.owner, goals: { ...data.goals, at: t }, settings: { ...data.settings, at: t } }
     this.commit()
@@ -244,12 +270,16 @@ export const Store = {
     const entries = mergeList(this.s.entries, remote.entries).map((e) => ({ ...e, orgId: orgIds.has(e.orgId) ? e.orgId : "", workItemId: itemIds.has(e.workItemId) ? e.workItemId : "" }))
     const memos = mergeList(this.s.memos, remote.memos).filter((m) => itemIds.has(m.workItemId))
     const plans = mergeList(this.s.plans, remote.plans).map((p) => ({ ...p, orgId: orgIds.has(p.orgId) ? p.orgId : "", workItemId: itemIds.has(p.workItemId) ? p.workItemId : "" }))
+    const suggestions = mergeList(this.s.suggestions, remote.suggestions)
+    const badges = { ...this.s.badges }
+    for (const k of Object.keys(remote.badges)) if (!badges[k] || ts(remote.badges[k]) < ts(badges[k])) badges[k] = remote.badges[k]   // earliest earning wins
+    for (const k of Object.keys(badges)) { const d = dead["badge:" + k]; if (d && ts(d) >= ts(badges[k])) delete badges[k] }
     const interests = { ...this.s.interests }
     for (const k of Object.keys(remote.interests)) { const r = remote.interests[k], l = interests[k]; if (!l || ts(r.at) > ts(l.at)) interests[k] = r }
     for (const k of Object.keys(interests)) { const d = dead["interest:" + k]; if (d && ts(d) >= ts(interests[k].at)) delete interests[k] }
     const goals = ts(remote.goals.at) > ts(this.s.goals.at) ? remote.goals : this.s.goals
     const settings = ts(remote.settings.at) > ts(this.s.settings.at) ? remote.settings : this.s.settings
-    this.s = { ...this.s, organizations: orgs, workItems: items, entries, memos, plans, interests, deleted: dead, goals, settings, updatedAt: now() }
+    this.s = { ...this.s, organizations: orgs, workItems: items, entries, memos, plans, interests, badges, suggestions, deleted: dead, goals, settings, updatedAt: now() }
     this.pruneTombstones()
     lsSave(this.s); emit()
   },

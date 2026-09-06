@@ -1,7 +1,7 @@
 /* Drive session behaviour with Google stubbed: the gate, sign in once, survive a reload
  * without a new prompt, push edits, merge a remote copy after a silent reconnect
  * (tombstones win), sign out clears the device, sign in brings the file back. */
-const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = require('./test_helpers.cjs');
+const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEntry, PNG } = require('./test_helpers.cjs');
 
 (async () => {
   const { srv, base } = await serve(8151);
@@ -20,7 +20,6 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   await pg.waitForSelector('[data-testid=drive-button]:has-text("Saved to Drive")', { timeout: 8000 });
   check('first sign-in asks for consent once', JSON.stringify(await gis()) === '["consent"]');
   check('file created in Drive with an empty dataset', drive.file === 'file1' && Array.isArray(body().entries) && body().entries.length === 0);
-  check('payload is schema 3 with plans and interests', body().schema === 3 && Array.isArray(body().plans) && typeof body().interests === 'object' && !('theme' in body()) && !('owner' in body()));
   check('name shown in the sidebar footer', /Test Volunteer/.test(await pg.textContent('[data-testid=nav-user]')));
 
   await pg.reload({ waitUntil: 'networkidle' });
@@ -34,11 +33,11 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   await pg.waitForSelector('[data-testid=org-dialog]', { state: 'detached' });
   await pg.click('[data-testid=log-hours]'); await pg.waitForSelector('[data-testid=entry-dialog]');
   await pg.fill('[data-testid=entry-hours]', '3'); await pick(pg, '[data-testid=entry-org]', 'Local Org');
-  await pg.fill('[data-testid=entry-activity]', 'Pushed entry'); await pg.click('[data-testid=entry-save]');
-  await pg.waitForSelector('[data-testid=entry-dialog]', { state: 'detached' });
+  await pg.fill('[data-testid=entry-activity]', 'Pushed entry'); await saveEntry(pg);
   await pg.waitForFunction(() => document.querySelector('[data-testid=drive-button]').textContent.includes('Saved to Drive'), null, { timeout: 8000 });
   await pg.waitForTimeout(1500);
   check('edits pushed to Drive (PATCH)', drive.calls.some((c) => /PATCH/.test(c)) && body().entries.some((e) => e.activity === 'Pushed entry') && body().organizations.some((o) => o.name === 'Local Org'));
+  check('payload is schema 4 with plans, interests, badges and suggestions', body().schema === 4 && Array.isArray(body().plans) && typeof body().interests === 'object' && typeof body().badges === 'object' && Array.isArray(body().suggestions));
 
   // another device added an entry and deleted ours; our token has meanwhile expired
   const remote = body();

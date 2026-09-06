@@ -43,6 +43,8 @@ feature seems to need one, it is the wrong feature.
 | Store | `lib/store.js` | The single mutable object `Store.s`, every write (`addEntry`, `deleteOrg`, …), `commit()`, `merge()`, and the Drive session states. `useStore()` subscribes React. |
 | Drive | `lib/drive.js` | Token client, `ensureToken()` before every call, one 401 retry, `hasGrantedAllScopes`, find/create/update the file by `appProperties`, debounced save with an offline queue and a `pagehide` keepalive flush. Knows nothing about the data shape. |
 | Engine | `lib/engine.js` | Every derived number: totals, per month, per organization, per work item, plans due. Pure functions over `Store.s`. Nothing here is persisted. |
+| Calendar out | `lib/calendar.js` | Google Calendar template links and `.ics` text for plans. No API, no extra scope. |
+| Photos | `lib/photos.js` | Shrink in the browser, upload through `drive.js`, resolve a cached object URL for display. |
 | Content helpers | `lib/content.js` | `fit(item, age)`, `currentAge()`, and `ensureFromCatalog()` which turns a catalog item into an organization + work item on first use. |
 | Shell | `App.jsx`, `components/app-sidebar.jsx`, `site-header.jsx`, `nav-user.jsx` | Sidebar (drawer on phones), breadcrumb header, Drive status, theme. The gate (`pages/signin.jsx`) renders instead of the shell until a device has signed in. |
 | Pages | `pages/*.jsx` | One file per route. Pages read through the engine and write through the store; they hold only view state (filters, month cursor). |
@@ -58,6 +60,9 @@ organization ──< workItem ──< entry
       └──────────────────< plan
 catalog item ─(catalogOrgId / catalogId)─ organization / workItem   ← created on first use
 interests[catalogId] = { status, note, at }
+badges[milestoneId] = firstEarnedAt         computed by engine.milestones(), pinned once
+suggestions[] = { url, note, status }        links dropped for the catalog
+entry.reflection, entry.photos[] = { id }    photos are separate Drive files (kind = photo)
 goals { yearly, at }      settings { categories, profile { name, age, ageAsOf }, at }
 deleted { id: deletedAt } tombstones, pruned after 120 days
 ```
@@ -69,7 +74,7 @@ work item from the item the first time either is needed, and reuses them after.
 
 Every record has `id`, `createdAt` and `at` (last edit). `normalize()` accepts any
 older shape, including files written by the first vanilla version of the site, and
-fills the gaps; the payload declares `schema: 3`.
+fills the gaps; the payload declares `schema: 4`.
 
 ## Order of truth
 

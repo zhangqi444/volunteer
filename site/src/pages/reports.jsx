@@ -5,6 +5,8 @@ import { entriesSorted, filterEntries, hoursByOrg, hoursByWorkItem, orgName, org
 import { fmtDate, fmtHours, plural, toISODate, todayISO } from "@/lib/format"
 import { downloadFile } from "@/lib/model"
 import { useStore } from "@/lib/store"
+import { currentAge } from "@/lib/content"
+import { cn } from "@/lib/utils"
 import { Empty, Field, PageHeader, Pick } from "@/components/bits"
 import { entriesCSV } from "@/pages/log"
 import { Button } from "@/components/ui/button"
@@ -31,6 +33,7 @@ export function Reports() {
   const [custom, setCustom] = React.useState({ from: "", to: "" })
   const [orgId, setOrgId] = React.useState("")
   const [name, setName] = React.useState("")
+  const [mode, setMode] = React.useState("summary")
   const { from, to } = rangeFor(preset, custom)
   const entries = filterEntries(entriesSorted("date", "asc"), { from, to, orgId })
   const total = sumHours(entries)
@@ -38,6 +41,7 @@ export function Reports() {
   const byItem = hoursByWorkItem(entries)
   const period = from || to ? `${from ? fmtDate(from) : "Beginning"} – ${to ? fmtDate(to) : "today"}` : "All time"
   const who = name.trim() || store.s.settings.profile.name || store.name || ""
+  const age = currentAge()
 
   return (
     <div className="flex flex-col gap-4">
@@ -53,8 +57,47 @@ export function Reports() {
           <Field label="To"><Input type="date" value={to} disabled={preset !== "custom"} onChange={(e) => setCustom((c) => ({ ...c, to: e.target.value }))} /></Field>
           <Field label="Organization"><Pick value={orgId} onChange={setOrgId} options={orgsSorted().map((o) => ({ value: o.id, label: o.name }))} noneLabel="All organizations" testid="report-org" /></Field>
           <Field label="Volunteer name"><Input placeholder="Your name (optional)" value={name} onChange={(e) => setName(e.target.value)} /></Field>
+          <Field label="Format" className="@lg/main:col-span-2 @5xl/main:col-span-5"><Pick value={mode} onChange={setMode} options={[{ value: "summary", label: "Summary report" }, { value: "letters", label: "Verification letters (one page per organization)" }]} testid="report-mode" className="@5xl/main:w-96" /></Field>
         </CardContent>
       </Card>
+
+      {mode === "letters" ? (
+        byOrg.length ? byOrg.map((r, i) => (
+          <Card key={r.orgId} className={cn("print:border-0 print:shadow-none", i < byOrg.length - 1 && "print:break-after-page")} data-testid="letter">
+            <CardContent className="flex flex-col gap-5 pt-2">
+              <div className="border-foreground flex flex-wrap items-start justify-between gap-3 border-b-2 pb-4">
+                <div>
+                  <h2 className="text-xl font-semibold">Volunteer Service Verification</h2>
+                  <div className="text-muted-foreground">{r.name}</div>
+                </div>
+                <div className="text-muted-foreground text-right text-xs">
+                  <div><b className="text-foreground">Period:</b> {period}</div>
+                  <div><b className="text-foreground">Prepared:</b> {new Date().toLocaleDateString(undefined, { dateStyle: "long" })}</div>
+                </div>
+              </div>
+              <p className="text-sm">This confirms that <b>{who || "the volunteer"}</b>{age != null ? ` (age ${age})` : ""} completed <b>{fmtHours(r.hours)} hours</b> of volunteer service with <b>{r.name}</b>{r.org && (r.org.contact || r.org.contactInfo) ? `, contact ${[r.org.contact, r.org.contactInfo].filter(Boolean).join(", ")}` : ""}, over {plural(r.count, "session")} as listed below.</p>
+              <Table>
+                <TableHeader><TableRow><TableHead>Date</TableHead><TableHead>Activity</TableHead><TableHead>Supervisor</TableHead><TableHead className="text-right">Hours</TableHead></TableRow></TableHeader>
+                <TableBody>{entries.filter((e) => e.orgId === r.orgId).map((e) => (
+                  <TableRow key={e.id}><TableCell className="whitespace-nowrap tabular-nums">{fmtDate(e.date)}</TableCell><TableCell>{e.activity}{e.workItemId ? <div className="text-muted-foreground text-xs">{workItemTitle(e.workItemId)}</div> : null}</TableCell><TableCell>{e.supervisor}</TableCell><TableCell className="text-right tabular-nums">{fmtHours(e.hours)}</TableCell></TableRow>
+                ))}</TableBody>
+                <TableFooter><TableRow><TableCell colSpan={3}>Total</TableCell><TableCell className="text-right tabular-nums">{fmtHours(r.hours)}</TableCell></TableRow></TableFooter>
+              </Table>
+              <div className="mt-6 grid gap-8 @lg/main:grid-cols-2">
+                <div className="flex flex-col gap-6">
+                  <div className="border-foreground text-muted-foreground border-t pt-1 text-xs">Supervisor signature</div>
+                  <div className="border-foreground text-muted-foreground border-t pt-1 text-xs">Printed name and title</div>
+                </div>
+                <div className="flex flex-col gap-6">
+                  <div className="border-foreground text-muted-foreground border-t pt-1 text-xs">Date</div>
+                  <div className="border-foreground text-muted-foreground border-t pt-1 text-xs">Parent or guardian signature</div>
+                </div>
+              </div>
+              <p className="text-muted-foreground text-xs">Prepared with Volunteer Tracker from the volunteer's own log. Hours are self-reported until signed above.</p>
+            </CardContent>
+          </Card>
+        )) : <Card><CardContent className="pt-2"><Empty>No entries in this period, so there is nothing to verify yet.</Empty></CardContent></Card>
+      ) : (
 
       <Card className="print:border-0 print:shadow-none" data-testid="report">
         <CardContent className="flex flex-col gap-5 pt-2">
@@ -101,7 +144,7 @@ export function Reports() {
                     <TableRow key={e.id}>
                       <TableCell className="whitespace-nowrap tabular-nums">{fmtDate(e.date)}</TableCell>
                       <TableCell>{orgName(e.orgId)}{e.workItemId ? <div className="text-muted-foreground text-xs">{workItemTitle(e.workItemId)}</div> : null}</TableCell>
-                      <TableCell>{e.activity}{e.notes ? <div className="text-muted-foreground text-xs">{e.notes}</div> : null}</TableCell>
+                      <TableCell>{e.activity}{e.notes ? <div className="text-muted-foreground text-xs">{e.notes}</div> : null}{e.reflection ? <div className="text-muted-foreground text-xs italic">“{e.reflection}”</div> : null}</TableCell>
                       <TableCell>{e.supervisor}</TableCell>
                       <TableCell className="text-right tabular-nums">{fmtHours(e.hours)}</TableCell>
                     </TableRow>
@@ -117,6 +160,7 @@ export function Reports() {
           <p className="text-muted-foreground text-xs">Generated by Volunteer Tracker. Hours are self-reported by the volunteer.</p>
         </CardContent>
       </Card>
+      )}
     </div>
   )
 }

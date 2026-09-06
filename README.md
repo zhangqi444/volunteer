@@ -18,8 +18,12 @@ same stack, same shell, same theme tokens, same Drive contract, same test layout
 ## What it does
 
 - **Catalog**: opportunities Sheila can do now, from Seattle Humane's youth projects and Seattle Children's youth service projects. Each carries its source URL and check date, and shows *Fits now*, *With an adult*, or *Age not stated* against the volunteer's age. *Log hours* or *Plan it* on a card creates the organization and work item behind it on first use, so logging is one step; the Log hours dialog has the same picker.
-- **Calendar**: plan shifts and projects ahead; *Log hours* turns a plan into an entry, past plans wait under *Past plans to log* until logged or skipped; the dashboard shows what is up next.
-- **Work items, hours log, organizations, reports, settings** as before.
+- **Calendar**: plan shifts and projects ahead; each plan has an *Add to Google Calendar* link and all upcoming plans export as an `.ics` file; *Log hours* turns a plan into an entry, past plans wait under *Past plans to log* until logged or skipped; the dashboard shows what is up next.
+- **Reflections and photos**: after logging, a short "How did it go?" step in her own words, with an optional photo stored in Drive next to the data file. Both show on the work item and in reports.
+- **Milestones**: honest markers (first hours, 5/10/25/50/100/250 hours, three months in a row, a work item completed, first photo…), pinned when first reached. No streaks that punish a missed week.
+- **Reports**: a summary, or **verification letters**, one page per organization with the hours listed and supervisor and parent signature lines, ready to print.
+- **Suggest an entry**: drop a link found on the phone; it is kept with the data and can be sent on as a GitHub issue so it gets added to the catalog with sources.
+- **Work items, hours log, organizations, settings** as before.
 
 ## Layout
 

@@ -171,6 +171,32 @@ export async function save(data) {
   return file
 }
 
+/* ---------- attachments: photos live next to the data file, tagged so they can be found and cleaned up ---------- */
+const blobUrls = new Map()
+export async function uploadFile(blob, name, props = {}) {
+  const boundary = "vt_" + Math.random().toString(36).slice(2)
+  const meta = { name, mimeType: blob.type || "application/octet-stream", appProperties: { app: APP_TAG, kind: "photo", ...props } }
+  const head = `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(meta)}\r\n--${boundary}\r\nContent-Type: ${meta.mimeType}\r\n\r\n`
+  const body = new Blob([head, blob, `\r\n--${boundary}--`])
+  const j = await (await api(`${UPLOAD}?uploadType=multipart&fields=id,name`, { method: "POST", headers: { "Content-Type": `multipart/related; boundary=${boundary}` }, body })).json()
+  blobUrls.set(j.id, URL.createObjectURL(blob))
+  return { id: j.id, name: j.name || name }
+}
+/** Object URL for a stored file, downloaded with the token once and cached for the session. */
+export async function fileUrl(id) {
+  if (blobUrls.has(id)) return blobUrls.get(id)
+  const res = await api(`${FILES}/${encodeURIComponent(id)}?alt=media`)
+  const url = URL.createObjectURL(await res.blob())
+  blobUrls.set(id, url)
+  return url
+}
+export function deleteFiles(ids) {
+  for (const id of ids) {
+    blobUrls.delete(id)
+    api(`${FILES}/${encodeURIComponent(id)}`, { method: "DELETE" }).catch(() => {})
+  }
+}
+
 /* ---------- debounced autosave with an offline queue ---------- */
 export function scheduleSave(data) {
   pendingData = data

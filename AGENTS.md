@@ -82,11 +82,19 @@ docs/                      architecture.md (structure and why), design.md (look,
   tombstones; a tombstone newer than a record beats the record on both sides, so a
   deletion on one device is not undone by another's copy. Goals and categories are
   last-write-wins as a block. A record only one side has is always kept.
-- **Payload**: `schema: 3` — `organizations, workItems, entries, memos, plans,
-  interests, deleted, goals, settings`. `plans` are calendar records (a plan turns
-  into an hours entry through *Log hours* and keeps the `entryId`); `interests` is
-  keyed by catalog item id, tombstoned as `interest:<id>`. Adding a slice means
-  adding it to `normalize`, `merge`, `replaceAll` and `test_drive.cjs`.
+- **Payload**: `schema: 4` — `organizations, workItems, entries, memos, plans,
+  interests, badges, suggestions, deleted, goals, settings`. `plans` are calendar
+  records (a plan turns into an hours entry through *Log hours* and keeps the
+  `entryId`); `interests` is keyed by catalog item id, tombstoned as
+  `interest:<id>`; `badges` maps milestone id → the time it was first earned
+  (earliest wins on merge, tombstoned as `badge:<id>`); `suggestions` are links the
+  owner dropped for the catalog. Entries carry `reflection` (her words) and
+  `photos` (Drive file ids). Adding a slice means adding it to `normalize`,
+  `merge`, `replaceAll` and `test_drive.cjs`.
+- **Photos** are separate Drive files created by the app (`drive.file` covers them),
+  tagged `appProperties.kind = photo` with the `entryId`, shrunk to 1600px JPEG in
+  the browser first, shown from a session-cached object URL, and deleted best-effort
+  when their entry or the photo is removed.
 - **Session handling** lives in `src/lib/drive.js` and is the pattern isee copies:
   `ensureToken()` before every call, one 401 retry, `hasGrantedAllScopes`, a
   `pagehide` keepalive flush, an offline queue that retries on `online`. First
@@ -94,6 +102,11 @@ docs/                      architecture.md (structure and why), design.md (look,
 - **Popups**: never call `requestAccessToken` without a click behind it.
 
 ## Data model
+
+Milestones (`engine.milestones()`) are computed, then **pinned on first earning**
+by `Store.pinBadges` and never recomputed away, the same rule as isee's badges.
+Plans leave the app through `lib/calendar.js`: a Google Calendar template link per
+plan (no API, no extra scope) and an `.ics` export for everything still planned.
 
 Three layers exist in the data — organization → work item → hours entry — but the
 volunteer never builds them by hand. **Logging starts from the catalog**:
@@ -124,7 +137,7 @@ whenever `content/**` changes — CI fails the build if the committed bundle has
 |---|---|
 | `test_e2e.cjs` | desktop + phone shells, drawer, first organization and entry, validation, persistence, breadcrumb, theme |
 | `test_drive.cjs` | Google stubbed: the gate, sign in once, reload without a prompt, push, expiry + silent reconnect, merge with tombstones, sign out clears the device, sign in restores from Drive |
-| `test_features.cjs` | sample data, dashboard chart, work items + memos, log filters and sort, catalog fit filters + interest + Plan it, calendar (grid, log hours from a plan, overdue, skipped), profile age, reports, settings |
+| `test_features.cjs` | sample data, dashboard chart, milestones, work items + memos, reflections + photos (fake Drive), log filters and sort, catalog fit filters + interest + Log hours/Plan it + suggestions, calendar (grid, Google Calendar link, .ics export, log hours from a plan, overdue, skipped), profile age, summary report + verification letters, settings |
 
 Rules: every feature gets checks in the suite it belongs to; a UI change that
 breaks a selector means fixing the test's *assumption*, not deleting the check.

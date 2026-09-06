@@ -90,6 +90,37 @@ export function planHours(p) {
   return 0
 }
 
+/* ---- milestones: honest markers, computed here and pinned by the store on first earning ---- */
+const HOUR_MARKS = [5, 10, 25, 50, 100, 250]
+export function milestones() {
+  const s = S(), total = sumHours(s.entries)
+  const monthsWith = new Set(s.entries.map((e) => monthKey(e.date)))
+  let run = 0, best = 0
+  if (monthsWith.size) {
+    const keys = [...monthsWith].sort()
+    for (let i = 0; i < keys.length; i++) {
+      const [y, m] = keys[i].split("-").map(Number), prev = i ? keys[i - 1].split("-").map(Number) : null
+      run = prev && (y * 12 + m) - (prev[0] * 12 + prev[1]) === 1 ? run + 1 : 1
+      best = Math.max(best, run)
+    }
+  }
+  const orgsUsed = new Set(s.entries.map((e) => e.orgId).filter(Boolean)).size
+  const completed = s.workItems.filter((w) => w.status === "completed").length
+  const list = [
+    { id: "first-entry", title: "First hours logged", detail: "The record begins.", done: s.entries.length > 0, progress: Math.min(1, s.entries.length) },
+    ...HOUR_MARKS.map((h) => ({ id: `hours-${h}`, title: `${h} hours`, detail: `${h} hours given in total.`, done: total >= h, progress: Math.min(1, total / h), value: `${Math.min(total, h)} / ${h} h` })),
+    { id: "two-orgs", title: "Two organizations", detail: "Hours with two different organizations.", done: orgsUsed >= 2, progress: Math.min(1, orgsUsed / 2) },
+    { id: "first-memo", title: "First memo", detail: "A note kept on a work item.", done: s.memos.length > 0, progress: Math.min(1, s.memos.length) },
+    { id: "first-plan-done", title: "Planned it, did it", detail: "A calendar plan turned into logged hours.", done: s.plans.some((p) => p.status === "done"), progress: s.plans.some((p) => p.status === "done") ? 1 : 0 },
+    { id: "first-reflection", title: "First reflection", detail: "Wrote down how a day went.", done: s.entries.some((e) => e.reflection), progress: s.entries.some((e) => e.reflection) ? 1 : 0 },
+    { id: "first-photo", title: "First photo", detail: "A picture kept with an entry.", done: s.entries.some((e) => e.photos.length), progress: s.entries.some((e) => e.photos.length) ? 1 : 0 },
+    { id: "three-months", title: "Three months in a row", detail: "Hours in three consecutive months.", done: best >= 3, progress: Math.min(1, best / 3), value: `${Math.min(best, 3)} / 3 months` },
+    { id: "work-item-done", title: "A work item completed", detail: "A commitment seen through.", done: completed >= 1, progress: Math.min(1, completed) },
+  ]
+  return list.map((m) => ({ ...m, earnedAt: s.badges[m.id] || (m.done ? "" : null) }))
+}
+export const earnedMilestoneIds = () => milestones().filter((m) => m.done).map((m) => m.id)
+
 export function stats(now = new Date()) {
   const ym = `${now.getFullYear()}-${pad(now.getMonth() + 1)}`, y = String(now.getFullYear())
   const pm = new Date(now.getFullYear(), now.getMonth() - 1, 1), pk = `${pm.getFullYear()}-${pad(pm.getMonth() + 1)}`

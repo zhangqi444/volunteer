@@ -1,5 +1,5 @@
 /* Work items and memos, the hours log filters, reports, settings, sample data, dashboard charts. */
-const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = require('./test_helpers.cjs');
+const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEntry, PNG } = require('./test_helpers.cjs');
 
 (async () => {
   const { srv, base } = await serve(8152);
@@ -20,6 +20,11 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   check('month chart drawn', (await pg.$$('[data-testid=month-chart] .recharts-bar-rectangle')).length > 0);
   check('org bars: 3 organizations', (await pg.$$('[data-testid=org-bars] li')).length === 3);
   check('active work items listed', (await pg.$$('[data-testid=dash-workitems] li')).length === 3);
+  await pg.waitForSelector('[data-testid=milestones-earned]');
+  const earned = await pg.$$eval('[data-testid=milestones-earned] li', (n) => n.map((x) => x.textContent.trim()));
+  check('milestones earned from the sample are pinned', earned.includes('First hours logged') && earned.includes('25 hours') && earned.includes('Three months in a row') && earned.includes('A work item completed') && !earned.includes('50 hours'), earned.join(' | '));
+  check('pinned milestones are stored with a date', await pg.evaluate(() => { const b = JSON.parse(localStorage.getItem('volunteer.v2')).badges; return b['hours-25'] && b['first-entry'] && !b['hours-50']; }));
+  check('next milestones show progress', (await pg.$$('[data-testid=milestones-next] li')).length === 3);
   await pg.screenshot({ path: 'shot-dashboard-sample.png', fullPage: true });
 
   // work items list + filters
@@ -53,10 +58,10 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   check('entry work item preselected', /Weekend tutoring/.test(await pg.textContent('[data-testid=entry-workitem]')));
   await pg.fill('[data-testid=entry-hours]', '4');
   await pg.fill('[data-testid=entry-activity]', 'Fractions practice');
-  await pg.click('[data-testid=entry-save]');
-  await pg.waitForSelector('[data-testid=entry-dialog]', { state: 'detached' });
+  await saveEntry(pg, 'We did fractions with pizza slices. J got every one right at the end.');
   await pg.waitForSelector('[data-testid=wi-tracker]');
   check('tracker lists the entry and 40% of target', /Fractions practice/.test(await pg.textContent('[data-testid=wi-tracker]')) && /40% of 10 h/.test(await pg.textContent('[data-testid=wi-hours]')));
+  check('the reflection written after saving shows under the entry', /pizza slices/.test(await pg.textContent('[data-testid=tracker-reflection]')));
 
   // memos: add, Ctrl+Enter, edit
   await pg.fill('[data-testid=memo-input]', 'Room 204, ask for Dev.');
@@ -88,13 +93,22 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   await pg.waitForSelector('[data-testid=entry-dialog]');
   check('catalog Log hours prefills organization, work item and activity', /Seattle Humane/.test(await pg.textContent('[data-testid=entry-org]')) && /Pet food drive/.test(await pg.textContent('[data-testid=entry-workitem]')) && (await pg.inputValue('[data-testid=entry-activity]')) === 'Pet food drive');
   await pg.fill('[data-testid=entry-hours]', '1.5');
+  // the reflection step: write it and attach a photo (stored in the fake Drive)
   await pg.click('[data-testid=entry-save]');
-  await pg.waitForSelector('[data-testid=entry-dialog]', { state: 'detached' });
+  await pg.waitForSelector('[data-testid=reflection-dialog]');
+  await pg.fill('[data-testid=reflection-text]', 'We filled two bags for the pantry.');
+  await pg.setInputFiles('[data-testid=reflection-dialog] [data-testid=photo-input]', { name: 'drive.png', mimeType: 'image/png', buffer: PNG });
+  await pg.waitForSelector('[data-testid=reflection-dialog] [data-testid=photo]', { timeout: 8000 });
+  check('photo uploaded to Drive and shown back', (await pg.$$('[data-testid=reflection-dialog] [data-testid=photo]')).length === 1);
+  await pg.click('[data-testid=reflection-save]');
+  await pg.waitForSelector('[data-testid=reflection-dialog]', { state: 'detached' });
+  check('reflection and photo stored on the entry', await pg.evaluate(() => { const e = JSON.parse(localStorage.getItem('volunteer.v2')).entries.find((x) => x.activity === 'Pet food drive'); return e && e.reflection.startsWith('We filled') && e.photos.length === 1 && /^photo\d+$/.test(e.photos[0].id); }));
   await pg.waitForSelector('[data-id=sh-pet-food-drive] [data-testid=catalog-workitem]');
   check('the card now links to its work item', true);
   await pg.click('[data-id=sh-pet-food-drive] [data-testid=catalog-workitem]');
   await pg.waitForSelector('[data-testid=wi-detail]');
   check('work item shows it came from the catalog and holds the hours', /From the catalog/.test(await pg.textContent('[data-testid=wi-catalog]')) && /Pet food drive/.test(await pg.textContent('[data-testid=wi-tracker]')));
+  check('the tracker shows the reflection and the photos card the photo', /We filled two bags/.test(await pg.textContent('[data-testid=tracker-reflection]')) && (await pg.$$('[data-testid=wi-photos] [data-testid=photo]')).length === 1);
   await pg.goto(base + '#/orgs', { waitUntil: 'networkidle' });
   await pg.waitForSelector('[data-testid=org-card]');
   check('Seattle Humane was created once as an organization', (await pg.$$eval('[data-testid=org-card]', (n) => n.filter((x) => /Seattle Humane/.test(x.textContent)).length)) === 1);
@@ -133,6 +147,14 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   await pick(pg, '[data-testid=report-org]', 'Friends of Cedar Park');
   check('org filter narrows the report', /11\.5/.test(await pg.textContent('[data-testid=report]')) && !/Riverside/.test(await pg.textContent('[data-testid=report] table')));
   await pg.screenshot({ path: 'shot-report.png', fullPage: true });
+  await pick(pg, '[data-testid=report-org]', 'All organizations');
+  await pick(pg, '[data-testid=report-mode]', 'Verification letters (one page per organization)');
+  await pg.waitForSelector('[data-testid=letter]');
+  const letters = await pg.$$('[data-testid=letter]');
+  check('one verification letter per organization with hours', letters.length === 4 && /Volunteer Service Verification/.test(await pg.textContent('[data-testid=letter]')) && /Supervisor signature/.test(await pg.textContent('[data-testid=letter]')), String(letters.length));
+  check('letter names the volunteer and age', /Sheila \(age 9\)/.test(await pg.textContent('[data-testid=letter]')));
+  await pg.screenshot({ path: 'shot-letters.png', fullPage: true });
+  await pick(pg, '[data-testid=report-mode]', 'Summary report');
 
   // catalog: fit badges against Sheila's age (9, from the sample profile), filters, interest, plan it
   await pg.goto(base + '#/catalog', { waitUntil: 'networkidle' });
@@ -144,6 +166,12 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   check('nothing is listed under Later: the catalog holds only what fits now', (await pg.$$('[data-testid=catalog-item]')).length === 0 && /Nothing matches/.test(await pg.textContent('body')));
   await pick(pg, '[data-testid=catalog-fit]', 'Everything');
   check('7 items in the whole catalog', (await pg.$$('[data-testid=catalog-item]')).length === 7);
+  await pg.fill('[data-testid=suggest-url]', 'https://example.org/kids-volunteer');
+  await pg.fill('[data-testid=suggest-note]', 'Saturday litter pickup');
+  await pg.click('[data-testid=suggest-save]');
+  await pg.waitForSelector('[data-testid=suggestions] li');
+  const issue = await pg.getAttribute('[data-testid=suggest-issue]', 'href');
+  check('a suggestion is saved and can be sent as a GitHub issue', /example\.org/.test(await pg.textContent('[data-testid=suggestions]')) && /github\.com\/zhangqi444\/volunteer\/issues\/new\?/.test(issue) && /Saturday/.test(decodeURIComponent(issue)));
   await pg.fill('[data-testid=catalog-search]', 'blanket');
   check('search finds the cat blankets project', (await pg.$$('[data-testid=catalog-item]')).length >= 1 && /No-sew cat blankets/.test(await pg.textContent('[data-testid=catalog-grid]')));
   await pg.click('[data-id=sh-cat-blankets] [data-testid=catalog-more]');
@@ -169,6 +197,11 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   await pg.waitForSelector('[data-testid=cal-grid]');
   check('plan appears on today in the grid', /No-sew cat blankets/.test(await pg.textContent(`[data-date="${iso(today)}"]`)));
   check('selected day lists the plan', (await pg.$$('[data-testid=day-plans] [data-testid=plan-row]')).length === 1);
+  const gcal = await pg.getAttribute('[data-testid=day-plans] [data-testid=plan-gcal]', 'href');
+  check('plan has an Add to Google Calendar link with the date and title', /calendar\.google\.com\/calendar\/render\?action=TEMPLATE/.test(gcal) && gcal.includes(iso(today).replace(/-/g, '')) && /No-sew\+cat\+blankets|No-sew%20cat%20blankets/.test(gcal), gcal);
+  const [dl] = await Promise.all([pg.waitForEvent('download'), pg.click('[data-testid=export-ics]')]);
+  const ics = require('fs').readFileSync(await dl.path(), 'utf8');
+  check('.ics export is a calendar with the planned event', /BEGIN:VCALENDAR/.test(ics) && /BEGIN:VEVENT/.test(ics) && /SUMMARY:No-sew cat blankets/.test(ics) && /DTSTART:\d{8}T\d{6}/.test(ics) && /END:VCALENDAR/.test(ics));
   await pg.click('[data-testid=add-plan]'); await pg.waitForSelector('[data-testid=plan-dialog]');
   const past = new Date(today.getTime() - 3 * 86400000);
   await pg.fill('[data-testid=plan-title]', 'Missed shift'); await pg.fill('[data-testid=plan-date]', iso(past)); await pg.click('[data-testid=plan-save]');
@@ -182,8 +215,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn } = req
   await pg.waitForSelector('[data-testid=entry-dialog]');
   check('Log hours prefills activity and hours from the plan', (await pg.inputValue('[data-testid=entry-activity]')) === 'No-sew cat blankets' && (await pg.inputValue('[data-testid=entry-hours]')) === '2');
   check('and the organization + work item the plan carries', /Seattle Humane/.test(await pg.textContent('[data-testid=entry-org]')) && /No-sew cat blankets/.test(await pg.textContent('[data-testid=entry-workitem]')));
-  await pg.click('[data-testid=entry-save]');
-  await pg.waitForSelector('[data-testid=entry-dialog]', { state: 'detached' });
+  await saveEntry(pg);
   await pg.waitForSelector('[data-testid=day-plans] [data-testid=plan-row][data-status=done]');
   check('plan marked done after logging', true);
   check('the logged entry links back to the plan', await pg.evaluate(() => { const s = JSON.parse(localStorage.getItem('volunteer.v2')); const p = s.plans.find((x) => x.title === 'No-sew cat blankets'); return !!p.entryId && s.entries.some((e) => e.id === p.entryId && e.hours === 2); }));

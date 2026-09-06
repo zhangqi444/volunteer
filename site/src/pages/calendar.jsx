@@ -1,9 +1,11 @@
 import * as React from "react"
-import { CalendarPlus, Check, ChevronLeft, ChevronRight, Clock, Pencil, X } from "lucide-react"
+import { CalendarArrowUp, CalendarPlus, Check, ChevronLeft, ChevronRight, Clock, Download, Pencil, X } from "lucide-react"
 
 import { orgName, overduePlans, planHours, plansSorted, upcomingPlans, workItemTitle } from "@/lib/engine"
 import { fmtDate, fmtHours, pad, todayISO, toISODate } from "@/lib/format"
 import { catalogItem } from "@/lib/content"
+import { googleCalendarUrl, icsFor } from "@/lib/calendar"
+import { downloadFile } from "@/lib/model"
 import { Store, useStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
 import { useDialogs } from "@/components/dialogs"
@@ -40,6 +42,7 @@ function PlanRow({ p, compact }) {
       {!done && !skipped ? (
         <div className="flex shrink-0 gap-1">
           <Button size="sm" onClick={() => openEntry({ planId: p.id })} data-testid="plan-log"><Check /> Log hours</Button>
+          <Button size="sm" variant="ghost" className="size-8 p-0" aria-label="Add to Google Calendar" title="Add to Google Calendar" asChild><a href={googleCalendarUrl(p)} target="_blank" rel="noopener" data-testid="plan-gcal"><CalendarArrowUp /></a></Button>
           <Button size="sm" variant="ghost" className="size-8 p-0" aria-label="Edit plan" onClick={() => openPlan({ id: p.id })}><Pencil /></Button>
           <Button size="sm" variant="ghost" className="size-8 p-0" aria-label="Mark skipped" onClick={() => { Store.setPlanStatus(p.id, "skipped"); toast("Marked skipped") }} data-testid="plan-skip"><X /></Button>
         </div>
@@ -94,6 +97,7 @@ export function Calendar() {
   return (
     <div className="flex flex-col gap-4">
       <PageHeader title="Calendar" description="Plan shifts and projects ahead, then log the hours when they happen.">
+        <Button variant="outline" disabled={!upcomingPlans(today, 999).length} onClick={() => downloadFile(`volunteer-plans-${today}.ics`, icsFor(upcomingPlans(today, 999)), "text/calendar")} data-testid="export-ics"><Download /> Export .ics</Button>
         <Button onClick={() => openPlan({ date: selected })} data-testid="add-plan"><CalendarPlus /> Plan work</Button>
       </PageHeader>
 
@@ -129,7 +133,7 @@ export function Calendar() {
                 )
               })}
             </div>
-            <p className="text-muted-foreground mt-2 text-xs">Click a day to see it; double-click to plan something on it.</p>
+            <p className="text-muted-foreground mt-2 text-xs">Click a day to see it; double-click to plan something on it. Each plan can be added to Google Calendar, or export them all as an .ics file for any calendar.</p>
           </CardContent>
         </Card>
 

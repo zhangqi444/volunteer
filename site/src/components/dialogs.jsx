@@ -7,6 +7,7 @@ import { Store, useStore } from "@/lib/store"
 import { ORG_COLORS, WORK_STATUSES } from "@/lib/model"
 import { planHours } from "@/lib/engine"
 import { C, ensureFromCatalog } from "@/lib/content"
+import { PhotoStrip } from "@/components/photos"
 import { hoursWord, isISODate, todayISO } from "@/lib/format"
 import { orgName, orgsSorted, sumHours, workItemById, workItemsForOrg, workItemStats, workItemTitle } from "@/lib/engine"
 import { go } from "@/lib/router"
@@ -27,9 +28,11 @@ export function DialogsProvider({ children }) {
   const [item, setItem] = React.useState(null)
   const [memo, setMemo] = React.useState(null)
   const [plan, setPlan] = React.useState(null)
+  const [refl, setRefl] = React.useState(null)
   const [conf, setConf] = React.useState(null)
   const api = React.useMemo(() => ({
     openPlan: (o = {}) => setPlan({ ...o, key: Date.now() }),
+    openReflection: (entryId) => setRefl({ entryId, key: Date.now() }),
     openEntry: (o = {}) => setEntry({ ...o, key: Date.now() }),
     openOrg: (o = {}) => setOrg({ ...o, key: Date.now() }),
     openWorkItem: (o = {}) => setItem({ ...o, key: Date.now() }),
@@ -44,6 +47,7 @@ export function DialogsProvider({ children }) {
       {org && <OrgDialog key={org.key} init={org} close={() => setOrg(null)} />}
       {memo && <MemoDialog key={memo.key} init={memo} close={() => setMemo(null)} />}
       {plan && <PlanDialog key={plan.key} init={plan} close={() => setPlan(null)} />}
+      {refl && <ReflectionDialog key={refl.key} init={refl} close={() => setRefl(null)} />}
       {conf && <ConfirmDialog key={conf.key} init={conf} close={() => setConf(null)} />}
     </Ctx.Provider>
   )
@@ -70,7 +74,7 @@ function ErrorLine({ msg }) { return msg ? <p role="alert" className="bg-destruc
 function EntryDialog({ init, close }) {
   useStore()
   const toast = useToast()
-  const { openOrg, confirm } = useDialogs()
+  const { openOrg, confirm, openReflection } = useDialogs()
   const e = init.id ? Store.entry(init.id) : null
   const plan = init.planId ? Store.plan(init.planId) : null
   const firstOrg = init.workItemId ? (workItemById(init.workItemId) || {}).orgId : init.orgId
@@ -81,6 +85,7 @@ function EntryDialog({ init, close }) {
     workItemId: e ? e.workItemId : plan ? plan.workItemId : init.workItemId || "",
     activity: e ? e.activity : plan ? plan.title : init.activity || "", category: e ? e.category : "",
     supervisor: e ? e.supervisor : "", notes: e ? e.notes : plan ? plan.notes : "", catalogId: init.catalogId || (plan && plan.catalogId) || "",
+    reflection: e ? e.reflection : "",
   })
   const fromCatalog = (id) => {
     if (!id) { setF((s) => ({ ...s, catalogId: "" })); return }
@@ -101,14 +106,13 @@ function EntryDialog({ init, close }) {
     if (hours > 24) return setErr("A single entry can't exceed 24 hours. Split it across days.")
     if (!f.orgId) return setErr("Choose an organization, or create a new one.")
     if (!f.activity.trim()) return setErr("Describe what you did.")
-    const fields = { ...f, hours, activity: f.activity.trim(), supervisor: f.supervisor.trim(), notes: f.notes.trim() }
-    if (e) { Store.updateEntry(e.id, fields); toast("Entry updated") }
-    else {
-      const n = Store.addEntry(fields)
-      if (plan) Store.setPlanStatus(plan.id, "done", n.id)
-      toast(plan ? `Logged ${hoursWord(hours)} · plan marked done` : `Logged ${hoursWord(hours)}`)
-    }
+    const fields = { ...f, hours, activity: f.activity.trim(), supervisor: f.supervisor.trim(), notes: f.notes.trim(), reflection: f.reflection.trim() }
+    if (e) { Store.updateEntry(e.id, fields); toast("Entry updated"); close(); return }
+    const n = Store.addEntry(fields)
+    if (plan) Store.setPlanStatus(plan.id, "done", n.id)
+    toast(plan ? `Logged ${hoursWord(hours)} · plan marked done` : `Logged ${hoursWord(hours)}`)
     close()
+    openReflection(n.id)
   }
   async function del() {
     if (await confirm({ title: "Delete this entry?", message: "This removes the logged hours permanently." })) { Store.deleteEntry(e.id); toast("Entry deleted"); close() }
@@ -135,7 +139,13 @@ function EntryDialog({ init, close }) {
         <Field label="Activity" required className="sm:col-span-2"><Input placeholder="e.g. Sorted donations at food bank" maxLength={120} value={f.activity} onChange={(ev) => set("activity")(ev.target.value)} data-testid="entry-activity" /></Field>
         <Field label="Category"><Pick value={f.category} onChange={set("category")} options={cats.map((c) => ({ value: c, label: c }))} noneLabel="None" testid="entry-category" /></Field>
         <Field label="Supervisor / contact"><Input placeholder="Optional" maxLength={80} value={f.supervisor} onChange={(ev) => set("supervisor")(ev.target.value)} /></Field>
-        <Field label="Notes" className="sm:col-span-2"><Textarea rows={3} placeholder="What did you do? Who did it help?" value={f.notes} onChange={(ev) => set("notes")(ev.target.value)} /></Field>
+        <Field label="Notes" className="sm:col-span-2"><Textarea rows={2} placeholder="Where, with whom, anything to remember" value={f.notes} onChange={(ev) => set("notes")(ev.target.value)} /></Field>
+        {e ? (
+          <>
+            <Field label="Reflection" className="sm:col-span-2" hint="In her words: what did you do, who did it help, what was the best part?"><Textarea rows={3} value={f.reflection} onChange={(ev) => set("reflection")(ev.target.value)} data-testid="entry-reflection" /></Field>
+            <Field label="Photos" className="sm:col-span-2"><PhotoStrip entryId={e.id} compact /></Field>
+          </>
+        ) : null}
         <div className="sm:col-span-2"><ErrorLine msg={err} /></div>
         <DialogFooter className="sm:col-span-2 sm:justify-between">
           <div>{e ? <Button type="button" variant="ghost" className="text-destructive hover:text-destructive" onClick={del}>Delete</Button> : null}</div>
@@ -357,6 +367,34 @@ function PlanDialog({ init, close }) {
             <Button type="button" variant="ghost" onClick={close}>Cancel</Button>
             <Button type="submit" data-testid="plan-save">Save</Button>
           </div>
+        </DialogFooter>
+      </form>
+    </Shell>
+  )
+}
+
+/* ---------- reflection: right after logging, in her words ---------- */
+function ReflectionDialog({ init, close }) {
+  useStore()
+  const toast = useToast()
+  const e = Store.entry(init.entryId)
+  const [text, setText] = React.useState(e ? e.reflection : "")
+  if (!e) return null
+  function save(ev) {
+    ev.preventDefault()
+    if (text.trim()) { Store.setReflection(e.id, text); toast("Reflection saved") }
+    close()
+  }
+  return (
+    <Shell title="How did it go?" description={`${e.activity} · ${hoursWord(e.hours)}`} onClose={close} testid="reflection-dialog" className="sm:max-w-md">
+      <form onSubmit={save} className="grid gap-4" noValidate>
+        <Field label="In your own words" hint="What did you do? Who did it help? What was the best part?">
+          <Textarea rows={4} value={text} onChange={(ev) => setText(ev.target.value)} placeholder="Today I…" autoFocus data-testid="reflection-text" />
+        </Field>
+        <Field label="A photo of the day"><PhotoStrip entryId={e.id} compact /></Field>
+        <DialogFooter className="sm:justify-between">
+          <Button type="button" variant="ghost" onClick={close} data-testid="reflection-skip">Skip for now</Button>
+          <Button type="submit" data-testid="reflection-save">Save</Button>
         </DialogFooter>
       </form>
     </Shell>

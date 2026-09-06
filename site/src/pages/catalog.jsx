@@ -1,5 +1,5 @@
 import * as React from "react"
-import { CalendarPlus, ClipboardList, ExternalLink, Plus } from "lucide-react"
+import { CalendarPlus, ClipboardList, ExternalLink, Lightbulb, Plus, Send, Trash2 } from "lucide-react"
 
 import { C, KIND_LABEL, catalogOrg, catalogTags, currentAge, ensureFromCatalog, fit, workItemForCatalog } from "@/lib/content"
 import { INTEREST_STATUSES } from "@/lib/model"
@@ -13,6 +13,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Field } from "@/components/bits"
 
 const FIT_VARIANT = { fits: "success", adult: "default", later: "outline", past: "outline", unknown: "secondary" }
 const INTEREST_LABEL = { interested: "Interested", applied: "Applied", joined: "Joined", passed: "Passed" }
@@ -76,6 +78,56 @@ function OpportunityCard({ item, age }) {
   )
 }
 
+const REPO = "https://github.com/zhangqi444/volunteer"
+function issueUrl(sg) {
+  const q = new URLSearchParams({ title: `Catalog: ${sg.url || sg.note.slice(0, 60)}`, body: `Please add this to the catalog with its source and age rules.\n\nURL: ${sg.url || "(none)"}\n\nNote: ${sg.note || "(none)"}\n\nSuggested from the app on ${sg.createdAt.slice(0, 10)}.`, labels: "catalog" })
+  return `${REPO}/issues/new?${q}`
+}
+
+/** A place to drop links found on the phone; each one can be sent on as a GitHub issue so it reaches the next session. */
+export function SuggestCard() {
+  const store = useStore()
+  const toast = useToast()
+  const [url, setUrl] = React.useState("")
+  const [note, setNote] = React.useState("")
+  const open = store.s.suggestions.filter((x) => x.status === "open").sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+  function submit(ev) {
+    ev.preventDefault()
+    if (!url.trim() && !note.trim()) return
+    Store.addSuggestion({ url: url.trim(), note: note.trim() }); setUrl(""); setNote(""); toast("Saved to your suggestions")
+  }
+  return (
+    <Card data-testid="suggest">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2"><Lightbulb className="text-primary size-4" /> Suggest an entry</CardTitle>
+        <CardDescription>Found something Sheila could do? Drop the link here. It is kept with your data; send it on as a GitHub issue and it gets added with its source and age rules.</CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-4">
+        <form onSubmit={submit} className="grid gap-3 @lg/main:grid-cols-[2fr_3fr_auto] @lg/main:items-end">
+          <Field label="Link"><Input type="url" placeholder="https://…" value={url} onChange={(e) => setUrl(e.target.value)} data-testid="suggest-url" /></Field>
+          <Field label="Note"><Input placeholder="What is it, and why it fits" value={note} onChange={(e) => setNote(e.target.value)} data-testid="suggest-note" /></Field>
+          <Button type="submit" variant="secondary" disabled={!url.trim() && !note.trim()} data-testid="suggest-save">Save</Button>
+        </form>
+        {open.length ? (
+          <ul className="divide-y" data-testid="suggestions">
+            {open.map((sg) => (
+              <li key={sg.id} className="flex flex-wrap items-center gap-2 py-2 text-sm">
+                <div className="min-w-0 flex-1">
+                  {sg.url ? <a href={sg.url} target="_blank" rel="noopener" className="text-primary block truncate hover:underline">{sg.url.replace(/^https?:\/\/(www\.)?/, "")}</a> : null}
+                  {sg.note ? <div className="text-muted-foreground">{sg.note}</div> : null}
+                </div>
+                <Button size="sm" variant="outline" asChild><a href={issueUrl(sg)} target="_blank" rel="noopener" data-testid="suggest-issue"><Send /> Send as issue</a></Button>
+                <Button size="sm" variant="ghost" onClick={() => { Store.setSuggestionStatus(sg.id, "done"); toast("Marked done") }}>Done</Button>
+                <Button size="sm" variant="ghost" className="size-8 p-0" aria-label="Remove" onClick={() => Store.deleteSuggestion(sg.id)}><Trash2 /></Button>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </CardContent>
+    </Card>
+  )
+}
+
 export function Catalog() {
   const store = useStore()
   const age = currentAge()
@@ -113,6 +165,7 @@ export function Catalog() {
       {C.items.length === 0 ? <Empty>The catalog could not be loaded.</Empty>
         : items.length ? <div className="grid gap-4 @3xl/main:grid-cols-2" data-testid="catalog-grid">{items.map((i) => <OpportunityCard key={i.id} item={i} age={age} />)}</div>
         : <Empty>Nothing matches these filters.</Empty>}
+      <SuggestCard />
       {C.note ? <p className="text-muted-foreground text-xs">{C.note}</p> : null}
     </div>
   )

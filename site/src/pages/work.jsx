@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ArrowLeft, Pencil, Plus } from "lucide-react"
+import { ArrowLeft, Camera, Pencil, Plus } from "lucide-react"
 
 import { entriesForWorkItem, memosFor, orgById, orgColor, orgName, orgsSorted, workItemById, workItemStats, workItemsSorted } from "@/lib/engine"
 import { fmtDate, fmtHours, fmtShort, hoursWord, plural, todayISO } from "@/lib/format"
@@ -8,6 +8,7 @@ import { go, href } from "@/lib/router"
 import { Store, useStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
 import { catalogItem } from "@/lib/content"
+import { Photo } from "@/components/photos"
 import { useDialogs } from "@/components/dialogs"
 import { useToast } from "@/components/toast"
 import { Empty, OrgChip, PageHeader, Pick, Stat, StatusBadge } from "@/components/bits"
@@ -150,7 +151,7 @@ export function WorkDetail({ id }) {
                   {entries.map((e) => (
                     <TableRow key={e.id} className="cursor-pointer" onClick={() => openEntry({ id: e.id })}>
                       <TableCell className="whitespace-nowrap tabular-nums">{fmtDate(e.date)}</TableCell>
-                      <TableCell>{e.activity}{e.notes || e.supervisor ? <div className="text-muted-foreground text-xs">{[e.supervisor && `with ${e.supervisor}`, e.notes].filter(Boolean).join(" · ")}</div> : null}</TableCell>
+                      <TableCell>{e.activity}{e.notes || e.supervisor ? <div className="text-muted-foreground text-xs">{[e.supervisor && `with ${e.supervisor}`, e.notes].filter(Boolean).join(" · ")}</div> : null}{e.reflection ? <div className="text-muted-foreground text-xs italic" data-testid="tracker-reflection">“{e.reflection}”</div> : null}{e.photos.length ? <div className="text-muted-foreground mt-0.5 flex items-center gap-1 text-xs"><Camera className="size-3" /> {e.photos.length}</div> : null}</TableCell>
                       <TableCell className="text-right tabular-nums">{fmtHours(e.hours)}</TableCell>
                     </TableRow>
                   ))}
@@ -161,6 +162,15 @@ export function WorkDetail({ id }) {
           </CardContent>
         </Card>
 
+        <div className="flex flex-col gap-4">
+        {entries.some((e) => e.photos.length) ? (
+          <Card data-testid="wi-photos">
+            <CardHeader><CardTitle>Photos</CardTitle><CardDescription>From the days logged on this item</CardDescription></CardHeader>
+            <CardContent className="grid grid-cols-3 gap-2 @sm/card:grid-cols-4">
+              {entries.flatMap((e) => e.photos.map((p) => <button key={p.id} type="button" className="aspect-square overflow-hidden rounded-md" title={fmtDate(e.date)} onClick={() => openEntry({ id: e.id })}><Photo id={p.id} alt={`${e.activity}, ${fmtDate(e.date)}`} className="size-full" /></button>))}
+            </CardContent>
+          </Card>
+        ) : null}
         <Card>
           <CardHeader>
             <CardTitle>Memos</CardTitle>
@@ -190,6 +200,7 @@ export function WorkDetail({ id }) {
             ) : <p className="text-muted-foreground py-2 text-center text-sm">No memos yet.</p>}
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   )
