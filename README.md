@@ -12,7 +12,8 @@ browser so it opens offline. Live at <https://qizhang.top/volunteer/>.
 
 This project is the sibling of [`zhangqi444/isee`](https://github.com/zhangqi444/isee):
 same stack, same shell, same theme tokens, same Drive contract, same test layout.
-`AGENTS.md` is the contract; `CLAUDE.md` is the working agreement for agent sessions.
+`AGENTS.md` is the contract; `CLAUDE.md` is the working agreement for agent sessions;
+`docs/architecture.md` explains the structure and `docs/design.md` the look and feel.
 
 ## What it does
 
@@ -35,6 +36,7 @@ same stack, same shell, same theme tokens, same Drive contract, same test layout
     site/public/              favicon, manifest, service worker
     site/test_*.cjs           Playwright suites: e2e, drive, features
     .github/workflows/pages.yml  build + deploy to GitHub Pages
+    docs/                     architecture.md, design.md
 
 ## Build
 

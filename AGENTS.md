@@ -44,6 +44,7 @@ site/
   public/                  favicon, manifest, service worker
   test_*.cjs               three Playwright suites — see Testing
 .github/workflows/pages.yml  build + deploy to GitHub Pages
+docs/                      architecture.md (structure and why), design.md (look, feel, and why)
 ```
 
 ## Tech stack
