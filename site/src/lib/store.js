@@ -111,7 +111,7 @@ export const Store = {
 
   addEntry(f) {
     const e = { id: uid(), date: f.date, orgId: f.orgId, workItemId: f.workItemId || "", activity: f.activity.trim(), category: f.category || "",
-      hours: round2(Number(f.hours)), supervisor: f.supervisor || "", notes: f.notes || "", reflection: f.reflection || "", photos: [], createdAt: now(), at: now() }
+      hours: round2(Number(f.hours)), start: f.start || "", end: f.end || "", signed: !!f.signed, supervisor: f.supervisor || "", notes: f.notes || "", reflection: f.reflection || "", photos: [], createdAt: now(), at: now() }
     this.s.entries.push(e); this.commit(); return e
   },
   updateEntry(id, f) { const e = this.entry(id); if (!e) return; Object.assign(e, f, { activity: f.activity.trim(), hours: round2(Number(f.hours)), at: now() }); this.commit() },
@@ -120,6 +120,7 @@ export const Store = {
     if (e && e.photos.length) Drive.deleteFiles(e.photos.map((p) => p.id))   // best effort; the record goes regardless
     this.s.entries = this.s.entries.filter((x) => x.id !== id || (this.bury(x.id), false)); this.commit()
   },
+  setSigned(id, signed) { const e = this.entry(id); if (!e) return; e.signed = !!signed; e.at = now(); this.commit() },
   setReflection(id, text) { const e = this.entry(id); if (!e) return; e.reflection = String(text || "").trim(); e.at = now(); this.commit() },
   addPhoto(entryId, photo) { const e = this.entry(entryId); if (!e) return; e.photos = [...e.photos, { id: photo.id, name: photo.name || "", at: now() }]; e.at = now(); this.commit() },
   removePhoto(entryId, photoId) {

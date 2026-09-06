@@ -30,10 +30,19 @@ export function entriesSorted(sortKey = "date", dir = "desc") {
     return r * sign
   })
 }
-export function filterEntries(entries, { search = "", orgId = "", workItemId = "", category = "", from = "", to = "" } = {}) {
+/** Hours implied by a time-in / time-out pair, or null when either is missing. */
+export function spanHours(start, end) {
+  if (!start || !end) return null
+  const [a, b] = [start, end].map((t) => { const [h, m] = t.split(":").map(Number); return h + m / 60 })
+  return b > a ? round2(b - a) : null
+}
+export const unsignedEntries = () => S().entries.filter((e) => !e.signed)
+export function filterEntries(entries, { search = "", orgId = "", workItemId = "", category = "", from = "", to = "", signed = "" } = {}) {
   const q = search.trim().toLowerCase()
   return entries.filter((e) => {
     if (orgId && e.orgId !== orgId) return false
+    if (signed === "unsigned" && e.signed) return false
+    if (signed === "signed" && !e.signed) return false
     if (workItemId && e.workItemId !== workItemId) return false
     if (category && e.category !== category) return false
     if (from && e.date < from) return false

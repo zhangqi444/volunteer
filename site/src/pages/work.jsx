@@ -150,7 +150,7 @@ export function WorkDetail({ id }) {
                 <TableBody>
                   {entries.map((e) => (
                     <TableRow key={e.id} className="cursor-pointer" onClick={() => openEntry({ id: e.id })}>
-                      <TableCell className="whitespace-nowrap tabular-nums">{fmtDate(e.date)}</TableCell>
+                      <TableCell className="whitespace-nowrap tabular-nums">{fmtDate(e.date)}{e.start ? <div className="text-muted-foreground text-xs">{e.start}{e.end ? `–${e.end}` : ""}</div> : null}</TableCell>
                       <TableCell>{e.activity}{e.notes || e.supervisor ? <div className="text-muted-foreground text-xs">{[e.supervisor && `with ${e.supervisor}`, e.notes].filter(Boolean).join(" · ")}</div> : null}{e.reflection ? <div className="text-muted-foreground text-xs italic" data-testid="tracker-reflection">“{e.reflection}”</div> : null}{e.photos.length ? <div className="text-muted-foreground mt-0.5 flex items-center gap-1 text-xs"><Camera className="size-3" /> {e.photos.length}</div> : null}</TableCell>
                       <TableCell className="text-right tabular-nums">{fmtHours(e.hours)}</TableCell>
                     </TableRow>

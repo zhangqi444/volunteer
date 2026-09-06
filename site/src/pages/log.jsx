@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ArrowDown, ArrowUp, Camera, Download, Plus } from "lucide-react"
+import { ArrowDown, ArrowUp, Camera, Download, PenLine, Plus } from "lucide-react"
 
 import { entriesSorted, filterEntries, orgsSorted, sumHours, workItemTitle, workItemsForOrg, workItemsSorted } from "@/lib/engine"
 import { fmtDate, fmtHours, hoursWord, plural, todayISO } from "@/lib/format"
@@ -16,14 +16,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { orgName } from "@/lib/engine"
 
 export function entriesCSV(entries) {
-  return toCSV(entries.map((e) => [e.date, orgName(e.orgId), workItemTitle(e.workItemId), e.activity, e.category, e.hours, e.supervisor, e.notes, e.reflection]),
-    ["Date", "Organization", "Work item", "Activity", "Category", "Hours", "Supervisor", "Notes", "Reflection"])
+  return toCSV(entries.map((e) => [e.date, e.start, e.end, orgName(e.orgId), workItemTitle(e.workItemId), e.activity, e.category, e.hours, e.signed ? "yes" : "", e.supervisor, e.notes, e.reflection]),
+    ["Date", "Time in", "Time out", "Organization", "Work item", "Activity", "Category", "Hours", "Signed", "Supervisor", "Notes", "Reflection"])
 }
 
 export function Log() {
   useStore()
   const { openEntry } = useDialogs()
-  const [f, setF] = React.useState({ search: "", orgId: "", workItemId: "", category: "", from: "", to: "" })
+  const [f, setF] = React.useState({ search: "", orgId: "", workItemId: "", category: "", from: "", to: "", signed: "" })
   const [sort, setSort] = React.useState({ key: "date", dir: "desc" })
   const set = (k) => (v) => setF((s) => ({ ...s, [k]: v, ...(k === "orgId" ? { workItemId: "" } : {}) }))
   const entries = filterEntries(entriesSorted(sort.key, sort.dir), f)
@@ -54,6 +54,7 @@ export function Log() {
           <Pick value={f.category} onChange={set("category")} options={Store.s.settings.categories.map((c) => ({ value: c, label: c }))} noneLabel="All categories" testid="filter-category" />
           <Input type="date" value={f.from} onChange={(e) => set("from")(e.target.value)} aria-label="From" />
           <Input type="date" value={f.to} onChange={(e) => set("to")(e.target.value)} aria-label="To" />
+          <Pick value={f.signed} onChange={set("signed")} options={[{ value: "unsigned", label: "Needs a signature" }, { value: "signed", label: "Signed off" }]} noneLabel="Signed or not" testid="filter-signed" />
         </CardContent>
       </Card>
 
@@ -61,7 +62,7 @@ export function Log() {
         <CardContent className="flex flex-col gap-3">
           <div className="text-muted-foreground flex items-center justify-between text-sm tabular-nums">
             <span data-testid="log-summary">{plural(entries.length, "entry", "entries")} · {hoursWord(total)}</span>
-            {any ? <Button variant="ghost" size="sm" onClick={() => setF({ search: "", orgId: "", workItemId: "", category: "", from: "", to: "" })} data-testid="filter-clear">Clear filters</Button> : null}
+            {any ? <Button variant="ghost" size="sm" onClick={() => setF({ search: "", orgId: "", workItemId: "", category: "", from: "", to: "", signed: "" })} data-testid="filter-clear">Clear filters</Button> : null}
           </div>
           {entries.length ? (
             <Table data-testid="log-table">
@@ -78,10 +79,10 @@ export function Log() {
               <TableBody>
                 {entries.map((e) => (
                   <TableRow key={e.id} data-testid="log-row">
-                    <TableCell className="whitespace-nowrap tabular-nums">{fmtDate(e.date)}</TableCell>
+                    <TableCell className="whitespace-nowrap tabular-nums">{fmtDate(e.date)}{e.start ? <div className="text-muted-foreground text-xs">{e.start}{e.end ? `–${e.end}` : ""}</div> : null}</TableCell>
                     <TableCell><OrgChip orgId={e.orgId} /></TableCell>
                     <TableCell className="min-w-[14rem]">
-                      <div>{e.activity}</div>
+                      <div>{e.activity}{e.signed ? <Badge variant="success" className="ml-2 gap-1 align-middle"><PenLine className="size-3" /> signed</Badge> : null}</div>
                       {e.workItemId ? <a href={href(`/work/${e.workItemId}`)} className="text-primary text-xs hover:underline" data-testid="log-wi-tag">{workItemTitle(e.workItemId)}</a> : null}
                       {e.notes || e.supervisor ? <div className="text-muted-foreground text-xs">{[e.supervisor && `with ${e.supervisor}`, e.notes].filter(Boolean).join(" · ")}</div> : null}
                       {e.reflection ? <div className="text-muted-foreground text-xs italic">“{e.reflection}”</div> : null}

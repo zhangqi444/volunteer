@@ -55,7 +55,8 @@ function OpportunityCard({ item, age }) {
               {item.ages && item.ages.note ? <><dt className="text-muted-foreground">Ages</dt><dd>{item.ages.note}</dd></> : null}
               {item.commitment ? <><dt className="text-muted-foreground">Commitment</dt><dd>{item.commitment}</dd></> : null}
               {item.howTo ? <><dt className="text-muted-foreground">How to</dt><dd>{item.howTo}</dd></> : null}
-              {org.contact ? <><dt className="text-muted-foreground">Contact</dt><dd>{[org.contact.email, org.contact.phone].filter(Boolean).join(" · ")}</dd></> : null}
+              {org.contact ? <><dt className="text-muted-foreground">Contact</dt><dd>{[org.contact.email, org.contact.phone].filter(Boolean).join(" · ")}{org.contact.address ? <div>{org.contact.address}</div> : null}</dd></> : null}
+              {org.forms && org.forms.length ? <><dt className="text-muted-foreground">Forms</dt><dd>{org.forms.map((f) => <div key={f.url}><a href={f.url} target="_blank" rel="noopener" className="text-primary hover:underline" data-testid="catalog-form">{f.name}</a>{f.note ? <span className="text-muted-foreground"> · {f.note}</span> : null}</div>)}</dd></> : null}
             </dl>
             <div className="text-muted-foreground text-xs">Source: <a href={item.url} target="_blank" rel="noopener" className="hover:underline">{item.url.replace(/^https?:\/\/(www\.)?/, "")}</a> · checked {item.verified}. Confirm on the page before signing up.</div>
           </>

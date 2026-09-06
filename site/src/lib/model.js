@@ -72,6 +72,7 @@ export function normalize(raw) {
       id: str(e.id || uid()), date: e.date, orgId: orgIds.has(str(e.orgId)) ? str(e.orgId) : "",
       workItemId: itemIds.has(str(e.workItemId)) ? str(e.workItemId) : "", activity: str(e.activity).trim() || "Volunteer work",
       category: str(e.category), hours: Math.max(0, round2(Number(e.hours) || 0)), supervisor: str(e.supervisor), notes: str(e.notes),
+      start: /^\d{2}:\d{2}$/.test(e.start) ? e.start : "", end: /^\d{2}:\d{2}$/.test(e.end) ? e.end : "", signed: e.signed === true,
       reflection: str(e.reflection), photos: Array.isArray(e.photos) ? e.photos.filter((p) => p && typeof p === "object" && str(p.id)).map((p) => ({ id: str(p.id), name: str(p.name), at: str(p.at) || fileAt })) : [],
       createdAt: e.createdAt || fileAt, at: stamp(e, fileAt),
     }))
@@ -190,7 +191,11 @@ export function sampleData() {
     [ago(1, 5), "org-food", "Mobile pantry distribution", "Community", 4, "Maria Lopez", ""],
     [ago(1, 19), "org-lib", "Reading buddies session", "Education", 1.5, "Dev Patel", ""],
     [ago(0, Math.max(1, now.getDate() - 3)), "org-food", "Sorted and shelved donations", "Community", 3, "Maria Lopez", ""],
-  ].map(([date, orgId, activity, category, hours, supervisor, notes, reflection]) => rec({ id: uid(), date, orgId, workItemId: link[activity] || "", activity, category, hours, supervisor, notes, reflection: reflection || "", photos: [] }))
+  ].map(([date, orgId, activity, category, hours, supervisor, notes, reflection], i) => {
+    const timed = orgId === "org-food"                       // the food bank uses a time-in / time-out log
+    const start = timed ? "09:00" : "", end = timed ? `${String(9 + Math.floor(hours)).padStart(2, "0")}:${hours % 1 ? "30" : "00"}` : ""
+    return rec({ id: uid(), date, orgId, workItemId: link[activity] || "", activity, category, hours, start, end, signed: timed && i < 12, supervisor, notes, reflection: reflection || "", photos: [] })
+  })
   d.goals = { yearly: 60, at: iso }
   d.settings.profile = { name: "Sheila", age: 9, ageAsOf: toISODate(now) }
   d.settings.at = iso

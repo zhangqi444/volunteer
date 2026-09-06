@@ -5,7 +5,7 @@ import * as React from "react"
 
 import { Store, useStore } from "@/lib/store"
 import { ORG_COLORS, WORK_STATUSES } from "@/lib/model"
-import { planHours } from "@/lib/engine"
+import { planHours, spanHours } from "@/lib/engine"
 import { C, ensureFromCatalog } from "@/lib/content"
 import { PhotoStrip } from "@/components/photos"
 import { entryPoints } from "@/lib/rewards"
@@ -82,6 +82,7 @@ function EntryDialog({ init, close }) {
   const [f, setF] = React.useState({
     date: e ? e.date : plan ? (plan.date > todayISO() ? todayISO() : plan.date) : todayISO(),
     hours: e ? String(e.hours) : plan && planHours(plan) ? String(planHours(plan)) : "",
+    start: e ? e.start : plan ? plan.start : "", end: e ? e.end : plan ? plan.end : "", signed: e ? e.signed : false,
     orgId: e ? e.orgId : plan ? plan.orgId : firstOrg || "",
     workItemId: e ? e.workItemId : plan ? plan.workItemId : init.workItemId || "",
     activity: e ? e.activity : plan ? plan.title : init.activity || "", category: e ? e.category : "",
@@ -95,6 +96,8 @@ function EntryDialog({ init, close }) {
   }
   const [err, setErr] = React.useState("")
   const set = (k) => (v) => setF((s) => ({ ...s, [k]: v }))
+  /** Time in / time out fill the hours (the volunteer can still overwrite them). */
+  const setTime = (k) => (v) => setF((s) => { const n = { ...s, [k]: v }; const h = spanHours(n.start, n.end); if (h) n.hours = String(h); return n })
   const items = f.orgId ? workItemsForOrg(f.orgId).filter((w) => w.status !== "completed" || w.id === f.workItemId) : []
   const cats = Store.s.settings.categories
 
@@ -107,6 +110,7 @@ function EntryDialog({ init, close }) {
     if (hours > 24) return setErr("A single entry can't exceed 24 hours. Split it across days.")
     if (!f.orgId) return setErr("Choose an organization, or create a new one.")
     if (!f.activity.trim()) return setErr("Describe what you did.")
+    if (f.start && f.end && !spanHours(f.start, f.end)) return setErr("Time out must be after time in.")
     const fields = { ...f, hours, activity: f.activity.trim(), supervisor: f.supervisor.trim(), notes: f.notes.trim(), reflection: f.reflection.trim() }
     if (e) { Store.updateEntry(e.id, fields); toast("Entry updated"); close(); return }
     const n = Store.addEntry(fields)
@@ -127,7 +131,9 @@ function EntryDialog({ init, close }) {
           </Field>
         ) : null}
         <Field label="Date" required><Input type="date" value={f.date} max={todayISO()} onChange={(ev) => set("date")(ev.target.value)} data-testid="entry-date" /></Field>
-        <Field label="Hours" required><Input type="number" min="0.25" step="0.25" placeholder="2.5" value={f.hours} onChange={(ev) => set("hours")(ev.target.value)} data-testid="entry-hours" autoFocus={Boolean(f.orgId)} /></Field>
+        <Field label="Hours" required hint={f.start && f.end ? "From time in and out; change it if the sheet says otherwise." : ""}><Input type="number" min="0.25" step="0.25" placeholder="2.5" value={f.hours} onChange={(ev) => set("hours")(ev.target.value)} data-testid="entry-hours" autoFocus={Boolean(f.orgId)} /></Field>
+        <Field label="Time in"><Input type="time" value={f.start} onChange={(ev) => setTime("start")(ev.target.value)} data-testid="entry-start" /></Field>
+        <Field label="Time out"><Input type="time" value={f.end} onChange={(ev) => setTime("end")(ev.target.value)} data-testid="entry-end" /></Field>
         <Field label="Organization" required className="sm:col-span-2" hint={orgsSorted().length ? "" : "No organizations yet. Use New to add the one you volunteered with."}>
           <div className="flex gap-2">
             <Pick key={`org-${f.catalogId}-${f.orgId}`} value={f.orgId} onChange={(v) => setF((s) => ({ ...s, orgId: v, workItemId: "" }))} options={orgsSorted().map((o) => ({ value: o.id, label: o.name }))} placeholder="Select an organization" emptyLabel="No organizations yet" testid="entry-org" />
@@ -140,6 +146,10 @@ function EntryDialog({ init, close }) {
         <Field label="Activity" required className="sm:col-span-2"><Input placeholder="e.g. Sorted donations at food bank" maxLength={120} value={f.activity} onChange={(ev) => set("activity")(ev.target.value)} data-testid="entry-activity" /></Field>
         <Field label="Category"><Pick value={f.category} onChange={set("category")} options={cats.map((c) => ({ value: c, label: c }))} noneLabel="None" testid="entry-category" /></Field>
         <Field label="Supervisor / contact"><Input placeholder="Optional" maxLength={80} value={f.supervisor} onChange={(ev) => set("supervisor")(ev.target.value)} /></Field>
+        <label className="flex items-center gap-2 self-end pb-2 text-sm sm:col-span-2">
+          <input type="checkbox" className="accent-primary size-4" checked={f.signed} onChange={(ev) => set("signed")(ev.target.checked)} data-testid="entry-signed" />
+          <span>Signed off by the supervisor <span className="text-muted-foreground">(on the organization's hours log)</span></span>
+        </label>
         <Field label="Notes" className="sm:col-span-2"><Textarea rows={2} placeholder="Where, with whom, anything to remember" value={f.notes} onChange={(ev) => set("notes")(ev.target.value)} /></Field>
         {e ? (
           <>

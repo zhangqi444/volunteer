@@ -6,8 +6,17 @@
       "url": "https://www.seattlehumane.org/",
       "contact": {
         "email": "EducationServices@seattlehumane.org",
-        "phone": "(425) 373-5385, option 2"
-      }
+        "phone": "(425) 641-0080 · Education: (425) 373-5385, option 2",
+        "address": "13212 SE Eastgate Way, Bellevue, WA 98005"
+      },
+      "forms": [
+        {
+          "name": "Community Service Hours Log",
+          "url": "https://drive.google.com/file/d/1fHrSKFnpEB01dqogzFHprZhwl1ZUiQGr/view",
+          "note": "Seattle Humane's official monthly log: one row per session with date, time in, description of activity, time out, total time, and a signature. The Reports page prints this format filled in from the tracker; take it along for the signature."
+        }
+      ],
+      "verified": "2026-09-06"
     },
     "seattle-childrens": {
       "name": "Seattle Children's",
@@ -29,7 +38,8 @@
       "details": [
         "All the cats in Seattle Humane's care receive a blanket or towel to make their cubby more comfortable; most of the time a cat's special blanket goes home with them when they are adopted.",
         "Blankets around 18 × 20 inches are suggested for cats.",
-        "Written and video instructions for making no-sew blankets are on the project page."
+        "Written and video instructions for making no-sew blankets are on the project page.",
+        "Community service hours are recorded on Seattle Humane's monthly Community Service Hours Log, one row per session with time in, time out and a signature (form linked on the organization)."
       ],
       "ages": {
         "min": null,
@@ -57,7 +67,8 @@
       "summary": "Turn old socks and paper tubes into catnip toys for shelter cats.",
       "details": [
         "Old socks become catnip toys when stuffed with scrap paper, toilet paper tubes, or other crinkly items with catnip.",
-        "The project page lists more ways to make cat toys from recycled or reusable objects."
+        "The project page lists more ways to make cat toys from recycled or reusable objects.",
+        "Community service hours are recorded on Seattle Humane's monthly Community Service Hours Log, one row per session with time in, time out and a signature (form linked on the organization)."
       ],
       "ages": {
         "min": null,
@@ -86,7 +97,8 @@
       "details": [
         "Donations of pet food, supplies and toys are always appreciated.",
         "Items are distributed through Oogie's Ohana Pet Food Bank at Seattle Humane, which helps provide 1 million meals each year to pets in the community.",
-        "Youth can help pets and earn school service hours by donating, fundraising or supporting the pet food bank."
+        "Youth can help pets and earn school service hours by donating, fundraising or supporting the pet food bank.",
+        "Community service hours are recorded on Seattle Humane's monthly Community Service Hours Log, one row per session with time in, time out and a signature (form linked on the organization)."
       ],
       "ages": {
         "min": null,

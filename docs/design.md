@@ -103,7 +103,7 @@ missing, it is added there rather than hand-rolled. App-level pieces live in
 | Hours log | The record | Filters, sortable table, work-item tag under the activity, CSV export. |
 | Organizations | Who she works with | Cards with contact, website, last date, totals, and shortcuts to log or start an item. |
 | Rewards | Something to work toward | Level card with the ten levels, how points are earned (a table that can only grow), the shelf with suggested rewards and claims to mark given, and the badges in four groups: Hours, Habits, Projects, Story. |
-| Reports | Something to hand over | Two formats: the summary (tiles, by organization, by work item, detailed log with reflections) and **verification letters**, one printed page per organization with the hours listed, a confirmation sentence naming the volunteer and age, and supervisor, printed-name, date and parent signature lines. Print styles hide everything else. |
+| Reports | Something to hand over | Three formats: the **monthly hours log** that mirrors Seattle Humane's form (landscape, Name and Month lines, six columns ending in Signature, padded to twelve rows, one sheet per organization per month), the summary (tiles, by organization, by work item, detailed log with reflections) and **verification letters**, one printed page per organization with the hours listed, a confirmation sentence naming the volunteer and age, and supervisor, printed-name, date and parent signature lines. Print styles hide everything else. |
 | Settings | Profile, goal, categories, theme, Drive, data | Age is stored with the date it was set and advances by itself. |
 
 ## Motion and states

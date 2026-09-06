@@ -1,7 +1,8 @@
 import * as React from "react"
 import { Download, Printer } from "lucide-react"
 
-import { entriesSorted, filterEntries, hoursByOrg, hoursByWorkItem, orgName, orgsSorted, sumHours, workItemTitle } from "@/lib/engine"
+import { entriesSorted, filterEntries, hoursByOrg, hoursByWorkItem, orgById, orgName, orgsSorted, sumHours, workItemTitle } from "@/lib/engine"
+import { monthKey } from "@/lib/format"
 import { fmtDate, fmtHours, plural, toISODate, todayISO } from "@/lib/format"
 import { downloadFile } from "@/lib/model"
 import { useStore } from "@/lib/store"
@@ -45,10 +46,10 @@ export function Reports() {
 
   return (
     <div className="flex flex-col gap-4">
-      <PageHeader title="Reports" description="A summary for schools, employers, or verification letters.">
+      <div className="print:hidden"><PageHeader title="Reports" description="A summary for schools, employers, or verification letters, or the monthly hours log an organization asks you to bring.">
         <Button variant="outline" onClick={() => downloadFile(`volunteer-hours-${from || "all"}-to-${to || "today"}.csv`, entriesCSV(entries), "text/csv")} disabled={!entries.length}><Download /> Export CSV</Button>
         <Button onClick={() => window.print()} data-testid="print"><Printer /> Print / Save PDF</Button>
-      </PageHeader>
+      </PageHeader></div>
 
       <Card className="py-4 print:hidden">
         <CardContent className="grid gap-3 @lg/main:grid-cols-2 @5xl/main:grid-cols-5">
@@ -57,11 +58,66 @@ export function Reports() {
           <Field label="To"><Input type="date" value={to} disabled={preset !== "custom"} onChange={(e) => setCustom((c) => ({ ...c, to: e.target.value }))} /></Field>
           <Field label="Organization"><Pick value={orgId} onChange={setOrgId} options={orgsSorted().map((o) => ({ value: o.id, label: o.name }))} noneLabel="All organizations" testid="report-org" /></Field>
           <Field label="Volunteer name"><Input placeholder="Your name (optional)" value={name} onChange={(e) => setName(e.target.value)} /></Field>
-          <Field label="Format" className="@lg/main:col-span-2 @5xl/main:col-span-5"><Pick value={mode} onChange={setMode} options={[{ value: "summary", label: "Summary report" }, { value: "letters", label: "Verification letters (one page per organization)" }]} testid="report-mode" className="@5xl/main:w-96" /></Field>
+          <Field label="Format" className="@lg/main:col-span-2 @5xl/main:col-span-5"><Pick value={mode} onChange={setMode} options={[{ value: "summary", label: "Summary report" }, { value: "letters", label: "Verification letters (one page per organization)" }, { value: "timelog", label: "Monthly hours log (time in / out, signature per row)" }]} testid="report-mode" className="@5xl/main:w-96" /></Field>
         </CardContent>
       </Card>
 
-      {mode === "letters" ? (
+      {mode === "timelog" ? (
+        <>
+          <style>{"@media print { @page { size: landscape; margin: 12mm } }"}</style>
+          {(() => {
+            // one sheet per organization per month, in the form's order: Date · Time In · Description · Time Out · Total Time · Signature
+            const sheets = []
+            for (const r of byOrg) {
+              const months = [...new Set(entries.filter((e) => e.orgId === r.orgId).map((e) => monthKey(e.date)))].sort()
+              for (const mk of months) sheets.push({ org: r, mk, rows: entries.filter((e) => e.orgId === r.orgId && monthKey(e.date) === mk) })
+            }
+            if (!sheets.length) return <Card><CardContent className="pt-2"><Empty>No entries in this period.</Empty></CardContent></Card>
+            return sheets.map((sh, i) => {
+              const [y, m] = sh.mk.split("-").map(Number)
+              const label = new Date(y, m - 1, 1).toLocaleDateString(undefined, { month: "long", year: "numeric" })
+              const org = orgById(sh.org.orgId)
+              const blanks = Math.max(0, 12 - sh.rows.length)
+              return (
+                <Card key={sh.org.orgId + sh.mk} className={cn("print:border-0 print:shadow-none", i < sheets.length - 1 && "print:break-after-page")} data-testid="timelog">
+                  <CardContent className="flex flex-col gap-4 pt-2 print:gap-2 print:p-0">
+                    <div className="flex flex-wrap items-end justify-between gap-4">
+                      <div>
+                        <div className="text-muted-foreground text-xs font-semibold tracking-wide uppercase">{sh.org.name}</div>
+                        <h2 className="text-xl font-semibold tracking-wide">Community Service Hours Log</h2>
+                      </div>
+                      <div className="flex flex-wrap gap-6 text-sm">
+                        <div><span className="text-muted-foreground">Name: </span><span className="border-foreground inline-block min-w-48 border-b font-medium">{who || "\u00a0"}</span></div>
+                        <div><span className="text-muted-foreground">Month: </span><span className="border-foreground inline-block min-w-40 border-b font-medium">{label}</span></div>
+                      </div>
+                    </div>
+                    <Table className="border">
+                      <TableHeader><TableRow><TableHead className="border-r text-center">Date</TableHead><TableHead className="border-r text-center">Time In</TableHead><TableHead className="border-r text-center">Description of Activity</TableHead><TableHead className="border-r text-center">Time Out</TableHead><TableHead className="border-r text-center">Total Time</TableHead><TableHead className="text-center">Signature</TableHead></TableRow></TableHeader>
+                      <TableBody>
+                        {sh.rows.map((e) => (
+                          <TableRow key={e.id} className="h-11 print:h-8">
+                            <TableCell className="border-r text-center whitespace-nowrap tabular-nums">{fmtDate(e.date, { month: "numeric", day: "numeric", year: "2-digit" })}</TableCell>
+                            <TableCell className="border-r text-center tabular-nums">{e.start}</TableCell>
+                            <TableCell className="border-r">{e.activity}</TableCell>
+                            <TableCell className="border-r text-center tabular-nums">{e.end}</TableCell>
+                            <TableCell className="border-r text-center tabular-nums">{fmtHours(e.hours)} h</TableCell>
+                            <TableCell className="text-muted-foreground text-center text-xs">{e.signed ? "signed" : ""}</TableCell>
+                          </TableRow>
+                        ))}
+                        {Array.from({ length: blanks }, (_, k) => <TableRow key={"b" + k} className="h-11 print:h-8"><TableCell className="border-r" /><TableCell className="border-r" /><TableCell className="border-r" /><TableCell className="border-r" /><TableCell className="border-r" /><TableCell /></TableRow>)}
+                      </TableBody>
+                    </Table>
+                    <div className="text-muted-foreground flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <span>{org && (org.contactInfo || org.website) ? [org.contactInfo, org.website.replace(/^https?:\/\//, "")].filter(Boolean).join(" · ") : ""}</span>
+                      <span className="tabular-nums">This month: {fmtHours(sumHours(sh.rows))} h in {plural(sh.rows.length, "session")}</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              )
+            })
+          })()}
+        </>
+      ) : mode === "letters" ? (
         byOrg.length ? byOrg.map((r, i) => (
           <Card key={r.orgId} className={cn("print:border-0 print:shadow-none", i < byOrg.length - 1 && "print:break-after-page")} data-testid="letter">
             <CardContent className="flex flex-col gap-5 pt-2">

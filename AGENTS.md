@@ -91,8 +91,10 @@ docs/                      architecture.md (structure and why), design.md (look,
   `entryId`); `interests` is keyed by catalog item id, tombstoned as
   `interest:<id>`; `badges` maps milestone id → the time it was first earned
   (earliest wins on merge, tombstoned as `badge:<id>`); `suggestions` are links the
-  owner dropped for the catalog. Entries carry `reflection` (her words) and
-  `photos` (Drive file ids). Adding a slice means adding it to `normalize`,
+  owner dropped for the catalog. Entries carry `start`/`end` (time in and
+  out, from which hours are filled), `signed` (the supervisor has signed that row
+  on the organization's log), `reflection` (her words) and `photos` (Drive file
+  ids). Adding a slice means adding it to `normalize`,
   `merge`, `replaceAll` and `test_drive.cjs`.
 - **Photos** are separate Drive files created by the app (`drive.file` covers them),
   tagged `appProperties.kind = photo` with the `entryId`, shrunk to 1600px JPEG in
@@ -176,6 +178,11 @@ All three must pass before a commit.
   where the source says so), from organizations the owner has pointed at (Seattle
   Humane, Seattle Children's). Teen-only programs are not listed; add them when she
   is old enough. Do not pad it with other organizations on your own initiative.
+- An organization may carry `forms` (`{ name, url, note }`), such as Seattle Humane's
+  monthly Community Service Hours Log. The Reports page reproduces that format
+  (one landscape sheet per organization per month: Date · Time In · Description ·
+  Time Out · Total Time · Signature, twelve rows) so the sheet handed over for a
+  signature matches the tracker.
 - Age rules are data: `ages: { min, max, withAdult, note }`. The catalog page
   computes the fit from the profile; never hard-code "9".
 - Written for a parent and a nine-year-old reading together: short, concrete, no hype.

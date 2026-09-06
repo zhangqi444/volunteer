@@ -26,7 +26,7 @@ export function ensureFromCatalog(itemId) {
   const co = catalogOrg(item)
   let org = Store.s.organizations.find((o) => o.catalogOrgId === item.org) || Store.s.organizations.find((o) => o.name.toLowerCase() === co.name.toLowerCase())
   if (!org) {
-    org = Store.addOrg({ name: co.name, website: co.url || "", contact: "", contactInfo: [co.contact && co.contact.email, co.contact && co.contact.phone].filter(Boolean).join(" · "), notes: "", catalogOrgId: item.org })
+    org = Store.addOrg({ name: co.name, website: co.url || "", contact: "", contactInfo: [co.contact && co.contact.email, co.contact && co.contact.phone].filter(Boolean).join(" · "), notes: [co.contact && co.contact.address, co.forms && co.forms.length ? `Forms: ${co.forms.map((f) => `${f.name} (${f.url})`).join("; ")}` : ""].filter(Boolean).join("\n"), catalogOrgId: item.org })
   } else if (!org.catalogOrgId) Store.updateOrg(org.id, { ...org, catalogOrgId: item.org })
   let wi = Store.s.workItems.find((w) => w.catalogId === item.id) || Store.s.workItems.find((w) => w.orgId === org.id && w.title.toLowerCase() === item.title.toLowerCase())
   if (!wi) wi = Store.addWorkItem({ orgId: org.id, title: item.title, description: item.summary, status: "active", startDate: todayISO(), targetHours: 0, catalogId: item.id })

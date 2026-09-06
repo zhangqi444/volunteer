@@ -77,12 +77,15 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   await pg.waitForSelector('[data-testid=entry-dialog]');
   check('entry org preselected', /Public Library/.test(await pg.textContent('[data-testid=entry-org]')));
   check('entry work item preselected', /Weekend tutoring/.test(await pg.textContent('[data-testid=entry-workitem]')));
-  await pg.fill('[data-testid=entry-hours]', '4');
+  await pg.fill('[data-testid=entry-start]', '13:00'); await pg.fill('[data-testid=entry-end]', '17:00');
+  check('time in and time out fill the hours', (await pg.inputValue('[data-testid=entry-hours]')) === '4');
+  await pg.check('[data-testid=entry-signed]');
   await pg.fill('[data-testid=entry-activity]', 'Fractions practice');
   await saveEntry(pg, 'We did fractions with pizza slices. J got every one right at the end.');
   await pg.waitForSelector('[data-testid=wi-tracker]');
   check('tracker lists the entry and 40% of target', /Fractions practice/.test(await pg.textContent('[data-testid=wi-tracker]')) && /40% of 10 h/.test(await pg.textContent('[data-testid=wi-hours]')));
   check('the reflection written after saving shows under the entry', /pizza slices/.test(await pg.textContent('[data-testid=tracker-reflection]')));
+  check('the tracker shows the time in and out', /13:00–17:00/.test(await pg.textContent('[data-testid=wi-tracker]')));
 
   // memos: add, Ctrl+Enter, edit
   await pg.fill('[data-testid=memo-input]', 'Room 204, ask for Dev.');
@@ -153,6 +156,12 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   await pg.click('[data-testid=filter-clear]');
   check('clear restores all rows', (await pg.$$('[data-testid=log-row]')).length === all && all === 17, String(all));
   check('CSV export enabled', !(await pg.isDisabled('[data-testid=log-csv]')));
+  await pick(pg, '[data-testid=filter-signed]', 'Needs a signature');
+  const unsigned = (await pg.$$('[data-testid=log-row]')).length;
+  await pick(pg, '[data-testid=filter-signed]', 'Signed off');
+  const signedRows = (await pg.$$('[data-testid=log-row]')).length;
+  check('signed filter splits the log (Fractions is signed, the sample food-bank rows too)', signedRows >= 1 && unsigned + signedRows === all && /Fractions practice/.test(await pg.textContent('[data-testid=log-table]')), `${signedRows} signed, ${unsigned} unsigned of ${all}`);
+  await pg.click('[data-testid=filter-clear]');
   await pg.click('[data-sort=hours]');
   const first = await pg.$eval('[data-testid=log-row] td:nth-child(5)', (x) => x.textContent.trim());
   check('sort by hours ascending puts 1.5 first', first === '1.5', first);
@@ -175,6 +184,15 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   check('one verification letter per organization with hours', letters.length === 4 && /Volunteer Service Verification/.test(await pg.textContent('[data-testid=letter]')) && /Supervisor signature/.test(await pg.textContent('[data-testid=letter]')), String(letters.length));
   check('letter names the volunteer and age', /Sheila \(age 9\)/.test(await pg.textContent('[data-testid=letter]')));
   await pg.screenshot({ path: 'shot-letters.png', fullPage: true });
+  await pick(pg, '[data-testid=report-mode]', 'Monthly hours log (time in / out, signature per row)');
+  await pg.waitForSelector('[data-testid=timelog]');
+  check('monthly hours log: one sheet per organization per month, 12 rows each', (await pg.$$('[data-testid=timelog]')).length >= 10 && (await pg.$$eval('[data-testid=timelog]', (n) => n.every((x) => x.querySelectorAll('tbody tr').length === 12))));
+  await pick(pg, '[data-testid=report-org]', 'Seattle Humane');
+  await pg.waitForFunction(() => document.querySelectorAll('[data-testid=timelog]').length === 1);
+  const sheet = await pg.textContent('[data-testid=timelog]');
+  check('Seattle Humane sheet has the form header, name, month, its session and the contact footer', /Community Service Hours Log/.test(sheet) && /Name:\s*Sheila/.test(sheet) && /Month:\s*\w+ 20\d\d/.test(sheet) && /Time In/.test(sheet) && /Signature/.test(sheet) && /Pet food drive/.test(sheet) && /in 1 session/.test(sheet) && /641-0080/.test(sheet), sheet.replace(/\s+/g, ' ').slice(0, 300));
+  await pg.screenshot({ path: 'shot-timelog.png', fullPage: true });
+  await pick(pg, '[data-testid=report-org]', 'All organizations');
   await pick(pg, '[data-testid=report-mode]', 'Summary report');
 
   // catalog: fit badges against Sheila's age (9, from the sample profile), filters, interest, plan it
@@ -197,6 +215,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   check('search finds the cat blankets project', (await pg.$$('[data-testid=catalog-item]')).length >= 1 && /No-sew cat blankets/.test(await pg.textContent('[data-testid=catalog-grid]')));
   await pg.click('[data-id=sh-cat-blankets] [data-testid=catalog-more]');
   check('details show the source and check date', /seattlehumane\.org/.test(await pg.textContent('[data-id=sh-cat-blankets]')) && /checked 2026-09-05/.test(await pg.textContent('[data-id=sh-cat-blankets]')));
+  check('details link the organization\'s hours-log form and address', /Community Service Hours Log/.test(await pg.textContent('[data-id=sh-cat-blankets] [data-testid=catalog-form]')) && /Bellevue/.test(await pg.textContent('[data-id=sh-cat-blankets]')));
   await pick(pg, '[data-id=sh-cat-blankets] [data-testid=catalog-interest]', 'Interested');
   await pg.waitForSelector('[data-testid=toast]:has-text("Marked interested")');
   check('interest saved to the dataset', await pg.evaluate(() => JSON.parse(localStorage.getItem('volunteer.v2')).interests['sh-cat-blankets'].status === 'interested'));

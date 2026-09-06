@@ -64,6 +64,7 @@ interests[catalogId] = { status, note, at }
 badges[badgeId] = firstEarnedAt              computed by rewards.badgeState(), pinned once
 rewards["item:<id>"|"claim:<id>"]            the reward shelf and its claims (points are computed, never stored)
 suggestions[] = { url, note, status }        links dropped for the catalog
+entry.start / entry.end / entry.signed      time in, time out, supervisor signed this row
 entry.reflection, entry.photos[] = { id }    photos are separate Drive files (kind = photo)
 goals { yearly, at }      settings { categories, profile { name, age, ageAsOf }, at }
 deleted { id: deletedAt } tombstones, pruned after 120 days
