@@ -842,6 +842,7 @@
   "note": "Cat and animal volunteer work for Sheila (9): around Seattle and online. What she can do now leads, with an adult where the source says so; what opens at 10, 12, 13 or 16 is listed too so she can look ahead. Every item names its source URL and the date it was checked; confirm details on the page before signing up. Never add a fact without a source.",
   "organizations": {
     "auburn-valley-hs": {
+      "area": "South · Auburn",
       "contact": {
         "address": "Auburn, WA"
       },
@@ -856,6 +857,7 @@
       "url": "https://bestfriends.org/volunteer/volunteer-from-home"
     },
     "homeward-pet": {
+      "area": "Eastside · Woodinville",
       "contact": {
         "address": "13132 NE 177th Place, Woodinville, WA 98072",
         "phone": "425-488-4444"
@@ -868,6 +870,7 @@
       "url": "https://www.inaturalist.org/"
     },
     "kitsap-humane": {
+      "area": "Across the water · Kitsap",
       "contact": {
         "address": "Kitsap County, WA (a ferry ride from Seattle)"
       },
@@ -879,6 +882,7 @@
       "url": "https://www.lostdogrescue.org/volunteer/support-remote-roles/"
     },
     "motley-zoo": {
+      "area": "Eastside · Redmond",
       "contact": {
         "address": "Redmond and Monroe, WA",
         "email": "cats@motleyzoo.org · volunteer@motleyzoo.org"
@@ -887,6 +891,7 @@
       "url": "https://www.motleyzooanimalrescue.org/fostering"
     },
     "noah": {
+      "area": "Far north · Stanwood",
       "contact": {
         "address": "31300 Brandstrom Rd, Stanwood, WA",
         "phone": "(360) 629-7055"
@@ -895,6 +900,7 @@
       "url": "https://www.thenoahcenter.org/youthvolunteers/"
     },
     "pasados": {
+      "area": "East · Sultan",
       "contact": {
         "address": "Sultan, WA",
         "email": "volunteer@pasadosafehaven.org",
@@ -904,6 +910,7 @@
       "url": "https://www.pasadosafehaven.org/get-involved/volunteer/"
     },
     "paws": {
+      "area": "North · Lynnwood",
       "contact": {
         "address": "15305 44th Ave W, Lynnwood, WA 98087",
         "email": "education@paws.org"
@@ -912,6 +919,7 @@
       "url": "https://www.paws.org/volunteer/opportunities/kids-teen-opportunities/"
     },
     "purrfect-pals": {
+      "area": "Far north · Arlington",
       "contact": {
         "address": "230 McRae Rd NE, Arlington, WA 98223",
         "email": "volunteers@purrfectpals.org",
@@ -921,6 +929,7 @@
       "url": "https://purrfectpals.org/volunteer/"
     },
     "raskc": {
+      "area": "South · Kent",
       "contact": {
         "address": "Kent Pet Adoption Center, 21615 64th Ave S, Kent, WA",
         "email": "RASKC.Volunteers@kingcounty.gov",
@@ -930,6 +939,7 @@
       "url": "https://kingcounty.gov/en/dept/executive-services/animals-pets-pests/regional-animal-services/volunteer"
     },
     "safr": {
+      "area": "North · Shoreline",
       "contact": {
         "address": "14717 Aurora Ave N, Shoreline, WA 98133 (per the contact page; confirm the current location before visiting)",
         "email": "info@seattleareafelinerescue.org",
@@ -939,6 +949,7 @@
       "url": "https://seattleareafelinerescue.org/foster/"
     },
     "seattle-animal-shelter": {
+      "area": "Seattle",
       "contact": {
         "address": "2061 15th Ave W, Seattle, WA 98119"
       },
@@ -946,6 +957,7 @@
       "url": "https://www.seattle.gov/animal-shelter/get-involved/volunteer"
     },
     "seattle-aquarium": {
+      "area": "Seattle",
       "contact": {
         "address": "Seattle waterfront"
       },
@@ -953,6 +965,7 @@
       "url": "https://www.seattleaquarium.org/act-for-the-ocean/volunteer/youth-ocean-advocates/"
     },
     "seattle-humane": {
+      "area": "Eastside · Bellevue",
       "contact": {
         "address": "13212 SE Eastgate Way, Bellevue, WA 98005",
         "email": "EducationServices@seattlehumane.org",
@@ -970,6 +983,7 @@
       "verified": "2026-09-06"
     },
     "woodland-park-zoo": {
+      "area": "Seattle",
       "contact": {
         "address": "Seattle"
       },

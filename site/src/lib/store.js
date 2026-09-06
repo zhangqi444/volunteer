@@ -173,7 +173,8 @@ export const Store = {
     if (!status) { if (this.s.interests[catalogId]) { delete this.s.interests[catalogId]; this.bury("interest:" + catalogId); this.commit() } return }
     if (!INTEREST_STATUSES.includes(status)) return
     const cur = this.s.interests[catalogId] || {}
-    this.s.interests[catalogId] = { status, note: note !== undefined ? note : (cur.note || ""), at: now() }
+    // `since` tracks when this status was reached, so "applied three weeks ago" stays true when a note is edited.
+    this.s.interests[catalogId] = { status, note: note !== undefined ? note : (cur.note || ""), since: cur.status === status && cur.since ? cur.since : now(), at: now() }
     this.commit()
   },
 

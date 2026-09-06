@@ -5,7 +5,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   const { srv, base } = await serve(8152);
   const b = await launch();
   const ctx = await b.newContext({ viewport: { width: 1280, height: 900 } });
-  await fakeGoogle(ctx);
+  const drive = await fakeGoogle(ctx);
   const pg = await ctx.newPage(); const errs = errorsOf(pg);
 
   await pg.goto(base, { waitUntil: 'networkidle' });
@@ -222,6 +222,31 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   await pg.fill('[data-testid=catalog-search]', '');
   await pick(pg, '[data-testid=catalog-fit]', 'Marked by me');
   check('Marked by me filter shows the one marked item', (await pg.$$('[data-testid=catalog-item]')).length === 1);
+
+  // marking interest opens the next step: the how-to and a prefilled introduction email
+  await pg.waitForSelector('[data-id=sh-cat-blankets] [data-testid=next-step]');
+  const mail = await pg.getAttribute('[data-id=sh-cat-blankets] [data-testid=catalog-email]', 'href');
+  check('the intro email is addressed to the organization and names Sheila and her age', /^mailto:EducationServices%40seattlehumane\.org\?/.test(mail) && /Sheila/.test(decodeURIComponent(mail)) && /who is 9/.test(decodeURIComponent(mail)) && /No-sew cat blankets/.test(decodeURIComponent(mail)), mail.slice(0, 80));
+  await pg.click('[data-id=sh-cat-blankets] [data-testid=mark-applied]');
+  await pg.waitForSelector('[data-id=sh-cat-blankets] [data-testid=next-step]:has-text("Waiting to hear back")');
+  check('marking applied records the date and offers a follow-up', /Follow up/.test(await pg.textContent('[data-id=sh-cat-blankets] [data-testid=next-step]')) && await pg.evaluate(() => !!JSON.parse(localStorage.getItem('volunteer.v2')).interests['sh-cat-blankets'].since));
+  // an application that has gone quiet surfaces on the dashboard
+  await pg.waitForSelector('[data-testid=drive-button]:has-text("Saved to Drive")', { timeout: 8000 });   // let the debounced push land first, or it would overwrite the backdating below
+  // backdate the application on both sides, so the merge on reload has nothing to disagree about
+  // the other device applied a month ago: a newer `at` makes the merge take its copy, backdated `since` and all
+  const long_ago = new Date(Date.now() - 30 * 86400e3).toISOString();
+  { const r = JSON.parse(drive.body); r.interests['sh-cat-blankets'] = { status: 'applied', note: '', since: long_ago, at: new Date(Date.now() + 300000).toISOString() }; drive.body = JSON.stringify(r); }
+  await pg.goto(base + '#/', { waitUntil: 'networkidle' });
+  await pg.reload({ waitUntil: 'networkidle' });          // a hash change alone does not re-read localStorage
+  await pg.waitForSelector('[data-testid=stale-applications]');
+  check('the dashboard nudges about the quiet application, merged from the other device', /No-sew cat blankets/.test(await pg.textContent('[data-testid=stale-applications]')));
+  await pg.goto(base + '#/catalog', { waitUntil: 'networkidle' });
+  await pg.waitForSelector('[data-testid=catalog-grid]');
+  await pick(pg, '[data-testid=catalog-area]', 'South · Kent');
+  check('the area filter narrows to the Kent organization', (await pg.$$('[data-testid=catalog-item]')).length === 2 && /Kent/.test(await pg.textContent('[data-testid=catalog-grid]')));
+  await pick(pg, '[data-testid=catalog-area]', 'Anywhere');
+  await pick(pg, '[data-testid=catalog-fit]', 'Marked by me');
+  await pick(pg, '[data-id=sh-cat-blankets] [data-testid=catalog-interest]', 'Interested');
   await pg.click('[data-id=sh-cat-blankets] [data-testid=catalog-plan]');
   await pg.waitForSelector('[data-testid=plan-dialog]');
   check('Plan it prefills the title', (await pg.inputValue('[data-testid=plan-title]')) === 'No-sew cat blankets');

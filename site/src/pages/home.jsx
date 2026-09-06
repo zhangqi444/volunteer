@@ -1,9 +1,10 @@
 import * as React from "react"
-import { ArrowRight, Plus } from "lucide-react"
+import { ArrowRight, Mail, Plus } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
 import { activeWorkItems, entriesSorted, hoursByMonth, hoursByOrg, orgColor, orgName, stats, workItemStats } from "@/lib/engine"
 import { RewardsCard } from "@/pages/rewards"
+import { hasEmail, introEmail, staleApplications } from "@/lib/content"
 import { fmtDate, fmtHours, fmtShort, hoursWord, plural } from "@/lib/format"
 import { go, href } from "@/lib/router"
 import { useStore } from "@/lib/store"
@@ -131,6 +132,25 @@ export function Home() {
           </CardContent>
         </Card>
       )}
+
+      {staleApplications().length ? (
+        <Card className="border-warning/50" data-testid="stale-applications">
+          <CardHeader>
+            <CardTitle>Waiting to hear back</CardTitle>
+            <CardDescription>Asked more than two weeks ago. A short follow-up is usually all it takes.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ul className="divide-y">
+              {staleApplications().map(({ item, since }) => (
+                <li key={item.id} className="flex flex-wrap items-center gap-2 py-2 text-sm">
+                  <span className="min-w-0 flex-1"><a href={href("/catalog")} className="font-medium hover:underline">{item.title}</a><span className="text-muted-foreground block text-xs">asked {fmtDate(since.slice(0, 10))}</span></span>
+                  {hasEmail(item) ? <Button size="sm" variant="secondary" asChild><a href={introEmail(item)}><Mail /> Follow up</a></Button> : null}
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      ) : null}
 
       <RewardsCard />
 

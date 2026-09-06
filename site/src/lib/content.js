@@ -17,6 +17,36 @@ export async function loadCatalog() {
 }
 
 export const catalogItem = (id) => C.items.find((i) => i.id === id) || null
+export const catalogArea = (item) => (catalogOrg(item) || {}).area || ""
+
+/** A first email to an organization, in the parent's voice, with the facts from the catalog filled in. */
+export function introEmail(item) {
+  const org = catalogOrg(item)
+  const to = (org.contact && org.contact.email ? org.contact.email : "").split("·")[0].trim()
+  const p = Store.s.settings.profile || {}
+  const who = p.name || "my child"
+  const age = currentAge()
+  const body = [
+    `Hello,`,
+    ``,
+    `I am writing about "${item.title}"${org.name ? ` at ${org.name}` : ""}, which we found on your website (${item.url}).`,
+    ``,
+    `${who}${age != null ? `, who is ${age},` : ""} would love to help, and I would be there alongside ${who === "my child" ? "them" : "her"}. Could you tell us how to start, whether there is anything to fill in first, and when you next need people?`,
+    ``,
+    `Thank you,`,
+  ].join("\n")
+  return `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(`Volunteering: ${item.title}`)}&body=${encodeURIComponent(body)}`
+}
+export const hasEmail = (item) => Boolean((catalogOrg(item).contact || {}).email)
+
+/** Marked "applied" and quiet for a while: worth a nudge. */
+export function staleApplications(days = 14) {
+  const cut = Date.now() - days * 86400e3
+  return Object.entries(Store.s.interests)
+    .filter(([id, v]) => v.status === "applied" && Date.parse(v.since || v.at) < cut && catalogItem(id))
+    .map(([id, v]) => ({ item: catalogItem(id), since: v.since || v.at }))
+    .sort((a, b) => a.since.localeCompare(b.since))
+}
 
 /** Adopt a catalog item: make sure its organization and a work item exist (created from the
  *  catalog's own facts on first use, linked by catalogOrgId / catalogId) so logging is one step. */

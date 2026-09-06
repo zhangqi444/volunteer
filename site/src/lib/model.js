@@ -100,7 +100,7 @@ export function normalize(raw) {
   if (raw.interests && typeof raw.interests === "object") {
     for (const k of Object.keys(raw.interests)) {
       const v = raw.interests[k]
-      if (v && typeof v === "object" && INTEREST_STATUSES.includes(v.status)) out.interests[k] = { status: v.status, note: str(v.note), at: stamp(v, fileAt) }
+      if (v && typeof v === "object" && INTEREST_STATUSES.includes(v.status)) out.interests[k] = { status: v.status, note: str(v.note), since: isISODate(str(v.since).slice(0, 10)) ? v.since : stamp(v, fileAt), at: stamp(v, fileAt) }
     }
   }
 

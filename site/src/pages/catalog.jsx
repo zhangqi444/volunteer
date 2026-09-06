@@ -1,7 +1,7 @@
 import * as React from "react"
-import { CalendarPlus, ClipboardList, ExternalLink, Lightbulb, Plus, Send, Trash2 } from "lucide-react"
+import { CalendarPlus, ClipboardList, ExternalLink, Lightbulb, Mail, MapPin, Plus, Send, Trash2 } from "lucide-react"
 
-import { C, KIND_LABEL, catalogOrg, catalogTags, currentAge, ensureFromCatalog, fit, workItemForCatalog } from "@/lib/content"
+import { C, KIND_LABEL, catalogArea, catalogOrg, catalogTags, currentAge, ensureFromCatalog, fit, hasEmail, introEmail, staleApplications, workItemForCatalog } from "@/lib/content"
 import { INTEREST_STATUSES } from "@/lib/model"
 import { go } from "@/lib/router"
 import { Store, useStore } from "@/lib/store"
@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import { useDialogs } from "@/components/dialogs"
 import { useToast } from "@/components/toast"
 import { Empty, PageHeader, Pick } from "@/components/bits"
+import { fmtDate } from "@/lib/format"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -43,6 +44,7 @@ function OpportunityCard({ item, age }) {
         </div>
         <CardDescription className="flex flex-wrap items-center gap-x-2">
           <a href={org.url} target="_blank" rel="noopener" className="text-primary inline-flex items-center gap-1 hover:underline">{org.name}<ExternalLink className="size-3" /></a>
+          {catalogArea(item) ? <span className="inline-flex items-center gap-1">· <MapPin className="size-3" />{catalogArea(item)}</span> : null}
           {item.location ? <span>· {item.location}</span> : null}
         </CardDescription>
         <p className="text-sm">{item.summary}</p>
@@ -60,6 +62,17 @@ function OpportunityCard({ item, age }) {
             </dl>
             <div className="text-muted-foreground text-xs">Source: <a href={item.url} target="_blank" rel="noopener" className="hover:underline">{item.url.replace(/^https?:\/\/(www\.)?/, "")}</a> · checked {item.verified}. Confirm on the page before signing up.</div>
           </>
+        ) : null}
+        {interest && (interest.status === "interested" || interest.status === "applied") ? (
+          <div className="bg-accent/50 flex flex-col gap-2 rounded-md border px-3 py-2" data-testid="next-step">
+            <div className="text-xs font-medium">{interest.status === "interested" ? "Next step" : `Applied ${fmtDate((interest.since || interest.at).slice(0, 10))} — waiting to hear back`}</div>
+            {item.howTo ? <p className="text-muted-foreground text-xs">{item.howTo}</p> : null}
+            <div className="flex flex-wrap gap-2">
+              {hasEmail(item) ? <Button size="sm" variant="secondary" asChild data-testid="catalog-email"><a href={introEmail(item)}><Mail /> {interest.status === "applied" ? "Follow up" : "Write to them"}</a></Button> : null}
+              {interest.status === "interested" ? <Button size="sm" variant="ghost" onClick={() => { Store.setInterest(item.id, "applied"); toast("Marked applied") }} data-testid="mark-applied">I've asked them</Button> : null}
+              {interest.status === "applied" ? <Button size="sm" variant="ghost" onClick={() => { Store.setInterest(item.id, "joined"); toast("Marked joined") }} data-testid="mark-joined">They said yes</Button> : null}
+            </div>
+          </div>
         ) : null}
         <div className="flex flex-wrap items-center gap-1.5">
           {item.tags.map((t) => <Badge key={t} variant="secondary" className="font-normal">{t}</Badge>)}
@@ -138,6 +151,8 @@ export function Catalog() {
   const [kind, setKind] = React.useState("")
   const [fitF, setFitF] = React.useState(age == null ? "" : "now")
   const [tag, setTag] = React.useState("")
+  const [area, setArea] = React.useState("")
+  const areas = [...new Set(C.items.map((i) => catalogArea(i)).filter(Boolean))].sort()
   const items = C.items.filter((i) => {
     const f = fit(i, age).key
     if (fitF === "now" && !(f === "fits" || f === "adult" || f === "unknown")) return false
@@ -146,6 +161,7 @@ export function Catalog() {
     if (org && i.org !== org) return false
     if (kind && i.kind !== kind) return false
     if (tag && !i.tags.includes(tag)) return false
+    if (area && catalogArea(i) !== area) return false
     if (q && !`${i.title} ${i.summary} ${i.details.join(" ")} ${catalogOrg(i).name} ${i.tags.join(" ")}`.toLowerCase().includes(q.trim().toLowerCase())) return false
     return true
   })
@@ -161,6 +177,7 @@ export function Catalog() {
           <Pick value={org} onChange={setOrg} options={Object.entries(C.organizations).sort((a, b) => a[1].name.localeCompare(b[1].name)).map(([id, o]) => ({ value: id, label: o.name }))} noneLabel="All organizations" testid="catalog-org" />
           <Pick value={kind} onChange={setKind} options={Object.entries(KIND_LABEL).map(([v, l]) => ({ value: v, label: l }))} noneLabel="All kinds" testid="catalog-kind" />
           <Pick value={tag} onChange={setTag} options={catalogTags().map((t) => ({ value: t, label: t }))} noneLabel="All tags" />
+          <Pick value={area} onChange={setArea} options={areas.map((a) => ({ value: a, label: a }))} noneLabel="Anywhere" testid="catalog-area" />
         </CardContent>
       </Card>
       {C.items.length === 0 ? <Empty>The catalog could not be loaded.</Empty>

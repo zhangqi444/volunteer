@@ -188,6 +188,14 @@ All three must pass before a commit.
   shelter's own volunteering starts at 16 or 18, its family fostering program is
   listed, with the adult as the registered foster. Adults-only roles are not listed.
   Do not add other organizations on your own initiative.
+- An organization carries `area`, the city from its address grouped by direction
+  from Seattle ("South · Kent"), so a family can judge the trip; it is a plain
+  geographic label, never an invented drive time. The catalog filters on it.
+- Marking a catalog item *Interested* or *Applied* opens a next-step block with the
+  item's own how-to and, where the source gives an address, a `mailto:` draft in the
+  parent's voice (`introEmail` in `content.js`) naming the volunteer and her age.
+  `interests[id].since` records when the status was reached, and applications quiet
+  for a fortnight surface on the dashboard.
 - An organization may carry `forms` (`{ name, url, note }`), such as Seattle Humane's
   monthly Community Service Hours Log. The Reports page reproduces that format
   (one landscape sheet per organization per month: Date · Time In · Description ·

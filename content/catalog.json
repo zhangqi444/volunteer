@@ -16,7 +16,8 @@
           "note": "Seattle Humane's official monthly log: one row per session with date, time in, description of activity, time out, total time, and a signature. The Reports page prints this format filled in from the tracker; take it along for the signature."
         }
       ],
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "area": "Eastside · Bellevue"
     },
     "raskc": {
       "name": "Regional Animal Services of King County",
@@ -25,7 +26,8 @@
         "email": "RASKC.Volunteers@kingcounty.gov",
         "phone": "206-296-7387 (PETS)",
         "address": "Kent Pet Adoption Center, 21615 64th Ave S, Kent, WA"
-      }
+      },
+      "area": "South · Kent"
     },
     "paws": {
       "name": "PAWS (Progressive Animal Welfare Society)",
@@ -33,7 +35,8 @@
       "contact": {
         "email": "education@paws.org",
         "address": "15305 44th Ave W, Lynnwood, WA 98087"
-      }
+      },
+      "area": "North · Lynnwood"
     },
     "noah": {
       "name": "The NOAH Center",
@@ -41,7 +44,8 @@
       "contact": {
         "phone": "(360) 629-7055",
         "address": "31300 Brandstrom Rd, Stanwood, WA"
-      }
+      },
+      "area": "Far north · Stanwood"
     },
     "safr": {
       "name": "Seattle Area Feline Rescue",
@@ -50,14 +54,16 @@
         "email": "info@seattleareafelinerescue.org",
         "phone": "(206) 659-6220",
         "address": "14717 Aurora Ave N, Shoreline, WA 98133 (per the contact page; confirm the current location before visiting)"
-      }
+      },
+      "area": "North · Shoreline"
     },
     "seattle-animal-shelter": {
       "name": "Seattle Animal Shelter",
       "url": "https://www.seattle.gov/animal-shelter/get-involved/volunteer",
       "contact": {
         "address": "2061 15th Ave W, Seattle, WA 98119"
-      }
+      },
+      "area": "Seattle"
     },
     "homeward-pet": {
       "name": "Homeward Pet Adoption Center",
@@ -65,7 +71,8 @@
       "contact": {
         "phone": "425-488-4444",
         "address": "13132 NE 177th Place, Woodinville, WA 98072"
-      }
+      },
+      "area": "Eastside · Woodinville"
     },
     "purrfect-pals": {
       "name": "Purrfect Pals",
@@ -74,7 +81,8 @@
         "email": "volunteers@purrfectpals.org",
         "phone": "(360) 652-9611",
         "address": "230 McRae Rd NE, Arlington, WA 98223"
-      }
+      },
+      "area": "Far north · Arlington"
     },
     "motley-zoo": {
       "name": "Motley Zoo Animal Rescue",
@@ -82,14 +90,16 @@
       "contact": {
         "email": "cats@motleyzoo.org · volunteer@motleyzoo.org",
         "address": "Redmond and Monroe, WA"
-      }
+      },
+      "area": "Eastside · Redmond"
     },
     "auburn-valley-hs": {
       "name": "Auburn Valley Humane Society",
       "url": "https://auburnvalleyhs.org/get-involved/volunteer/",
       "contact": {
         "address": "Auburn, WA"
-      }
+      },
+      "area": "South · Auburn"
     },
     "pasados": {
       "name": "Pasado's Safe Haven",
@@ -98,28 +108,32 @@
         "email": "volunteer@pasadosafehaven.org",
         "phone": "(360) 793-9393",
         "address": "Sultan, WA"
-      }
+      },
+      "area": "East · Sultan"
     },
     "kitsap-humane": {
       "name": "Kitsap Humane Society",
       "url": "https://www.kitsap-humane.org/get-involved/volunteer/",
       "contact": {
         "address": "Kitsap County, WA (a ferry ride from Seattle)"
-      }
+      },
+      "area": "Across the water · Kitsap"
     },
     "seattle-aquarium": {
       "name": "Seattle Aquarium",
       "url": "https://www.seattleaquarium.org/act-for-the-ocean/volunteer/youth-ocean-advocates/",
       "contact": {
         "address": "Seattle waterfront"
-      }
+      },
+      "area": "Seattle"
     },
     "woodland-park-zoo": {
       "name": "Woodland Park Zoo",
       "url": "https://zoo.org/volunteer/teen/",
       "contact": {
         "address": "Seattle"
-      }
+      },
+      "area": "Seattle"
     },
     "zooniverse": {
       "name": "Zooniverse",
