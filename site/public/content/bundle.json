@@ -4,6 +4,245 @@
       "ages": {
         "max": null,
         "min": null,
+        "note": "The registered foster is an adult; the child helps at home.",
+        "withAdult": true
+      },
+      "commitment": "Two days to a couple of months per foster.",
+      "details": [
+        "Fostering is described as a great way for families to become involved, especially those with children too young to become volunteers at the shelter.",
+        "Foster families provide temporary in-home care, from 2-day kennel breaks to a couple of months of quiet surgery rehab; mostly dogs, from energetic puppies to calm seniors.",
+        "Fill out the Volunteer Application; you will be invited to the General Orientation."
+      ],
+      "howTo": "Submit the Volunteer Application on homewardpet.org and attend the General Orientation.",
+      "id": "homeward-foster",
+      "kind": "at-home",
+      "location": "At home; Woodinville",
+      "org": "homeward-pet",
+      "summary": "Homeward Pet names fostering as the way in for families whose children are too young to volunteer at the shelter.",
+      "tags": [
+        "animals",
+        "dogs",
+        "foster",
+        "family",
+        "at home"
+      ],
+      "title": "Foster with Homeward Pet (families with young children)",
+      "url": "https://www.homewardpet.org/volunteer/foster-care/",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "No age limit stated; written for kids.",
+        "withAdult": false
+      },
+      "commitment": "An afternoon per batch.",
+      "details": [
+        "At PAWS you must be 18 or older to work with or around animals, so at-home projects are how kids help directly.",
+        "Ideas from PAWS: snuffle mats, cardboard cat scratchers, dog toys out of old t-shirts or jeans, cat toys out of fabric, feathers and string, and cat beds sewn from used sweaters.",
+        "PAWS also suggests being kind to wildlife: fresh water and bird feeders at home, picking up litter that can harm wild animals."
+      ],
+      "howTo": "Pick a project from the Kids & Teen Opportunities page, make a batch, and contact PAWS about dropping it off.",
+      "id": "paws-at-home-projects",
+      "kind": "at-home",
+      "location": "At home; deliver to PAWS in Lynnwood",
+      "org": "paws",
+      "summary": "PAWS lists kid-friendly things to make at home for the shelter's cats and dogs.",
+      "tags": [
+        "animals",
+        "cats",
+        "crafts",
+        "at home",
+        "recycling"
+      ],
+      "title": "Make cat toys, scratchers and beds for PAWS",
+      "url": "https://www.paws.org/volunteer/opportunities/kids-teen-opportunities/",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": 12,
+        "min": 9,
+        "note": "Ages 9–12.",
+        "withAdult": false
+      },
+      "commitment": "Two hours per workshop.",
+      "details": [
+        "Dedicated to educating preteens ages 9–12 on how to improve the lives of animals at PAWS and in the community; preteens complete mission-driven work through community service projects while building leadership skills and learning from guest speakers.",
+        "Projects include helping with groundwork, creating animal enrichment, supporting shelter operations and more.",
+        "Held in person at PAWS in Lynnwood; the summer series ran weekly, Tuesdays 11:00 a.m.–1:00 p.m. and Thursdays 2:00–4:00 p.m.",
+        "Pricing has been listed as $20 per two-hour workshop and as $175 for a ten-week series in different seasons; check the current listing and ask education@paws.org about the discount code."
+      ],
+      "howTo": "Watch the Teen and Preteen Workshops page for the next series and register; email education@paws.org with questions.",
+      "id": "paws-preteen-workshops",
+      "kind": "program",
+      "location": "PAWS, 15305 44th Ave W, Lynnwood",
+      "org": "paws",
+      "summary": "Two-hour workshops at the Lynnwood shelter where preteens do service projects for the animals.",
+      "tags": [
+        "animals",
+        "cats",
+        "workshop",
+        "paid",
+        "service hours"
+      ],
+      "title": "PAWS Preteen Workshops (ages 9–12)",
+      "url": "https://paws.org/education/teen-and-preteen-workshops-at-paws",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "No age limit stated; collecting and delivering needs an adult.",
+        "withAdult": true
+      },
+      "commitment": "A few weeks of collecting, then one delivery or shipment.",
+      "details": [
+        "PAWS receives donations from kids who ask for donations to help animals instead of presents for their birthday.",
+        "Kids can organize a FUNdraiser, have a gift drive, collect animal supplies, or all three.",
+        "Wish-list items can be bought online and shipped directly to PAWS."
+      ],
+      "howTo": "Use the PAWS wish list to tell people what to bring, then deliver or ship the items.",
+      "id": "paws-wish-list-drive",
+      "kind": "drive",
+      "location": "Neighborhood or school; ship or deliver to PAWS",
+      "org": "paws",
+      "summary": "Collect supplies from PAWS's wish list, or ask for donations instead of birthday presents.",
+      "tags": [
+        "animals",
+        "cats",
+        "drive",
+        "birthday"
+      ],
+      "title": "Wish-list drive or birthday donations for PAWS",
+      "url": "https://www.paws.org/volunteer/opportunities/kids-teen-opportunities/",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "Group and family project; no age stated.",
+        "withAdult": true
+      },
+      "commitment": "One session per batch or project.",
+      "details": [
+        "RASKC's group volunteering options include making cat cozy blankets, organizing fundraisers, putting up posters in the community, or making YouTube videos.",
+        "Children may also take part in caring for animals through the fostering program, with an adult in the household as the official volunteer."
+      ],
+      "howTo": "Email RASKC.Volunteers@kingcounty.gov to ask for the current blanket specifications and drop-off arrangements, then make a batch.",
+      "id": "raskc-cat-blankets",
+      "kind": "at-home",
+      "location": "At home; deliver to the Kent shelter",
+      "org": "raskc",
+      "summary": "Make cozy blankets for the shelter cats, or run a fundraiser or poster project as a family.",
+      "tags": [
+        "animals",
+        "cats",
+        "crafts",
+        "at home",
+        "family"
+      ],
+      "title": "Cat cozy blankets and other group projects for RASKC",
+      "url": "https://kingcounty.gov/en/dept/executive-services/animals-pets-pests/regional-animal-services/volunteer",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": 9,
+        "note": "From age 9 with a parent or guardian; 16–17 with consent.",
+        "withAdult": true
+      },
+      "commitment": "Scheduled shifts, typically an hour or two.",
+      "details": [
+        "RASKC offers volunteer opportunities for ages 16 and 17 with guardian consent, and ages 9–15 with an accompanying guardian.",
+        "The Shelter Helper role is available for ages 9+; youth 9–15 must be accompanied by their parent or legal guardian.",
+        "Listed Shelter Helper shifts involve washing dishes and doing laundry at the Kent Pet Adoption Center; training is provided for all volunteer roles.",
+        "Register for a volunteer orientation to start; questions go to RASKC.Volunteers@kingcounty.gov."
+      ],
+      "howTo": "Register for a RASKC volunteer orientation from the volunteer page, then sign up for Shelter Helper shifts together.",
+      "id": "raskc-shelter-helper",
+      "kind": "on-site",
+      "location": "Kent Pet Adoption Center, 21615 64th Ave S, Kent",
+      "org": "raskc",
+      "summary": "Real shelter chores for kids as young as nine, alongside a parent or guardian.",
+      "tags": [
+        "animals",
+        "cats",
+        "shelter",
+        "service hours",
+        "with a parent"
+      ],
+      "title": "Shelter Helper at the Kent shelter (from age 9 with a parent)",
+      "url": "https://kingcounty.gov/en/dept/executive-services/animals-pets-pests/regional-animal-services/volunteer",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "The registered foster is an adult; the child helps at home.",
+        "withAdult": true
+      },
+      "commitment": "Weeks per foster.",
+      "details": [
+        "To volunteer at the Seattle Animal Shelter you must be 18 or older; family participation is allowed and encouraged through fostering.",
+        "The shelter says fostering can build a foundation of philanthropy in your children, to select a cat that is age-appropriate for them, and to give children guidance, instructions and rules about caring for an orphaned cat.",
+        "A Kitten Care class is offered when more kitten fosters are needed."
+      ],
+      "howTo": "Complete the online volunteer profile and select Foster Care Volunteer–Cats.",
+      "id": "sas-foster-cats",
+      "kind": "at-home",
+      "location": "At home; the shelter is at 2061 15th Ave W, Seattle",
+      "org": "seattle-animal-shelter",
+      "summary": "The city shelter calls fostering a wonderful family experience; shelter volunteering itself starts at 18.",
+      "tags": [
+        "cats",
+        "foster",
+        "family",
+        "at home"
+      ],
+      "title": "Foster Cat Program (Seattle Animal Shelter)",
+      "url": "https://my.seattle.gov/animal-shelter/get-involved/foster-cat-program",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "The registered foster is an adult; the child helps at home.",
+        "withAdult": true
+      },
+      "commitment": "Weeks to months per foster.",
+      "details": [
+        "Volunteers in the rescue must be at least 16; for those under the required age, the rescue recommends discussing fostering with your family.",
+        "Foster scenarios include litters of kittens too young for adoption, bottle-baby kittens needing round-the-clock care, adult cats who need socialization, and adult cats with other needs.",
+        "Kittens come into the adoption center regularly for check-ups, normally 2–4 times a month; homes without regular transportation are welcome for adult cats in longer-term foster.",
+        "To start, read the Foster Handbook and fill out the online Foster Information Form."
+      ],
+      "howTo": "Read the Foster Handbook on the foster page and submit the Foster Information Form.",
+      "id": "safr-foster",
+      "kind": "at-home",
+      "location": "At home; check-ups in Shoreline",
+      "org": "safr",
+      "summary": "The rescue's shelter volunteers must be 16, and it points younger families to fostering.",
+      "tags": [
+        "cats",
+        "foster",
+        "family",
+        "at home"
+      ],
+      "title": "Foster kittens or cats as a family (Seattle Area Feline Rescue)",
+      "url": "https://seattleareafelinerescue.org/foster/foster-info/",
+      "verified": "2026-09-06"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
         "note": "Group opportunity arranged with the volunteer office; hospital volunteer roles themselves start at 16 (18 for patient-facing).",
         "withAdult": true
       },
@@ -205,10 +444,89 @@
       "title": "Pet food drive",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/projects/",
       "verified": "2026-09-05"
+    },
+    {
+      "ages": {
+        "max": 13,
+        "min": 8,
+        "note": "Ages 8–13 per the youth page (6–10 per the event page); an adult comes along.",
+        "withAdult": true
+      },
+      "commitment": "One day.",
+      "details": [
+        "Youths 8–13 can register for one of NOAH's Kid's Day volunteer opportunities; regular volunteering starts at 14 (14–15 with a parent).",
+        "The Kid's Day page describes it as perfect for kids ages 6–10, all ages welcome with adult supervision, and each camper must be accompanied by an adult.",
+        "Kids 'adopt' a plush pet and walk it through intake, medical exams and adoption day, with stations like puppy paw painting, bottle-feeding baby animals, scent trails, agility demos and clicker training; snacks and water are provided, pack a lunch."
+      ],
+      "howTo": "Watch the Kid's Volunteer Day page for the next date and register; check the current cost there.",
+      "id": "noah-kids-day",
+      "kind": "event",
+      "location": "The NOAH Center, 31300 Brandstrom Rd, Stanwood",
+      "org": "noah",
+      "summary": "A hands-on day at the Stanwood shelter: kids follow a plush pet through the shelter journey and meet the real dogs and cats.",
+      "tags": [
+        "animals",
+        "cats",
+        "dogs",
+        "event",
+        "with a parent"
+      ],
+      "title": "Kid's Volunteer Day at The NOAH Center",
+      "url": "https://www.thenoahcenter.org/kidsday/",
+      "verified": "2026-09-06"
     }
   ],
-  "note": "Opportunities Sheila (9) can take part in now, with an adult where the source says so, from organizations the owner has pointed at. Every item names its source URL and the date it was checked; confirm details on the page before signing up. Never add a fact without a source.",
+  "note": "Opportunities Sheila (9) can take part in now, with an adult where the source says so, from organizations the owner has pointed at or asked for (animal and cat groups around Seattle). Every item names its source URL and the date it was checked; confirm details on the page before signing up. Never add a fact without a source.",
   "organizations": {
+    "homeward-pet": {
+      "contact": {
+        "address": "13132 NE 177th Place, Woodinville, WA 98072",
+        "phone": "425-488-4444"
+      },
+      "name": "Homeward Pet Adoption Center",
+      "url": "https://www.homewardpet.org/volunteer/foster-care/"
+    },
+    "noah": {
+      "contact": {
+        "address": "31300 Brandstrom Rd, Stanwood, WA",
+        "phone": "(360) 629-7055"
+      },
+      "name": "The NOAH Center",
+      "url": "https://www.thenoahcenter.org/youthvolunteers/"
+    },
+    "paws": {
+      "contact": {
+        "address": "15305 44th Ave W, Lynnwood, WA 98087",
+        "email": "education@paws.org"
+      },
+      "name": "PAWS (Progressive Animal Welfare Society)",
+      "url": "https://www.paws.org/volunteer/opportunities/kids-teen-opportunities/"
+    },
+    "raskc": {
+      "contact": {
+        "address": "Kent Pet Adoption Center, 21615 64th Ave S, Kent, WA",
+        "email": "RASKC.Volunteers@kingcounty.gov",
+        "phone": "206-296-7387 (PETS)"
+      },
+      "name": "Regional Animal Services of King County",
+      "url": "https://kingcounty.gov/en/dept/executive-services/animals-pets-pests/regional-animal-services/volunteer"
+    },
+    "safr": {
+      "contact": {
+        "address": "14717 Aurora Ave N, Shoreline, WA 98133 (per the contact page; confirm the current location before visiting)",
+        "email": "info@seattleareafelinerescue.org",
+        "phone": "(206) 659-6220"
+      },
+      "name": "Seattle Area Feline Rescue",
+      "url": "https://seattleareafelinerescue.org/foster/"
+    },
+    "seattle-animal-shelter": {
+      "contact": {
+        "address": "2061 15th Ave W, Seattle, WA 98119"
+      },
+      "name": "Seattle Animal Shelter",
+      "url": "https://www.seattle.gov/animal-shelter/get-involved/volunteer"
+    },
     "seattle-childrens": {
       "contact": {
         "address": "Seattle Children's In-Kind Donations, M/S RC.3.800, 4800 Sand Point Way NE, Seattle, WA 98105",

@@ -175,9 +175,14 @@ All three must pass before a commit.
   `note`) or are left out with "not stated". Confirming on the page before signing
   up is the volunteer's step, and the UI says so.
 - **Scope**: the catalog holds only what Sheila can do at her age (with an adult
-  where the source says so), from organizations the owner has pointed at (Seattle
-  Humane, Seattle Children's). Teen-only programs are not listed; add them when she
-  is old enough. Do not pad it with other organizations on your own initiative.
+  where the source says so), from organizations the owner has pointed at or asked
+  for: Seattle Humane, Seattle Children's, and the cat and animal groups around
+  Seattle the owner asked to find (RASKC, PAWS, The NOAH Center, Seattle Area Feline
+  Rescue, Seattle Animal Shelter, Homeward Pet). Teen-only programs are not listed;
+  add them when she is old enough. Where a shelter's own volunteering starts at 13,
+  16 or 18, its family fostering program is what is listed, with the adult as the
+  registered foster. Do not pad the catalog with other organizations on your own
+  initiative.
 - An organization may carry `forms` (`{ name, url, note }`), such as Seattle Humane's
   monthly Community Service Hours Log. The Reports page reproduces that format
   (one landscape sheet per organization per month: Date · Time In · Description ·
