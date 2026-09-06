@@ -43,8 +43,10 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   const remote = body();
   const ours = remote.entries.find((e) => e.activity === 'Pushed entry');
   const later = new Date(Date.now() + 60000).toISOString();
-  remote.entries = [{ id: 'remote1', date: '2026-01-15', orgId: remote.organizations[0].id, workItemId: '', activity: 'From the other device', category: '', hours: 1.5, supervisor: '', notes: '', createdAt: later, at: later }];
+  remote.entries = [{ id: 'remote1', date: '2026-01-15', orgId: remote.organizations[0].id, workItemId: '', activity: 'From the other device', category: '', hours: 1.5, supervisor: '', notes: '', createdAt: later, at: later, photos: [{ id: 'photoR', name: 'remote.jpg', at: later }] }];
   remote.deleted = { [ours.id]: later };
+  // meanwhile this device attaches a photo to the shared 'remote1' entry (it does not exist locally yet, so fake it in storage as an older local copy with our photo)
+  await pg.evaluate((r) => { const d = JSON.parse(localStorage.getItem('volunteer.v2')); d.entries.push({ ...r, notes: 'local edit', at: '2026-01-15T00:00:00.000Z', photos: [{ id: 'photoL', name: 'local.jpg', at: '2026-01-15T00:00:00.000Z' }] }); localStorage.setItem('volunteer.v2', JSON.stringify(d)); }, remote.entries[0]);
   drive.body = JSON.stringify(remote);
   await pg.evaluate(() => { const s = JSON.parse(localStorage.getItem('volunteer.drive')); s.token.expires_at = Date.now() - 1000; localStorage.setItem('volunteer.drive', JSON.stringify(s)); });
   const calls = (await gis()).length;
@@ -62,6 +64,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   check('remote-only entry arrived after merge', /From the other device/.test(log));
   check('entry deleted elsewhere is gone here (tombstone wins)', !/Pushed entry/.test(log));
   check('merged result written back to Drive', body().entries.length === 1 && body().entries[0].id === 'remote1' && body().deleted[ours.id] === later);
+  check('the newer remote copy won the record but both devices\' photos were kept', body().entries[0].notes === '' && body().entries[0].photos.map((p) => p.id).sort().join() === 'photoL,photoR');
 
   // sign out: token revoked, this device cleared, back to the gate; the file keeps everything
   await pg.click('[data-testid=drive-button]');

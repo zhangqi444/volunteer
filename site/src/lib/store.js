@@ -193,6 +193,8 @@ export const Store = {
   /** Import / sample / clear: everything not in `data` is buried so Drive does not bring it back. */
   replaceAll(data) {
     const keep = new Set([...data.organizations, ...data.workItems, ...data.entries, ...data.memos, ...data.plans, ...data.suggestions].map((r) => r.id))
+    const gone = this.s.entries.filter((e) => !keep.has(e.id)).flatMap((e) => e.photos.map((p) => p.id))
+    if (gone.length) Drive.deleteFiles(gone)                 // their entries are leaving; do not strand the files in Drive
     const deleted = { ...this.s.deleted }
     for (const r of [...this.s.organizations, ...this.s.workItems, ...this.s.entries, ...this.s.memos, ...this.s.plans, ...this.s.suggestions]) if (!keep.has(r.id)) deleted[r.id] = now()
     for (const k of Object.keys(this.s.badges)) if (!data.badges[k]) deleted["badge:" + k] = now()
@@ -278,7 +280,14 @@ export const Store = {
     const orgIds = new Set(orgs.map((o) => o.id))
     const items = mergeList(this.s.workItems, remote.workItems).filter((w) => orgIds.has(w.orgId))
     const itemIds = new Set(items.map((w) => w.id))
-    const entries = mergeList(this.s.entries, remote.entries).map((e) => ({ ...e, orgId: orgIds.has(e.orgId) ? e.orgId : "", workItemId: itemIds.has(e.workItemId) ? e.workItemId : "" }))
+    const localPhotos = new Map(this.s.entries.map((e) => [e.id, e.photos]))
+    const remotePhotos = new Map(remote.entries.map((e) => [e.id, e.photos]))
+    const entries = mergeList(this.s.entries, remote.entries).map((e) => {
+      // A photo added on either device stays, whichever side won the rest of the record.
+      const seen = new Set(), photos = []
+      for (const p of [...(localPhotos.get(e.id) || []), ...(remotePhotos.get(e.id) || [])]) if (!seen.has(p.id)) { seen.add(p.id); photos.push(p) }
+      return { ...e, photos, orgId: orgIds.has(e.orgId) ? e.orgId : "", workItemId: itemIds.has(e.workItemId) ? e.workItemId : "" }
+    })
     const memos = mergeList(this.s.memos, remote.memos).filter((m) => itemIds.has(m.workItemId))
     const plans = mergeList(this.s.plans, remote.plans).map((p) => ({ ...p, orgId: orgIds.has(p.orgId) ? p.orgId : "", workItemId: itemIds.has(p.workItemId) ? p.workItemId : "" }))
     const suggestions = mergeList(this.s.suggestions, remote.suggestions)
