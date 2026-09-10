@@ -13,7 +13,7 @@
       ],
       "howTo": "Apply through the volunteer page once she is 10, with the adult who will come along.",
       "id": "auburn-valley-youth",
-      "kind": "on-site",
+      "kind": "shift",
       "location": "Auburn",
       "org": "auburn-valley-hs",
       "summary": "Shelter volunteering that opens at ten with a parent along.",
@@ -25,7 +25,8 @@
       ],
       "title": "Auburn Valley Humane Society (from age 10, with an adult)",
       "url": "https://auburnvalleyhs.org/get-involved/volunteer/",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -42,7 +43,7 @@
       ],
       "howTo": "Pick a project from the Best Friends pages, then ask PAWS or RASKC (in this catalog) what they accept before delivering.",
       "id": "best-friends-diy",
-      "kind": "at-home",
+      "kind": "craft",
       "location": "At home; deliver to a local shelter that accepts handmade items",
       "org": "best-friends",
       "summary": "A national rescue's list of things kids can make at home for cats and dogs; give them to a local shelter from this catalog.",
@@ -55,7 +56,8 @@
       ],
       "title": "At-home projects for shelter animals (Best Friends' ideas for under-18s)",
       "url": "https://bestfriends.org/volunteer/volunteer-from-home",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "at-home"
     },
     {
       "ages": {
@@ -72,7 +74,7 @@
       ],
       "howTo": "Apply on the Volunteer From Home page or email nationalvolunteers@bestfriends.org; log the shared hours as entries.",
       "id": "best-friends-nova",
-      "kind": "remote",
+      "kind": "shift",
       "location": "Online",
       "org": "best-friends",
       "summary": "Two hours a week from home helping Best Friends' lifesaving centers: pet bios, records, adopter follow-up.",
@@ -85,7 +87,8 @@
       ],
       "title": "Best Friends NOVA: remote shelter support (an adult's role, done together)",
       "url": "https://bestfriends.org/volunteer/volunteer-from-home/national-opportunities",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "online"
     },
     {
       "ages": {
@@ -102,7 +105,7 @@
       ],
       "howTo": "Submit the Volunteer Application on homewardpet.org and attend the General Orientation.",
       "id": "homeward-foster",
-      "kind": "at-home",
+      "kind": "foster",
       "location": "At home; Woodinville",
       "org": "homeward-pet",
       "summary": "Homeward Pet names fostering as the way in for families whose children are too young to volunteer at the shelter.",
@@ -115,7 +118,8 @@
       ],
       "title": "Foster with Homeward Pet (families with young children)",
       "url": "https://www.homewardpet.org/volunteer/foster-care/",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "at-home"
     },
     {
       "ages": {
@@ -132,7 +136,7 @@
       ],
       "howTo": "Apply together through the volunteer page when she is 12.",
       "id": "kitsap-junior",
-      "kind": "on-site",
+      "kind": "shift",
       "location": "Kitsap County, a ferry ride from Seattle",
       "org": "kitsap-humane",
       "summary": "Dog walking, cat socialization and small-animal enrichment with a parent alongside.",
@@ -144,7 +148,8 @@
       ],
       "title": "Kitsap Humane Society youth volunteers (ages 13–15, with a parent)",
       "url": "https://www.kitsap-humane.org/get-involved/volunteer/",
-      "verified": "2026-09-10"
+      "verified": "2026-09-10",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -161,7 +166,7 @@
       ],
       "howTo": "Email cats@motleyzoo.org about fostering kittens as a family, or info@motleyzoo.org for how to get involved.",
       "id": "motley-foster-cats",
-      "kind": "at-home",
+      "kind": "foster",
       "location": "At home; Redmond and Monroe",
       "org": "motley-zoo",
       "summary": "A Redmond rescue that welcomes young families as foster homes for cats and kittens.",
@@ -173,7 +178,8 @@
       ],
       "title": "Foster kittens with Motley Zoo (families with kids from age 2)",
       "url": "https://www.motleyzooanimalrescue.org/fostering",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "at-home"
     },
     {
       "ages": {
@@ -200,7 +206,8 @@
       ],
       "title": "Kids Who Care, for fourth-grade classrooms",
       "url": "https://www.paws.org/education/school-year-programs/",
-      "verified": "2026-09-10"
+      "verified": "2026-09-10",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -217,7 +224,7 @@
       ],
       "howTo": "Pick a project from the Kids & Teen Opportunities page, make a batch, and contact PAWS about dropping it off.",
       "id": "paws-at-home-projects",
-      "kind": "at-home",
+      "kind": "craft",
       "location": "At home; deliver to PAWS in Lynnwood",
       "org": "paws",
       "summary": "PAWS lists kid-friendly things to make at home for the shelter's cats and dogs.",
@@ -230,7 +237,8 @@
       ],
       "title": "Make cat toys, scratchers and beds for PAWS",
       "url": "https://www.paws.org/volunteer/opportunities/kids-teen-opportunities/",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "at-home"
     },
     {
       "ages": {
@@ -248,7 +256,7 @@
       ],
       "howTo": "Registration opens in January — watch the event page and sign her up individually; email education@paws.org to ask about dates or whether she can take part without a troop.",
       "id": "paws-scout-badges",
-      "kind": "program",
+      "kind": "event",
       "location": "PAWS, 15305 44th Ave W, Lynnwood",
       "org": "paws",
       "summary": "A ninety-minute workshop at PAWS on the habitats local wildlife live in — and she is exactly the right age.",
@@ -261,7 +269,8 @@
       ],
       "title": "Our Wild World: Junior Animal Habitats badge at PAWS",
       "url": "https://www.paws.org/events/junior-animal-habitats-badge/",
-      "verified": "2026-09-10"
+      "verified": "2026-09-10",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -290,7 +299,8 @@
       ],
       "title": "Wish-list drive or birthday donations for PAWS",
       "url": "https://www.paws.org/volunteer/opportunities/kids-teen-opportunities/",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "at-home"
     },
     {
       "ages": {
@@ -306,7 +316,7 @@
       ],
       "howTo": "Email volunteer@pasadosafehaven.org or call (360) 793-9393 when she is 12.",
       "id": "pasados-youth",
-      "kind": "on-site",
+      "kind": "shift",
       "location": "Sultan",
       "org": "pasados",
       "summary": "A sanctuary in Sultan for rescued farm animals, dogs and cats.",
@@ -318,7 +328,8 @@
       ],
       "title": "Pasado's Safe Haven farm sanctuary (from age 12, with a guardian until 16)",
       "url": "https://www.pasadosafehaven.org/get-involved/volunteer/opportunities/",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -335,7 +346,7 @@
       ],
       "howTo": "Email volunteers@purrfectpals.org from the volunteer page when she turns 13.",
       "id": "purrfect-pals-sanctuary",
-      "kind": "on-site",
+      "kind": "shift",
       "location": "230 McRae Rd NE, Arlington",
       "org": "purrfect-pals",
       "summary": "The region's first no-kill cat shelter, on five acres in Arlington.",
@@ -347,7 +358,8 @@
       ],
       "title": "Purrfect Pals cat sanctuary (from age 13, with a parent until 16)",
       "url": "https://purrfectpals.org/volunteer/",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -363,7 +375,7 @@
       ],
       "howTo": "Email RASKC.Volunteers@kingcounty.gov to ask for the current blanket specifications and drop-off arrangements, then make a batch.",
       "id": "raskc-cat-blankets",
-      "kind": "at-home",
+      "kind": "craft",
       "location": "At home; deliver to the Kent shelter",
       "org": "raskc",
       "summary": "Make cozy blankets for the shelter cats, or run a fundraiser or poster project as a family.",
@@ -376,7 +388,8 @@
       ],
       "title": "Cat cozy blankets and other group projects for RASKC",
       "url": "https://kingcounty.gov/en/dept/executive-services/animals-pets-pests/regional-animal-services/volunteer",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "at-home"
     },
     {
       "ages": {
@@ -394,7 +407,7 @@
       ],
       "howTo": "Register for a RASKC volunteer orientation from the volunteer page, then sign up for Shelter Helper shifts together.",
       "id": "raskc-shelter-helper",
-      "kind": "on-site",
+      "kind": "shift",
       "location": "Kent Pet Adoption Center, 21615 64th Ave S, Kent",
       "org": "raskc",
       "summary": "Real shelter chores for kids as young as nine, alongside a parent or guardian.",
@@ -407,7 +420,8 @@
       ],
       "title": "Shelter Helper at the Kent shelter (from age 9 with a parent)",
       "url": "https://kingcounty.gov/en/dept/executive-services/animals-pets-pests/regional-animal-services/volunteer",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -424,7 +438,7 @@
       ],
       "howTo": "Complete the online volunteer profile and select Foster Care Volunteer–Cats.",
       "id": "sas-foster-cats",
-      "kind": "at-home",
+      "kind": "foster",
       "location": "At home; the shelter is at 2061 15th Ave W, Seattle",
       "org": "seattle-animal-shelter",
       "summary": "The city shelter calls fostering a wonderful family experience; shelter volunteering itself starts at 18.",
@@ -436,7 +450,8 @@
       ],
       "title": "Foster Cat Program (Seattle Animal Shelter)",
       "url": "https://my.seattle.gov/animal-shelter/get-involved/foster-cat-program",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "at-home"
     },
     {
       "ages": {
@@ -462,7 +477,8 @@
       ],
       "title": "Youth Ocean Advocates at the Seattle Aquarium (grades 9–12)",
       "url": "https://www.seattleaquarium.org/act-for-the-ocean/volunteer/youth-ocean-advocates/",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -480,7 +496,7 @@
       ],
       "howTo": "Read the Foster Handbook on the foster page and submit the Foster Information Form.",
       "id": "safr-foster",
-      "kind": "at-home",
+      "kind": "foster",
       "location": "At home; check-ups in Shoreline",
       "org": "safr",
       "summary": "The rescue's shelter volunteers must be 16, and it points younger families to fostering.",
@@ -492,7 +508,8 @@
       ],
       "title": "Foster kittens or cats as a family (Seattle Area Feline Rescue)",
       "url": "https://seattleareafelinerescue.org/foster/foster-info/",
-      "verified": "2026-09-10"
+      "verified": "2026-09-10",
+      "where": "at-home"
     },
     {
       "ages": {
@@ -509,7 +526,7 @@
       ],
       "howTo": "Apply through the volunteer page at 17, or at 16 and ask about the interview.",
       "id": "safr-volunteer",
-      "kind": "on-site",
+      "kind": "shift",
       "location": "Shoreline",
       "org": "safr",
       "summary": "Cat care and adoption-center roles at the Shoreline rescue once she is old enough.",
@@ -520,7 +537,8 @@
       ],
       "title": "Seattle Area Feline Rescue volunteering (from 17, or 16 with an interview)",
       "url": "https://seattleareafelinerescue.org/volunteer/",
-      "verified": "2026-09-10"
+      "verified": "2026-09-10",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -537,7 +555,7 @@
       ],
       "howTo": "Register on the High School Service Shifts page when winter registration opens.",
       "id": "sh-hs-service-shifts",
-      "kind": "on-site",
+      "kind": "shift",
       "location": "Seattle Humane, Bellevue",
       "org": "seattle-humane",
       "summary": "Routine shelter tasks in winter that earn community service hours.",
@@ -549,7 +567,8 @@
       ],
       "title": "High School Service Shifts (grades 9–12)",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/high-school-service-shifts/",
-      "verified": "2026-09-05"
+      "verified": "2026-09-05",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -566,7 +585,7 @@
       ],
       "howTo": "Make the toys following the project page, then bring them to the shelter with any blankets.",
       "id": "sh-cat-toys",
-      "kind": "at-home",
+      "kind": "craft",
       "location": "At home; deliver to Seattle Humane",
       "org": "seattle-humane",
       "summary": "Turn old socks and paper tubes into catnip toys for shelter cats.",
@@ -578,7 +597,8 @@
       ],
       "title": "Homemade cat toys from recycled objects",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/projects/",
-      "verified": "2026-09-05"
+      "verified": "2026-09-05",
+      "where": "at-home"
     },
     {
       "ages": {
@@ -604,7 +624,8 @@
       ],
       "title": "Humane Service Training Program (ages 16–17)",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/youth-programs/",
-      "verified": "2026-09-05"
+      "verified": "2026-09-05",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -632,7 +653,8 @@
       ],
       "title": "Humane Teen Club (ages 13–17)",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/youth-programs/",
-      "verified": "2026-09-05"
+      "verified": "2026-09-05",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -650,7 +672,7 @@
       ],
       "howTo": "Follow the no-sew instructions on the project page, then bring the blankets to the shelter. Contact Education Services for drop-off details.",
       "id": "sh-cat-blankets",
-      "kind": "at-home",
+      "kind": "craft",
       "location": "At home; deliver to Seattle Humane",
       "org": "seattle-humane",
       "summary": "Make small fleece blankets for the cats waiting to be adopted.",
@@ -662,7 +684,8 @@
       ],
       "title": "No-sew cat blankets",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/projects/",
-      "verified": "2026-09-05"
+      "verified": "2026-09-05",
+      "where": "at-home"
     },
     {
       "ages": {
@@ -692,7 +715,8 @@
       ],
       "title": "Pet food drive",
       "url": "https://www.seattlehumane.org/get-involved/youth-school-programs/projects/",
-      "verified": "2026-09-05"
+      "verified": "2026-09-05",
+      "where": "at-home"
     },
     {
       "ages": {
@@ -722,7 +746,8 @@
       ],
       "title": "Kid's Volunteer Day at The NOAH Center",
       "url": "https://www.thenoahcenter.org/kidsday/",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -748,7 +773,8 @@
       ],
       "title": "Woodland Park Zoo teen volunteers (grades 10–12)",
       "url": "https://zoo.org/volunteer/teen/",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "in-person"
     },
     {
       "ages": {
@@ -765,7 +791,7 @@
       ],
       "howTo": "Open instantwild.zsl.org or the app and start tagging; log the time as an entry.",
       "id": "instant-wild",
-      "kind": "remote",
+      "kind": "citizen-science",
       "location": "Online",
       "org": "zsl",
       "summary": "Photos arrive from cameras around the world as animals walk past; you say what you see.",
@@ -776,7 +802,8 @@
       ],
       "title": "Tag wildlife in live camera-trap photos (Instant Wild)",
       "url": "https://www.zsl.org/what-we-do/projects/instant-wild",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "online"
     },
     {
       "ages": {
@@ -793,7 +820,7 @@
       ],
       "howTo": "Create her Zooniverse account with a parent's approval, open Snapshot Serengeti, and classify together; log the time as an entry.",
       "id": "zooniverse-serengeti",
-      "kind": "remote",
+      "kind": "citizen-science",
       "location": "Online",
       "org": "zooniverse",
       "summary": "Real research from home: name the animals in camera-trap photos from Serengeti National Park.",
@@ -805,7 +832,8 @@
       ],
       "title": "Classify Serengeti camera-trap animals (Zooniverse)",
       "url": "https://www.zooniverse.org/projects/zooniverse/snapshot-serengeti",
-      "verified": "2026-09-06"
+      "verified": "2026-09-06",
+      "where": "online"
     },
     {
       "ages": {
@@ -822,7 +850,7 @@
       ],
       "howTo": "Start with the Seek app, which needs no sign-up; to have the sightings count as data, post them on to iNaturalist from a parent-supervised account, or record bird checklists in eBird on a parent's Cornell Lab account. Log the time as an entry.",
       "id": "inaturalist-ebird",
-      "kind": "remote",
+      "kind": "citizen-science",
       "location": "Outdoors, uploaded online",
       "org": "inaturalist",
       "summary": "Turn walks in the park into wildlife records scientists use.",
@@ -835,7 +863,8 @@
       ],
       "title": "Log the birds and animals you see (Seek and eBird)",
       "url": "https://www.inaturalist.org/pages/seek_app",
-      "verified": "2026-09-10"
+      "verified": "2026-09-10",
+      "where": "online"
     }
   ],
   "note": "Cat and animal volunteer work for Sheila (9): around Seattle and online. What she can do now leads, with an adult where the source says so; what opens at 10, 12, 13 or 16 is listed too so she can look ahead. Every item names its source URL and the date it was checked; confirm details on the page before signing up. Never add a fact without a source.",

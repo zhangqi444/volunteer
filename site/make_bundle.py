@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """content/** -> site/public/content/bundle.json, the app's only content input.
 
-Validates the catalog (every item needs an id, org, title, kind, summary, source
+Validates the catalog (every item needs an id, org, title, kind, where, summary, source
 url and verified date; every org referenced must exist) and writes a deterministic
 bundle, so CI can fail the build when the committed bundle has drifted."""
 import json, sys
@@ -12,8 +12,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "content" / "catalog.json"
 OUT = ROOT / "site" / "public" / "content" / "bundle.json"
-KINDS = {"at-home", "drive", "on-site", "program", "event", "remote"}
-REQUIRED = ("id", "org", "title", "kind", "summary", "url", "verified")
+# Two independent axes, kept apart on purpose: kind is what she would be doing,
+# where is how she takes part. They used to be one enum, which put "At home" and
+# "Event" in a single filter as though they were alternatives.
+KINDS = {"craft", "drive", "foster", "shift", "program", "event", "citizen-science"}
+WHERES = {"in-person", "at-home", "online"}
+REQUIRED = ("id", "org", "title", "kind", "where", "summary", "url", "verified")
 
 def site(url):
     """The registrable domain, so www./support./help. subdomains all count as the org's own."""
@@ -36,6 +40,8 @@ def main():
             sys.exit(f"{it['id']}: unknown org {it['org']}")
         if it["kind"] not in KINDS:
             sys.exit(f"{it['id']}: unknown kind {it['kind']}")
+        if it["where"] not in WHERES:
+            sys.exit(f"{it['id']}: unknown where {it['where']}")
         # An archived page is not evidence a programme still runs: PAWS moved its preteen
         # workshops under /archive/ and the catalog went on advertising the old times and price.
         if "/archive/" in it["url"]:

@@ -198,6 +198,13 @@ All three must pass before a commit.
   entry had been sitting in a nine-year-old's "Fits now" the whole time. When two
   sources on the same site disagree, the newest one wins; when the claim is only in
   the old one, the claim goes.
+- **`kind` and `where` are two questions, not one.** `kind` is what she would be
+  doing — `craft`, `drive`, `foster`, `shift`, `program`, `event`, `citizen-science`.
+  `where` is how she takes part — `in-person`, `at-home`, `online`. They were a single
+  enum, which put "At home" beside "Event" in one filter as though a person had to
+  choose between them, and made "fostering, but not from home" impossible to ask.
+  Adding a value means deciding which question it answers; if it answers both, it
+  belongs in neither.
 - **Cite the organization, not someone writing about it.** `make_bundle.py` requires
   an item's `url` to sit on its organization's own domain. The iNaturalist entry had
   been written off a "volunteering online" listicle and got the age rule backwards as
@@ -209,7 +216,7 @@ All three must pass before a commit.
   Purrfect Pals, Motley Zoo, Auburn Valley Humane Society, Pasado's Safe Haven,
   Kitsap Humane Society, Seattle Aquarium, Woodland Park Zoo; online: Zooniverse,
   ZSL Instant Wild, Best Friends including its NOVA remote roles, Lost Dog & Cat
-  Rescue Foundation's remote roles, iNaturalist/eBird). Kind `remote` marks work
+  Rescue Foundation's remote roles, iNaturalist/eBird). `where: online` marks work
   done from home over the internet; adult remote roles are listed when a child can
   take part alongside the parent, and say so.
   What Sheila can do now leads (with an adult where the source says so); age-gated

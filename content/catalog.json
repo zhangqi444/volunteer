@@ -160,7 +160,8 @@
       "id": "sh-cat-blankets",
       "org": "seattle-humane",
       "title": "No-sew cat blankets",
-      "kind": "at-home",
+      "kind": "craft",
+      "where": "at-home",
       "summary": "Make small fleece blankets for the cats waiting to be adopted.",
       "details": [
         "All the cats in Seattle Humane's care receive a blanket or towel to make their cubby more comfortable; most of the time a cat's special blanket goes home with them when they are adopted.",
@@ -190,7 +191,8 @@
       "id": "sh-cat-toys",
       "org": "seattle-humane",
       "title": "Homemade cat toys from recycled objects",
-      "kind": "at-home",
+      "kind": "craft",
+      "where": "at-home",
       "summary": "Turn old socks and paper tubes into catnip toys for shelter cats.",
       "details": [
         "Old socks become catnip toys when stuffed with scrap paper, toilet paper tubes, or other crinkly items with catnip.",
@@ -220,6 +222,7 @@
       "org": "seattle-humane",
       "title": "Pet food drive",
       "kind": "drive",
+      "where": "at-home",
       "summary": "Organize a pet food drive in the neighborhood or at school.",
       "details": [
         "Donations of pet food, supplies and toys are always appreciated.",
@@ -249,7 +252,8 @@
       "id": "raskc-shelter-helper",
       "org": "raskc",
       "title": "Shelter Helper at the Kent shelter (from age 9 with a parent)",
-      "kind": "on-site",
+      "kind": "shift",
+      "where": "in-person",
       "summary": "Real shelter chores for kids as young as nine, alongside a parent or guardian.",
       "details": [
         "RASKC offers volunteer opportunities for ages 16 and 17 with guardian consent, and ages 9–15 with an accompanying guardian.",
@@ -280,7 +284,8 @@
       "id": "raskc-cat-blankets",
       "org": "raskc",
       "title": "Cat cozy blankets and other group projects for RASKC",
-      "kind": "at-home",
+      "kind": "craft",
+      "where": "at-home",
       "summary": "Make cozy blankets for the shelter cats, or run a fundraiser or poster project as a family.",
       "details": [
         "RASKC's group volunteering options include making cat cozy blankets, organizing fundraisers, putting up posters in the community, or making YouTube videos.",
@@ -309,7 +314,8 @@
       "id": "paws-at-home-projects",
       "org": "paws",
       "title": "Make cat toys, scratchers and beds for PAWS",
-      "kind": "at-home",
+      "kind": "craft",
+      "where": "at-home",
       "summary": "PAWS lists kid-friendly things to make at home for the shelter's cats and dogs.",
       "details": [
         "At PAWS you must be 18 or older to work with or around animals, so at-home projects are how kids help directly.",
@@ -340,6 +346,7 @@
       "org": "paws",
       "title": "Wish-list drive or birthday donations for PAWS",
       "kind": "drive",
+      "where": "at-home",
       "summary": "Collect supplies from PAWS's wish list, or ask for donations instead of birthday presents.",
       "details": [
         "PAWS receives donations from kids who ask for donations to help animals instead of presents for their birthday.",
@@ -369,6 +376,7 @@
       "org": "noah",
       "title": "Kid's Volunteer Day at The NOAH Center",
       "kind": "event",
+      "where": "in-person",
       "summary": "A hands-on day at the Stanwood shelter: kids follow a plush pet through the shelter journey and meet the real dogs and cats.",
       "details": [
         "Youths 8–13 can register for one of NOAH's Kid's Day volunteer opportunities; regular volunteering starts at 14 (14–15 with a parent).",
@@ -398,7 +406,8 @@
       "id": "safr-foster",
       "org": "safr",
       "title": "Foster kittens or cats as a family (Seattle Area Feline Rescue)",
-      "kind": "at-home",
+      "kind": "foster",
+      "where": "at-home",
       "summary": "The rescue's shelter volunteers must be 16, and it points younger families to fostering.",
       "details": [
         "Volunteers in the shelter must be at least 17, or 16 with an interview; for those under the required age, the rescue recommends discussing fostering with your family.",
@@ -428,7 +437,8 @@
       "id": "sas-foster-cats",
       "org": "seattle-animal-shelter",
       "title": "Foster Cat Program (Seattle Animal Shelter)",
-      "kind": "at-home",
+      "kind": "foster",
+      "where": "at-home",
       "summary": "The city shelter calls fostering a wonderful family experience; shelter volunteering itself starts at 18.",
       "details": [
         "To volunteer at the Seattle Animal Shelter you must be 18 or older; family participation is allowed and encouraged through fostering.",
@@ -457,7 +467,8 @@
       "id": "homeward-foster",
       "org": "homeward-pet",
       "title": "Foster with Homeward Pet (families with young children)",
-      "kind": "at-home",
+      "kind": "foster",
+      "where": "at-home",
       "summary": "Homeward Pet names fostering as the way in for families whose children are too young to volunteer at the shelter.",
       "details": [
         "Fostering is described as a great way for families to become involved, especially those with children too young to become volunteers at the shelter.",
@@ -487,7 +498,8 @@
       "id": "purrfect-pals-sanctuary",
       "org": "purrfect-pals",
       "title": "Purrfect Pals cat sanctuary (from age 13, with a parent until 16)",
-      "kind": "on-site",
+      "kind": "shift",
+      "where": "in-person",
       "summary": "The region's first no-kill cat shelter, on five acres in Arlington.",
       "details": [
         "At the main sanctuary in Arlington, volunteers must be 13 or older, and anyone under 16 must be with a parent or guardian.",
@@ -516,7 +528,8 @@
       "id": "safr-volunteer",
       "org": "safr",
       "title": "Seattle Area Feline Rescue volunteering (from 17, or 16 with an interview)",
-      "kind": "on-site",
+      "kind": "shift",
+      "where": "in-person",
       "summary": "Cat care and adoption-center roles at the Shoreline rescue once she is old enough.",
       "details": [
         "Volunteers in the shelter must be at least 17, or 16 with an interview; anyone under 18 needs a parent or guardian's signed agreement.",
@@ -545,6 +558,7 @@
       "org": "seattle-humane",
       "title": "Humane Teen Club (ages 13–17)",
       "kind": "program",
+      "where": "in-person",
       "summary": "A school-year club for animal-loving teens at Seattle Humane.",
       "details": [
         "For teens ages 13–17 to learn about Seattle Humane, explore animal welfare topics and prepare for future volunteer opportunities.",
@@ -572,7 +586,8 @@
       "id": "sh-hs-service-shifts",
       "org": "seattle-humane",
       "title": "High School Service Shifts (grades 9–12)",
-      "kind": "on-site",
+      "kind": "shift",
+      "where": "in-person",
       "summary": "Routine shelter tasks in winter that earn community service hours.",
       "details": [
         "For students entering grades 9–12: assist with routine shelter tasks, meet other teens and earn community service hours.",
@@ -602,6 +617,7 @@
       "org": "seattle-humane",
       "title": "Humane Service Training Program (ages 16–17)",
       "kind": "program",
+      "where": "in-person",
       "summary": "Structured, hands-on learning for older teens exploring animal-care careers.",
       "details": [
         "Designed for motivated 16–17-year-olds interested in animal welfare, community service, and career exploration in the field of animal care."
@@ -627,7 +643,8 @@
       "id": "motley-foster-cats",
       "org": "motley-zoo",
       "title": "Foster kittens with Motley Zoo (families with kids from age 2)",
-      "kind": "at-home",
+      "kind": "foster",
+      "where": "at-home",
       "summary": "A Redmond rescue that welcomes young families as foster homes for cats and kittens.",
       "details": [
         "On-site volunteering at Motley Zoo's boarding and training facility is 18+, but fostering can be done at home as early as age 2 for cats and kittens and age 5 for dogs.",
@@ -656,7 +673,8 @@
       "id": "auburn-valley-youth",
       "org": "auburn-valley-hs",
       "title": "Auburn Valley Humane Society (from age 10, with an adult)",
-      "kind": "on-site",
+      "kind": "shift",
+      "where": "in-person",
       "summary": "Shelter volunteering that opens at ten with a parent along.",
       "details": [
         "Children under 10 are not eligible to volunteer; ages 10–15 can volunteer with a parent, guardian or adult 18+; 16 and older can volunteer on their own."
@@ -683,7 +701,8 @@
       "id": "pasados-youth",
       "org": "pasados",
       "title": "Pasado's Safe Haven farm sanctuary (from age 12, with a guardian until 16)",
-      "kind": "on-site",
+      "kind": "shift",
+      "where": "in-person",
       "summary": "A sanctuary in Sultan for rescued farm animals, dogs and cats.",
       "details": [
         "Volunteer opportunities are available for youths 12 and older; volunteers 12–15 must volunteer alongside a legal guardian; 16 and 17 may volunteer with guardian consent and a background check.",
@@ -711,7 +730,8 @@
       "id": "kitsap-junior",
       "org": "kitsap-humane",
       "title": "Kitsap Humane Society youth volunteers (ages 13–15, with a parent)",
-      "kind": "on-site",
+      "kind": "shift",
+      "where": "in-person",
       "summary": "Dog walking, cat socialization and small-animal enrichment with a parent alongside.",
       "details": [
         "The 2025 volunteer manual defines a youth volunteer as any KHS volunteer aged 13 to 15; a youth volunteer team is a youth and their parent or guardian, or two youths and one adult.",
@@ -741,6 +761,7 @@
       "org": "seattle-aquarium",
       "title": "Youth Ocean Advocates at the Seattle Aquarium (grades 9–12)",
       "kind": "program",
+      "where": "in-person",
       "summary": "High-schoolers volunteer for marine conservation and advocacy at the Aquarium.",
       "details": [
         "Open to students in grades 9–12, who volunteer for marine conservation and advocacy activities."
@@ -767,6 +788,7 @@
       "org": "woodland-park-zoo",
       "title": "Woodland Park Zoo teen volunteers (grades 10–12)",
       "kind": "program",
+      "where": "in-person",
       "summary": "Teens explore zoo departments from animal care to horticulture and help teach at exhibits and camps.",
       "details": [
         "The teen volunteer program is open to teens entering grades 10–12; it lets teens explore different departments within the zoo, from animal care to horticulture, and provide education at exhibits and camps."
@@ -792,7 +814,8 @@
       "id": "zooniverse-serengeti",
       "org": "zooniverse",
       "title": "Classify Serengeti camera-trap animals (Zooniverse)",
-      "kind": "remote",
+      "kind": "citizen-science",
+      "where": "online",
       "summary": "Real research from home: name the animals in camera-trap photos from Serengeti National Park.",
       "details": [
         "Hundreds of camera traps in Serengeti National Park, Tanzania, produce millions of images; volunteers identify the species, count individuals, classify behaviour and note whether young are present.",
@@ -821,7 +844,8 @@
       "id": "instant-wild",
       "org": "zsl",
       "title": "Tag wildlife in live camera-trap photos (Instant Wild)",
-      "kind": "remote",
+      "kind": "citizen-science",
+      "where": "online",
       "summary": "Photos arrive from cameras around the world as animals walk past; you say what you see.",
       "details": [
         "ZSL's Instant Wild brings images and videos from camera traps around the world; identifying the species you spot helps track threatened wildlife and their ecosystems.",
@@ -849,7 +873,8 @@
       "id": "best-friends-diy",
       "org": "best-friends",
       "title": "At-home projects for shelter animals (Best Friends' ideas for under-18s)",
-      "kind": "at-home",
+      "kind": "craft",
+      "where": "at-home",
       "summary": "A national rescue's list of things kids can make at home for cats and dogs; give them to a local shelter from this catalog.",
       "details": [
         "For volunteers under 18, Best Friends lists at-home projects made for the comfort and care of animals at its centers, such as baking dog treats and making cat toys.",
@@ -879,7 +904,8 @@
       "id": "inaturalist-ebird",
       "org": "inaturalist",
       "title": "Log the birds and animals you see (Seek and eBird)",
-      "kind": "remote",
+      "kind": "citizen-science",
+      "where": "online",
       "summary": "Turn walks in the park into wildlife records scientists use.",
       "details": [
         "Seek by iNaturalist identifies plants and animals from the camera, needs no login and is made for children; observations can be posted on to iNaturalist itself.",
@@ -909,7 +935,8 @@
       "id": "best-friends-nova",
       "org": "best-friends",
       "title": "Best Friends NOVA: remote shelter support (an adult's role, done together)",
-      "kind": "remote",
+      "kind": "shift",
+      "where": "online",
       "summary": "Two hours a week from home helping Best Friends' lifesaving centers: pet bios, records, adopter follow-up.",
       "details": [
         "NOVA (National Operations Volunteers and Ambassadors) lets volunteers lend a virtual hand in real time to Best Friends' centers from anywhere with a secure internet connection; roles include connecting adoptable animals to potential adopters, supporting foster volunteers, record management and pet behavior support.",
@@ -939,7 +966,8 @@
       "id": "paws-scout-badges",
       "org": "paws",
       "title": "Our Wild World: Junior Animal Habitats badge at PAWS",
-      "kind": "program",
+      "kind": "event",
+      "where": "in-person",
       "summary": "A ninety-minute workshop at PAWS on the habitats local wildlife live in — and she is exactly the right age.",
       "details": [
         "In Our Wild World, participants learn about the habitats local wildlife call home and how to protect them, and receive a PAWS fun patch; it fulfils all the requirements for the Girl Scout Junior Animal Habitats badge.",
@@ -971,6 +999,7 @@
       "org": "paws",
       "title": "Kids Who Care, for fourth-grade classrooms",
       "kind": "program",
+      "where": "in-person",
       "summary": "PAWS's signature six-week programme, taught in the classroom — one for her teacher.",
       "details": [
         "PAWS's school programmes include the signature six-week Kids Who Care programme for fourth-grade classrooms, and individual class projects.",

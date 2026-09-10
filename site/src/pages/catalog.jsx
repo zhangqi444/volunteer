@@ -1,7 +1,7 @@
 import * as React from "react"
 import { CalendarPlus, ClipboardList, ExternalLink, Lightbulb, Mail, MapPin, Plus, Send, Trash2 } from "lucide-react"
 
-import { C, KIND_LABEL, catalogArea, catalogOrg, catalogTags, currentAge, ensureFromCatalog, fit, hasEmail, introEmail, staleApplications, workItemForCatalog } from "@/lib/content"
+import { C, KIND_LABEL, WHERE_LABEL, catalogArea, catalogOrg, catalogTags, currentAge, ensureFromCatalog, fit, hasEmail, introEmail, staleApplications, workItemForCatalog } from "@/lib/content"
 import { INTEREST_STATUSES } from "@/lib/model"
 import { go } from "@/lib/router"
 import { Store, useStore } from "@/lib/store"
@@ -45,7 +45,7 @@ function OpportunityCard({ item, age }) {
                 listing a different PAWS activity, where of course it was not. */}
             <a href={item.url} target="_blank" rel="noopener" data-testid="catalog-title-link" className="inline-flex items-start gap-1 hover:underline">{item.title}<ExternalLink className="mt-1 size-3 shrink-0" /></a>
           </CardTitle>
-          <div className="flex min-w-0 flex-wrap gap-1.5"><Badge variant="outline">{KIND_LABEL[item.kind] || item.kind}</Badge><FitBadge item={item} age={age} /></div>
+          <div className="flex min-w-0 flex-wrap gap-1.5"><Badge variant="outline">{KIND_LABEL[item.kind] || item.kind}</Badge><Badge variant="outline">{WHERE_LABEL[item.where] || item.where}</Badge><FitBadge item={item} age={age} /></div>
         </div>
         <CardDescription className="flex flex-wrap items-center gap-x-2">
           <a href={org.url} target="_blank" rel="noopener" className="text-primary inline-flex items-center gap-1 hover:underline">{org.name}<ExternalLink className="size-3" /></a>
@@ -154,6 +154,7 @@ export function Catalog() {
   const [q, setQ] = React.useState("")
   const [org, setOrg] = React.useState("")
   const [kind, setKind] = React.useState("")
+  const [where, setWhere] = React.useState("")
   const [fitF, setFitF] = React.useState(age == null ? "" : "now")
   const [tag, setTag] = React.useState("")
   const [area, setArea] = React.useState("")
@@ -165,6 +166,7 @@ export function Catalog() {
     if (fitF === "marked" && !store.s.interests[i.id]) return false
     if (org && i.org !== org) return false
     if (kind && i.kind !== kind) return false
+    if (where && i.where !== where) return false
     if (tag && !i.tags.includes(tag)) return false
     if (area && catalogArea(i) !== area) return false
     if (q && !`${i.title} ${i.summary} ${i.details.join(" ")} ${catalogOrg(i).name} ${i.tags.join(" ")}`.toLowerCase().includes(q.trim().toLowerCase())) return false
@@ -176,13 +178,14 @@ export function Catalog() {
         <Button variant="outline" onClick={() => go("/settings")}>Profile</Button>
       </PageHeader>
       <Card className="py-4">
-        <CardContent className="grid gap-3 @lg/main:grid-cols-3 @5xl/main:grid-cols-5">
+        <CardContent className="grid gap-3 @lg/main:grid-cols-2 @3xl/main:grid-cols-3 @5xl/main:grid-cols-6">
           <Input type="search" placeholder="Search…" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search" data-testid="catalog-search" />
           <Pick value={fitF} onChange={setFitF} options={[{ value: "now", label: age != null ? "Fits now (incl. with an adult)" : "Fits now" }, { value: "later", label: "Later (age-gated)" }, { value: "marked", label: "Marked by me" }]} noneLabel="Everything" testid="catalog-fit" />
           <Pick value={org} onChange={setOrg} options={Object.entries(C.organizations).sort((a, b) => a[1].name.localeCompare(b[1].name)).map(([id, o]) => ({ value: id, label: o.name }))} noneLabel="All organizations" testid="catalog-org" />
-          <Pick value={kind} onChange={setKind} options={Object.entries(KIND_LABEL).map(([v, l]) => ({ value: v, label: l }))} noneLabel="All kinds" testid="catalog-kind" />
+          <Pick value={kind} onChange={setKind} options={Object.entries(KIND_LABEL).map(([v, l]) => ({ value: v, label: l }))} noneLabel="Anything to do" testid="catalog-kind" />
+          <Pick value={where} onChange={setWhere} options={Object.entries(WHERE_LABEL).map(([v, l]) => ({ value: v, label: l }))} noneLabel="Any way to take part" testid="catalog-where" />
           <Pick value={tag} onChange={setTag} options={catalogTags().map((t) => ({ value: t, label: t }))} noneLabel="All tags" />
-          <Pick value={area} onChange={setArea} options={areas.map((a) => ({ value: a, label: a }))} noneLabel="Anywhere" testid="catalog-area" />
+          <Pick value={area} onChange={setArea} options={areas.map((a) => ({ value: a, label: a }))} noneLabel="Any area" testid="catalog-area" />
         </CardContent>
       </Card>
       {C.items.length === 0 ? <Empty>The catalog could not be loaded.</Empty>

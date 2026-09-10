@@ -211,6 +211,17 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   await pg.waitForSelector('[data-testid=suggestions] li');
   const issue = await pg.getAttribute('[data-testid=suggest-issue]', 'href');
   check('a suggestion is saved and can be sent as a GitHub issue', /example\.org/.test(await pg.textContent('[data-testid=suggestions]')) && /github\.com\/zhangqi444\/volunteer\/issues\/new\?/.test(issue) && /Saturday/.test(decodeURIComponent(issue)));
+  // kind and where are independent questions: what she would do, and how she takes part.
+  // They were one enum, so "At home" and "Event" sat in a single filter as alternatives.
+  await pick(pg, '[data-testid=catalog-kind]', 'Fostering');
+  const fosterAtHome = await pg.$$eval('[data-testid=catalog-item]', (n) => n.map((x) => x.dataset.id));
+  await pick(pg, '[data-testid=catalog-where]', 'From home');
+  check('the two filters narrow independently: fostering is all from home', (await pg.$$('[data-testid=catalog-item]')).length === fosterAtHome.length && fosterAtHome.length === 4, String(fosterAtHome.length));
+  await pick(pg, '[data-testid=catalog-where]', 'In person');
+  check('and fostering in person matches nothing, which one mixed filter could not express', (await pg.$$('[data-testid=catalog-item]')).length === 0);
+  await pick(pg, '[data-testid=catalog-kind]', 'Anything to do');
+  check('in-person alone still lists the shelter and programme opportunities', (await pg.$$('[data-testid=catalog-item]')).length > 0);
+  await pick(pg, '[data-testid=catalog-where]', 'Any way to take part');
   await pg.fill('[data-testid=catalog-search]', 'blanket');
   check('search finds the cat blankets project', (await pg.$$('[data-testid=catalog-item]')).length >= 1 && /No-sew cat blankets/.test(await pg.textContent('[data-testid=catalog-grid]')));
   // the card's own title must link to the opportunity's page: linking only the organization
@@ -248,7 +259,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   await pg.waitForSelector('[data-testid=catalog-grid]');
   await pick(pg, '[data-testid=catalog-area]', 'South · Kent');
   check('the area filter narrows to the Kent organization', (await pg.$$('[data-testid=catalog-item]')).length === 2 && /Kent/.test(await pg.textContent('[data-testid=catalog-grid]')));
-  await pick(pg, '[data-testid=catalog-area]', 'Anywhere');
+  await pick(pg, '[data-testid=catalog-area]', 'Any area');
   await pick(pg, '[data-testid=catalog-fit]', 'Marked by me');
   await pick(pg, '[data-id=sh-cat-blankets] [data-testid=catalog-interest]', 'Interested');
   await pg.click('[data-id=sh-cat-blankets] [data-testid=catalog-plan]');
