@@ -28,6 +28,10 @@ def main():
             sys.exit(f"{it['id']}: unknown org {it['org']}")
         if it["kind"] not in KINDS:
             sys.exit(f"{it['id']}: unknown kind {it['kind']}")
+        # An archived page is not evidence a programme still runs: PAWS moved its preteen
+        # workshops under /archive/ and the catalog went on advertising the old times and price.
+        if "/archive/" in it["url"]:
+            sys.exit(f"{it['id']}: {it['url']} is an archived page; source a live one or drop the item")
         ages = it.setdefault("ages", {})
         for k in ("min", "max"):
             v = ages.get(k)

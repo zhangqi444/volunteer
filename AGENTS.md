@@ -174,6 +174,15 @@ All three must pass before a commit.
   its search summary when the page cannot be opened from the sandbox — say so in
   `note`) or are left out with "not stated". Confirming on the page before signing
   up is the volunteer's step, and the UI says so.
+- **An archived page is not evidence that a programme still runs.** PAWS moved its
+  preteen workshops under `paws.org/archive/`, and the catalog went on advertising
+  the old ages, times and price for a series nobody offers any more. `make_bundle.py`
+  rejects an `/archive/` URL outright, but that guard only catches the link you
+  store, not a live page that is archived later. So before trusting a page: check
+  that its dates are in the current season, and that the programme is still named on
+  the organization's own index of what it offers today. When it isn't, drop the
+  specifics rather than the item — point at the live index page, say in `note` what
+  is no longer published, and leave ages `null` instead of repeating archived ones.
 - **Scope**: cat and animal volunteer work around Seattle and online, from
   organizations the owner has pointed at or asked for (Seattle Humane, RASKC, PAWS,
   The NOAH Center, Seattle Area Feline Rescue, Seattle Animal Shelter, Homeward Pet,

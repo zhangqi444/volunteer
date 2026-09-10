@@ -209,6 +209,33 @@
       "ages": {
         "max": null,
         "min": null,
+        "note": "Booked by a teacher for a fourth-grade class, not by a family.",
+        "withAdult": true
+      },
+      "commitment": "Six weeks in class.",
+      "details": [
+        "PAWS's school programmes include the signature six-week Kids Who Care programme for fourth-grade classrooms, and individual class projects.",
+        "PAWS education runs September through May and reaches more than 3,000 youth and adults a year with a six-lesson programme for elementary schools, live workshops at PAWS, badge programmes and projects helping animals."
+      ],
+      "howTo": "Send the School Year Programs page to her teacher, or email education@paws.org and ask them to approach the school.",
+      "id": "paws-kids-who-care",
+      "kind": "program",
+      "location": "Her school",
+      "org": "paws",
+      "summary": "PAWS's signature six-week programme, taught in the classroom — one for her teacher.",
+      "tags": [
+        "animals",
+        "school",
+        "classroom"
+      ],
+      "title": "Kids Who Care, for fourth-grade classrooms",
+      "url": "https://www.paws.org/education/school-year-programs/",
+      "verified": "2026-09-10"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
         "note": "No age limit stated; written for kids.",
         "withAdult": false
       },
@@ -237,34 +264,60 @@
     },
     {
       "ages": {
-        "max": 12,
-        "min": 9,
-        "note": "Ages 9–12.",
+        "max": null,
+        "min": null,
+        "note": "Age follows the Scout level; the Junior badge suits nine- and ten-year-olds. Booked by a troop, not an individual.",
+        "withAdult": true
+      },
+      "commitment": "About 90 minutes.",
+      "details": [
+        "Scout Programs are live, educator-led workshops of approximately 90 minutes, with activities designed to meet Scout badge requirements, held in person at PAWS.",
+        "Named badge programmes include Caring Creatures (Daisy Bird Bath Award), PAWS for Cats and Dogs (Brownie Pets Badge), Our Wild World (Junior Animal Habitats Badge) and Heroic Animal Helpers (Cadette Animal Helpers Badge).",
+        "The Junior badge programme is the one aimed at this age group; a tour can be part of the visit."
+      ],
+      "howTo": "If she is in a Scout troop, ask the leader to book the Junior 'Our Wild World' programme through the PAWS Scout Programs page; otherwise email education@paws.org to ask whether a family can join one.",
+      "id": "paws-scout-badges",
+      "kind": "program",
+      "location": "PAWS, 15305 44th Ave W, Lynnwood",
+      "org": "paws",
+      "summary": "Ninety-minute educator-led workshops at PAWS built around Scout badge requirements.",
+      "tags": [
+        "animals",
+        "workshop",
+        "scouts",
+        "with a parent"
+      ],
+      "title": "Scout badge workshops at PAWS",
+      "url": "https://www.paws.org/education/scout-programs/",
+      "verified": "2026-09-10"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "Not stated on the current page. The archived preteen series was ages 9–12.",
         "withAdult": false
       },
-      "commitment": "Two hours per workshop.",
+      "commitment": "Ask; the archived series ran two hours per workshop.",
       "details": [
-        "Dedicated to educating preteens ages 9–12 on how to improve the lives of animals at PAWS and in the community; preteens complete mission-driven work through community service projects while building leadership skills and learning from guest speakers.",
-        "Projects include helping with groundwork, creating animal enrichment, supporting shelter operations and more.",
-        "Held in person at PAWS in Lynnwood; the summer series ran weekly, Tuesdays 11:00 a.m.–1:00 p.m. and Thursdays 2:00–4:00 p.m.",
-        "Pricing has been listed as $20 per two-hour workshop and as $175 for a ten-week series in different seasons; check the current listing and ask education@paws.org about the discount code."
+        "PAWS's current Education page lists 'Teens and Preteens Helping Animals workshops' among the live workshops held in person at PAWS, alongside Scout Programs and tours.",
+        "The older 'PAWS Preteen Workshops' series for ages 9–12, with its published times and prices, has been moved to the archive section of the PAWS site, so those details are no longer current.",
+        "No age range, schedule or price for the current workshops is published on the live pages; the Education team confirms them."
       ],
-      "howTo": "Watch the Teen and Preteen Workshops page for the next series and register; email education@paws.org with questions.",
+      "howTo": "Email education@paws.org to ask when the next preteen workshop runs, the age range and the cost, before planning around it.",
       "id": "paws-preteen-workshops",
       "kind": "program",
       "location": "PAWS, 15305 44th Ave W, Lynnwood",
       "org": "paws",
-      "summary": "Two-hour workshops at the Lynnwood shelter where preteens do service projects for the animals.",
+      "summary": "PAWS still lists preteen workshops among its live programmes, but no dates or ages are published — ask.",
       "tags": [
         "animals",
-        "cats",
         "workshop",
-        "paid",
-        "service hours"
+        "ask first"
       ],
-      "title": "PAWS Preteen Workshops (ages 9–12)",
-      "url": "https://paws.org/education/teen-and-preteen-workshops-at-paws",
-      "verified": "2026-09-06"
+      "title": "Teens and Preteens Helping Animals workshops",
+      "url": "https://www.paws.org/education/",
+      "verified": "2026-09-10"
     },
     {
       "ages": {
