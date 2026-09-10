@@ -300,7 +300,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   await pg.waitForSelector('[data-testid=toast]:has-text("Profile saved")');
   await pg.goto(base + '#/catalog', { waitUntil: 'networkidle' });
   await pg.waitForSelector('[data-testid=catalog-grid]');
-  check('at 13 the 10-, 12- and 13-plus programs open up: 24 fit', /age \(13\)/.test(await pg.textContent('h1 + p')) && (await pg.$$('[data-testid=catalog-item]')).length === 24 && (await pg.$eval('[data-id=sh-teen-club] [data-fit]', (x) => x.dataset.fit)) === 'fits');
+  check('at 13 the 10-, 12- and 13-plus programs open up and the 9-11 workshop drops out: 23 fit', /age \(13\)/.test(await pg.textContent('h1 + p')) && (await pg.$$('[data-testid=catalog-item]')).length === 23 && (await pg.$eval('[data-id=sh-teen-club] [data-fit]', (x) => x.dataset.fit)) === 'fits');
   await pg.goto(base + '#/settings', { waitUntil: 'networkidle' });
   await pg.fill('[data-testid=profile-age]', '9'); await pg.press('[data-testid=profile-age]', 'Tab');
   await pg.goto(base + '#/catalog', { waitUntil: 'networkidle' }); await pg.waitForSelector('[data-testid=catalog-grid]'); await pg.screenshot({ path: 'shot-catalog.png', fullPage: true }); await pg.goto(base + '#/settings', { waitUntil: 'networkidle' }); await pg.waitForSelector('[data-testid=setting-goal]');

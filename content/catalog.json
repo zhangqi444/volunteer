@@ -938,27 +938,29 @@
     {
       "id": "paws-scout-badges",
       "org": "paws",
-      "title": "Scout badge workshops at PAWS",
+      "title": "Our Wild World: Junior Animal Habitats badge at PAWS",
       "kind": "program",
-      "summary": "Ninety-minute educator-led workshops at PAWS built around Scout badge requirements.",
+      "summary": "A ninety-minute workshop at PAWS on the habitats local wildlife live in — and she is exactly the right age.",
       "details": [
-        "Scout Programs are live, educator-led workshops of approximately 90 minutes, with activities designed to meet Scout badge requirements, held in person at PAWS.",
-        "Named badge programmes include Caring Creatures (Daisy Bird Bath Award), PAWS for Cats and Dogs (Brownie Pets Badge), Our Wild World (Junior Animal Habitats Badge) and Heroic Animal Helpers (Cadette Animal Helpers Badge).",
-        "The Junior badge programme is the one aimed at this age group; a tour can be part of the visit."
+        "In Our Wild World, participants learn about the habitats local wildlife call home and how to protect them, and receive a PAWS fun patch; it fulfils all the requirements for the Girl Scout Junior Animal Habitats badge.",
+        "Individual Girl Scouts, and up to four girls from the same troop, are welcome — it does not have to be booked as a whole troop.",
+        "In person at PAWS and approximately 90 minutes; not a drop-off programme, so a parent, guardian or troop leader stays. Offered in partnership with Girl Scouts of Western Washington.",
+        "PAWS runs the same workshops at other Scout levels, so there is one for later: Caring Creatures (Daisy), PAWS for Cats and Dogs (Brownie Pets badge) and Heroic Animal Helpers (Cadette, ages 11–13)."
       ],
       "ages": {
-        "min": null,
-        "max": null,
+        "min": 9,
+        "max": 11,
         "withAdult": true,
-        "note": "Age follows the Scout level; the Junior badge suits nine- and ten-year-olds. Booked by a troop, not an individual."
+        "note": "Open to 9–11 year olds; an adult stays for the workshop."
       },
       "commitment": "About 90 minutes.",
       "location": "PAWS, 15305 44th Ave W, Lynnwood",
-      "howTo": "If she is in a Scout troop, ask the leader to book the Junior 'Our Wild World' programme through the PAWS Scout Programs page; otherwise email education@paws.org to ask whether a family can join one.",
-      "url": "https://www.paws.org/education/scout-programs/",
+      "howTo": "Registration opens in January — watch the event page and sign her up individually; email education@paws.org to ask about dates or whether she can take part without a troop.",
+      "url": "https://www.paws.org/events/junior-animal-habitats-badge/",
       "verified": "2026-09-10",
       "tags": [
         "animals",
+        "wildlife",
         "workshop",
         "scouts",
         "with a parent"
