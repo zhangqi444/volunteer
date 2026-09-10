@@ -180,9 +180,17 @@ All three must pass before a commit.
   rejects an `/archive/` URL outright, but that guard only catches the link you
   store, not a live page that is archived later. So before trusting a page: check
   that its dates are in the current season, and that the programme is still named on
-  the organization's own index of what it offers today. When it isn't, drop the
-  specifics rather than the item — point at the live index page, say in `note` what
-  is no longer published, and leave ages `null` instead of repeating archived ones.
+  the organization's own index of what it offers today.
+- **When it can't be confirmed, delete the item.** The first attempt at fixing the
+  PAWS entry kept it with the specifics stripped out and "email and ask" as the next
+  step, which was still wrong: an item nobody can verify reads to a nine-year-old
+  exactly like one that is real, and search summaries happily restate archived text
+  as though it were current, so "a search says it exists" is not confirmation. An
+  item earns its place only from a live page whose own content you have read. A
+  de-specified item is the right answer only when the live page is genuinely
+  unreadable from the sandbox *and* names the programme — never as a way to keep an
+  entry you have grown attached to. Losing the organization is not a reason to keep
+  it: PAWS stays in the catalog through the programmes that do check out.
 - **Scope**: cat and animal volunteer work around Seattle and online, from
   organizations the owner has pointed at or asked for (Seattle Humane, RASKC, PAWS,
   The NOAH Center, Seattle Area Feline Rescue, Seattle Animal Shelter, Homeward Pet,

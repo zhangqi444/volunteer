@@ -968,34 +968,6 @@
       ]
     },
     {
-      "id": "paws-preteen-workshops",
-      "org": "paws",
-      "title": "Teens and Preteens Helping Animals workshops",
-      "kind": "program",
-      "summary": "PAWS still lists preteen workshops among its live programmes, but no dates or ages are published — ask.",
-      "details": [
-        "PAWS's current Education page lists 'Teens and Preteens Helping Animals workshops' among the live workshops held in person at PAWS, alongside Scout Programs and tours.",
-        "The older 'PAWS Preteen Workshops' series for ages 9–12, with its published times and prices, has been moved to the archive section of the PAWS site, so those details are no longer current.",
-        "No age range, schedule or price for the current workshops is published on the live pages; the Education team confirms them."
-      ],
-      "ages": {
-        "min": null,
-        "max": null,
-        "withAdult": false,
-        "note": "Not stated on the current page. The archived preteen series was ages 9–12."
-      },
-      "commitment": "Ask; the archived series ran two hours per workshop.",
-      "location": "PAWS, 15305 44th Ave W, Lynnwood",
-      "howTo": "Email education@paws.org to ask when the next preteen workshop runs, the age range and the cost, before planning around it.",
-      "url": "https://www.paws.org/education/",
-      "verified": "2026-09-10",
-      "tags": [
-        "animals",
-        "workshop",
-        "ask first"
-      ]
-    },
-    {
       "id": "paws-scout-badges",
       "org": "paws",
       "title": "Scout badge workshops at PAWS",
