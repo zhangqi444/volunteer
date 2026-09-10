@@ -838,15 +838,16 @@
       "ages": {
         "max": null,
         "min": null,
-        "note": "No age stated in the sources; do it on a parent's account.",
+        "note": "Seek needs no account at any age. An iNaturalist account requires 13+, or a parent's permission and help setting it up under 13; eBird runs on a parent's Cornell Lab account.",
         "withAdult": true
       },
       "commitment": "Any walk.",
       "details": [
-        "Volunteering roundups list joining a citizen science project on iNaturalist, and learning about birding and contributing your findings to eBird, as ways to help from home.",
+        "Seek by iNaturalist identifies plants and animals from the camera, needs no login and is made for children; observations can be posted on to iNaturalist itself.",
+        "iNaturalist's own records feed research datasets; eBird, run by the Cornell Lab of Ornithology, does the same for bird checklists and needs a free Cornell Lab account.",
         "Observations are made outdoors and uploaded from a phone or computer."
       ],
-      "howTo": "Photograph animals and birds on walks and upload them to iNaturalist or record bird counts in eBird; log the time as an entry.",
+      "howTo": "Start with the Seek app, which needs no sign-up; to have the sightings count as data, post them on to iNaturalist from a parent-supervised account, or record bird checklists in eBird on a parent's Cornell Lab account. Log the time as an entry.",
       "id": "inaturalist-ebird",
       "kind": "remote",
       "location": "Outdoors, uploaded online",
@@ -859,9 +860,9 @@
         "citizen science",
         "outdoors"
       ],
-      "title": "Log the birds and animals you see (iNaturalist and eBird)",
-      "url": "https://www.thegoodtrade.com/features/volunteering-online/",
-      "verified": "2026-09-06"
+      "title": "Log the birds and animals you see (Seek and eBird)",
+      "url": "https://www.inaturalist.org/pages/seek_app",
+      "verified": "2026-09-10"
     }
   ],
   "note": "Cat and animal volunteer work for Sheila (9): around Seattle and online. What she can do now leads, with an adult where the source says so; what opens at 10, 12, 13 or 16 is listed too so she can look ahead. Every item names its source URL and the date it was checked; confirm details on the page before signing up. Never add a fact without a source.",

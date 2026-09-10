@@ -191,6 +191,11 @@ All three must pass before a commit.
   unreadable from the sandbox *and* names the programme — never as a way to keep an
   entry you have grown attached to. Losing the organization is not a reason to keep
   it: PAWS stays in the catalog through the programmes that do check out.
+- **Cite the organization, not someone writing about it.** `make_bundle.py` requires
+  an item's `url` to sit on its organization's own domain. The iNaturalist entry had
+  been written off a "volunteering online" listicle and got the age rule backwards as
+  a result: the projects' own pages say an iNaturalist account needs 13+ or a parent's
+  permission under 13, and that Seek is the one that needs no account at all.
 - **Scope**: cat and animal volunteer work around Seattle and online, from
   organizations the owner has pointed at or asked for (Seattle Humane, RASKC, PAWS,
   The NOAH Center, Seattle Area Feline Rescue, Seattle Animal Shelter, Homeward Pet,

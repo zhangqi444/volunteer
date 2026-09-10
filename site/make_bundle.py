@@ -5,6 +5,7 @@ Validates the catalog (every item needs an id, org, title, kind, summary, source
 url and verified date; every org referenced must exist) and writes a deterministic
 bundle, so CI can fail the build when the committed bundle has drifted."""
 import json, sys
+from urllib.parse import urlparse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -12,6 +13,12 @@ SRC = ROOT / "content" / "catalog.json"
 OUT = ROOT / "site" / "public" / "content" / "bundle.json"
 KINDS = {"at-home", "drive", "on-site", "program", "event", "remote"}
 REQUIRED = ("id", "org", "title", "kind", "summary", "url", "verified")
+
+def site(url):
+    """The registrable domain, so www./support./help. subdomains all count as the org's own."""
+    host = urlparse(url).netloc.lower()
+    return ".".join(host.split(".")[-2:])
+
 
 def main():
     cat = json.loads(SRC.read_text())
@@ -32,6 +39,14 @@ def main():
         # workshops under /archive/ and the catalog went on advertising the old times and price.
         if "/archive/" in it["url"]:
             sys.exit(f"{it['id']}: {it['url']} is an archived page; source a live one or drop the item")
+        # An item describes what an organization offers, so its own site is the only thing
+        # that can say so. The iNaturalist entry was written off a "volunteering online"
+        # listicle and got the age rule wrong, which the org's own pages state plainly.
+        if site(it["url"]) != site(orgs[it["org"]]["url"]):
+            sys.exit(
+                f"{it['id']}: {it['url']} is not on {site(orgs[it['org']]['url'])}; "
+                "cite the organization's own page, not a third party writing about it"
+            )
         ages = it.setdefault("ages", {})
         for k in ("min", "max"):
             v = ages.get(k)
