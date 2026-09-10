@@ -5,6 +5,7 @@ Validates the catalog (every item needs an id, org, title, kind, summary, source
 url and verified date; every org referenced must exist) and writes a deterministic
 bundle, so CI can fail the build when the committed bundle has drifted."""
 import json, sys
+from collections import Counter
 from urllib.parse import urlparse
 from pathlib import Path
 
@@ -61,6 +62,13 @@ def main():
     unused = sorted(set(orgs) - {it["org"] for it in cat["items"]})
     if unused:
         sys.exit(f"organizations with no items: {', '.join(unused)}; remove them too")
+    counts = Counter(it["org"] for it in cat["items"])
+    for it in cat["items"]:
+        if counts[it["org"]] > 1 and orgs[it["org"]]["url"] == it["url"]:
+            sys.exit(
+                f"{it['org']}: the organization link is {it['url']}, which is {it['id']}'s own page; "
+                "give an organization with several items a front door of its own"
+            )
     items = sorted(cat["items"], key=lambda x: (orgs[x["org"]]["name"], x["title"]))
     bundle = {"schema": 1, "note": cat.get("note", ""), "organizations": orgs, "items": items}
     OUT.parent.mkdir(parents=True, exist_ok=True)

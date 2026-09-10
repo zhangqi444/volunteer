@@ -213,6 +213,10 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   check('a suggestion is saved and can be sent as a GitHub issue', /example\.org/.test(await pg.textContent('[data-testid=suggestions]')) && /github\.com\/zhangqi444\/volunteer\/issues\/new\?/.test(issue) && /Saturday/.test(decodeURIComponent(issue)));
   await pg.fill('[data-testid=catalog-search]', 'blanket');
   check('search finds the cat blankets project', (await pg.$$('[data-testid=catalog-item]')).length >= 1 && /No-sew cat blankets/.test(await pg.textContent('[data-testid=catalog-grid]')));
+  // the card's own title must link to the opportunity's page: linking only the organization
+  // sent a reader looking for one PAWS workshop to the page for a different PAWS activity
+  const titleHref = await pg.getAttribute('[data-id=sh-cat-blankets] [data-testid=catalog-title-link]', 'href');
+  check('the card title links to the opportunity\'s own page, not just the organization', titleHref === 'https://www.seattlehumane.org/get-involved/youth-school-programs/projects/', String(titleHref));
   await pg.click('[data-id=sh-cat-blankets] [data-testid=catalog-more]');
   check('details show the source and check date', /seattlehumane\.org/.test(await pg.textContent('[data-id=sh-cat-blankets]')) && /checked 2026-09-05/.test(await pg.textContent('[data-id=sh-cat-blankets]')));
   check('details link the organization\'s hours-log form and address', /Community Service Hours Log/.test(await pg.textContent('[data-id=sh-cat-blankets] [data-testid=catalog-form]')) && /Bellevue/.test(await pg.textContent('[data-id=sh-cat-blankets]')));

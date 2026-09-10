@@ -39,7 +39,12 @@ function OpportunityCard({ item, age }) {
     <Card className="@container/card gap-3 py-4" data-testid="catalog-item" data-id={item.id}>
       <CardHeader className="gap-2">
         <div className="flex flex-wrap items-start justify-between gap-2">
-          <CardTitle className="leading-snug">{item.title}</CardTitle>
+          <CardTitle className="leading-snug">
+            {/* The title is the link to the opportunity's own page. Linking only the
+                organization sent a reader looking for one PAWS workshop to the page
+                listing a different PAWS activity, where of course it was not. */}
+            <a href={item.url} target="_blank" rel="noopener" data-testid="catalog-title-link" className="inline-flex items-start gap-1 hover:underline">{item.title}<ExternalLink className="mt-1 size-3 shrink-0" /></a>
+          </CardTitle>
           <div className="flex min-w-0 flex-wrap gap-1.5"><Badge variant="outline">{KIND_LABEL[item.kind] || item.kind}</Badge><FitBadge item={item} age={age} /></div>
         </div>
         <CardDescription className="flex flex-wrap items-center gap-x-2">
