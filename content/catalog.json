@@ -153,10 +153,6 @@
     "inaturalist": {
       "name": "iNaturalist and eBird (citizen science)",
       "url": "https://www.inaturalist.org/"
-    },
-    "ldcrf": {
-      "name": "Lost Dog & Cat Rescue Foundation",
-      "url": "https://www.lostdogrescue.org/volunteer/support-remote-roles/"
     }
   },
   "items": [
@@ -405,7 +401,7 @@
       "kind": "at-home",
       "summary": "The rescue's shelter volunteers must be 16, and it points younger families to fostering.",
       "details": [
-        "Volunteers in the rescue must be at least 16; for those under the required age, the rescue recommends discussing fostering with your family.",
+        "Volunteers in the shelter must be at least 17, or 16 with an interview; for those under the required age, the rescue recommends discussing fostering with your family.",
         "Foster scenarios include litters of kittens too young for adoption, bottle-baby kittens needing round-the-clock care, adult cats who need socialization, and adult cats with other needs.",
         "Kittens come into the adoption center regularly for check-ups, normally 2–4 times a month; homes without regular transportation are welcome for adult cats in longer-term foster.",
         "To start, read the Foster Handbook and fill out the online Foster Information Form."
@@ -420,7 +416,7 @@
       "location": "At home; check-ups in Shoreline",
       "howTo": "Read the Foster Handbook on the foster page and submit the Foster Information Form.",
       "url": "https://seattleareafelinerescue.org/foster/foster-info/",
-      "verified": "2026-09-06",
+      "verified": "2026-09-10",
       "tags": [
         "cats",
         "foster",
@@ -519,24 +515,25 @@
     {
       "id": "safr-volunteer",
       "org": "safr",
-      "title": "Seattle Area Feline Rescue volunteering (from age 16)",
+      "title": "Seattle Area Feline Rescue volunteering (from 17, or 16 with an interview)",
       "kind": "on-site",
-      "summary": "Cat care and adoption-center roles at the Shoreline rescue once she is 16.",
+      "summary": "Cat care and adoption-center roles at the Shoreline rescue once she is old enough.",
       "details": [
-        "Volunteers in the rescue must be at least 16 years old.",
+        "Volunteers in the shelter must be at least 17, or 16 with an interview; anyone under 18 needs a parent or guardian's signed agreement.",
+        "Shifts are a regular weekly commitment of two to three hours.",
         "Until then the rescue recommends fostering as a family (listed separately)."
       ],
       "ages": {
-        "min": 16,
+        "min": 17,
         "max": null,
         "withAdult": false,
-        "note": "From age 16."
+        "note": "17 to volunteer in the shelter, or 16 with an interview; under 18 needs a parent's signature."
       },
       "commitment": "Regular shifts.",
       "location": "Shoreline",
-      "howTo": "Apply through the volunteer page at 16.",
+      "howTo": "Apply through the volunteer page at 17, or at 16 and ask about the interview.",
       "url": "https://seattleareafelinerescue.org/volunteer/",
-      "verified": "2026-09-06",
+      "verified": "2026-09-10",
       "tags": [
         "cats",
         "shelter",
@@ -713,25 +710,25 @@
     {
       "id": "kitsap-junior",
       "org": "kitsap-humane",
-      "title": "Kitsap Humane Society junior volunteers (ages 12–17, with a parent)",
+      "title": "Kitsap Humane Society youth volunteers (ages 13–15, with a parent)",
       "kind": "on-site",
       "summary": "Dog walking, cat socialization and small-animal enrichment with a parent alongside.",
       "details": [
-        "Animal lovers aged 12–17 can join the junior volunteer program to learn about animal welfare and spend time with shelter animals.",
-        "Youth volunteers require parent or guardian supervision, and every adult accompanying a youth volunteer must also submit a volunteer application.",
+        "The 2025 volunteer manual defines a youth volunteer as any KHS volunteer aged 13 to 15; a youth volunteer team is a youth and their parent or guardian, or two youths and one adult.",
+        "Anyone under 16 must be accompanied by a parent or adult at all times, and every accompanying adult must also submit a volunteer application.",
         "Roles: dog walking, feline socialization, small animal enrichment, laundry and dishes."
       ],
       "ages": {
-        "min": 12,
-        "max": 17,
+        "min": 13,
+        "max": 15,
         "withAdult": true,
-        "note": "Ages 12–17 with a parent, who also applies."
+        "note": "Ages 13–15 per the 2025 volunteer manual, with a parent who also applies."
       },
       "commitment": "Shifts.",
       "location": "Kitsap County, a ferry ride from Seattle",
       "howTo": "Apply together through the volunteer page when she is 12.",
       "url": "https://www.kitsap-humane.org/get-involved/volunteer/",
-      "verified": "2026-09-06",
+      "verified": "2026-09-10",
       "tags": [
         "animals",
         "cats",
@@ -929,36 +926,6 @@
       "location": "Online",
       "howTo": "Apply on the Volunteer From Home page or email nationalvolunteers@bestfriends.org; log the shared hours as entries.",
       "url": "https://bestfriends.org/volunteer/volunteer-from-home/national-opportunities",
-      "verified": "2026-09-06",
-      "tags": [
-        "animals",
-        "cats",
-        "online",
-        "writing",
-        "with a parent"
-      ]
-    },
-    {
-      "id": "ldcrf-remote",
-      "org": "ldcrf",
-      "title": "Pet poster and Animal Advocate: keep adoptable pets' profiles up to date (remote)",
-      "kind": "remote",
-      "summary": "Fifteen to thirty minutes a day posting pets to adoption sites and checking that every profile has good photos and a bio.",
-      "details": [
-        "The Pet Poster role posts pets on adoption sites and inputs new arrivals into the rescue's online software, about 15–30 minutes daily.",
-        "Animal Advocate volunteers regularly check that all animal profiles online have enough pictures and good-looking bios, because a pet's profile is everything when it comes to finding an interested adopter.",
-        "Some adoption follow-up work is also done remotely from home."
-      ],
-      "ages": {
-        "min": null,
-        "max": null,
-        "withAdult": true,
-        "note": "No age stated; an adult signs up and a child can help choose photos and read the bios."
-      },
-      "commitment": "15–30 minutes a day, or as agreed.",
-      "location": "Online",
-      "howTo": "Apply through the Support & Remote Roles page; log the shared time as entries.",
-      "url": "https://www.lostdogrescue.org/volunteer/support-remote-roles/",
       "verified": "2026-09-06",
       "tags": [
         "animals",

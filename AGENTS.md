@@ -191,6 +191,13 @@ All three must pass before a commit.
   unreadable from the sandbox *and* names the programme — never as a way to keep an
   entry you have grown attached to. Losing the organization is not a reason to keep
   it: PAWS stays in the catalog through the programmes that do check out.
+- **A stale document on a live domain counts as archived too.** Organizations keep
+  superseded PDFs and old pages online: Kitsap's youth ages came from a 2022
+  application form when the 2025 manual says 13–15, and LDCRF's remote roles were
+  described from a version of the page that no longer exists — and being 18+, that
+  entry had been sitting in a nine-year-old's "Fits now" the whole time. When two
+  sources on the same site disagree, the newest one wins; when the claim is only in
+  the old one, the claim goes.
 - **Cite the organization, not someone writing about it.** `make_bundle.py` requires
   an item's `url` to sit on its organization's own domain. The iNaturalist entry had
   been written off a "volunteering online" listicle and got the age rule backwards as

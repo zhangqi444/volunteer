@@ -119,15 +119,15 @@
     },
     {
       "ages": {
-        "max": 17,
-        "min": 12,
-        "note": "Ages 12–17 with a parent, who also applies.",
+        "max": 15,
+        "min": 13,
+        "note": "Ages 13–15 per the 2025 volunteer manual, with a parent who also applies.",
         "withAdult": true
       },
       "commitment": "Shifts.",
       "details": [
-        "Animal lovers aged 12–17 can join the junior volunteer program to learn about animal welfare and spend time with shelter animals.",
-        "Youth volunteers require parent or guardian supervision, and every adult accompanying a youth volunteer must also submit a volunteer application.",
+        "The 2025 volunteer manual defines a youth volunteer as any KHS volunteer aged 13 to 15; a youth volunteer team is a youth and their parent or guardian, or two youths and one adult.",
+        "Anyone under 16 must be accompanied by a parent or adult at all times, and every accompanying adult must also submit a volunteer application.",
         "Roles: dog walking, feline socialization, small animal enrichment, laundry and dishes."
       ],
       "howTo": "Apply together through the volunteer page when she is 12.",
@@ -142,39 +142,9 @@
         "shelter",
         "with a parent"
       ],
-      "title": "Kitsap Humane Society junior volunteers (ages 12–17, with a parent)",
+      "title": "Kitsap Humane Society youth volunteers (ages 13–15, with a parent)",
       "url": "https://www.kitsap-humane.org/get-involved/volunteer/",
-      "verified": "2026-09-06"
-    },
-    {
-      "ages": {
-        "max": null,
-        "min": null,
-        "note": "No age stated; an adult signs up and a child can help choose photos and read the bios.",
-        "withAdult": true
-      },
-      "commitment": "15–30 minutes a day, or as agreed.",
-      "details": [
-        "The Pet Poster role posts pets on adoption sites and inputs new arrivals into the rescue's online software, about 15–30 minutes daily.",
-        "Animal Advocate volunteers regularly check that all animal profiles online have enough pictures and good-looking bios, because a pet's profile is everything when it comes to finding an interested adopter.",
-        "Some adoption follow-up work is also done remotely from home."
-      ],
-      "howTo": "Apply through the Support & Remote Roles page; log the shared time as entries.",
-      "id": "ldcrf-remote",
-      "kind": "remote",
-      "location": "Online",
-      "org": "ldcrf",
-      "summary": "Fifteen to thirty minutes a day posting pets to adoption sites and checking that every profile has good photos and a bio.",
-      "tags": [
-        "animals",
-        "cats",
-        "online",
-        "writing",
-        "with a parent"
-      ],
-      "title": "Pet poster and Animal Advocate: keep adoptable pets' profiles up to date (remote)",
-      "url": "https://www.lostdogrescue.org/volunteer/support-remote-roles/",
-      "verified": "2026-09-06"
+      "verified": "2026-09-10"
     },
     {
       "ages": {
@@ -501,7 +471,7 @@
       },
       "commitment": "Weeks to months per foster.",
       "details": [
-        "Volunteers in the rescue must be at least 16; for those under the required age, the rescue recommends discussing fostering with your family.",
+        "Volunteers in the shelter must be at least 17, or 16 with an interview; for those under the required age, the rescue recommends discussing fostering with your family.",
         "Foster scenarios include litters of kittens too young for adoption, bottle-baby kittens needing round-the-clock care, adult cats who need socialization, and adult cats with other needs.",
         "Kittens come into the adoption center regularly for check-ups, normally 2–4 times a month; homes without regular transportation are welcome for adult cats in longer-term foster.",
         "To start, read the Foster Handbook and fill out the online Foster Information Form."
@@ -520,34 +490,35 @@
       ],
       "title": "Foster kittens or cats as a family (Seattle Area Feline Rescue)",
       "url": "https://seattleareafelinerescue.org/foster/foster-info/",
-      "verified": "2026-09-06"
+      "verified": "2026-09-10"
     },
     {
       "ages": {
         "max": null,
-        "min": 16,
-        "note": "From age 16.",
+        "min": 17,
+        "note": "17 to volunteer in the shelter, or 16 with an interview; under 18 needs a parent's signature.",
         "withAdult": false
       },
       "commitment": "Regular shifts.",
       "details": [
-        "Volunteers in the rescue must be at least 16 years old.",
+        "Volunteers in the shelter must be at least 17, or 16 with an interview; anyone under 18 needs a parent or guardian's signed agreement.",
+        "Shifts are a regular weekly commitment of two to three hours.",
         "Until then the rescue recommends fostering as a family (listed separately)."
       ],
-      "howTo": "Apply through the volunteer page at 16.",
+      "howTo": "Apply through the volunteer page at 17, or at 16 and ask about the interview.",
       "id": "safr-volunteer",
       "kind": "on-site",
       "location": "Shoreline",
       "org": "safr",
-      "summary": "Cat care and adoption-center roles at the Shoreline rescue once she is 16.",
+      "summary": "Cat care and adoption-center roles at the Shoreline rescue once she is old enough.",
       "tags": [
         "cats",
         "shelter",
         "teens"
       ],
-      "title": "Seattle Area Feline Rescue volunteering (from age 16)",
+      "title": "Seattle Area Feline Rescue volunteering (from 17, or 16 with an interview)",
       "url": "https://seattleareafelinerescue.org/volunteer/",
-      "verified": "2026-09-06"
+      "verified": "2026-09-10"
     },
     {
       "ages": {
@@ -902,10 +873,6 @@
       },
       "name": "Kitsap Humane Society",
       "url": "https://www.kitsap-humane.org/get-involved/volunteer/"
-    },
-    "ldcrf": {
-      "name": "Lost Dog & Cat Rescue Foundation",
-      "url": "https://www.lostdogrescue.org/volunteer/support-remote-roles/"
     },
     "motley-zoo": {
       "area": "Eastside · Redmond",

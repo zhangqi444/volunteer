@@ -56,6 +56,11 @@ def main():
         it.setdefault("details", []); it.setdefault("tags", [])
         for k in ("commitment", "location", "howTo"):
             it.setdefault(k, "")
+    # Deleting the last item of an organization should delete the organization too:
+    # LDCRF's only entry turned out to be 18+ and left its org behind when it went.
+    unused = sorted(set(orgs) - {it["org"] for it in cat["items"]})
+    if unused:
+        sys.exit(f"organizations with no items: {', '.join(unused)}; remove them too")
     items = sorted(cat["items"], key=lambda x: (orgs[x["org"]]["name"], x["title"]))
     bundle = {"schema": 1, "note": cat.get("note", ""), "organizations": orgs, "items": items}
     OUT.parent.mkdir(parents=True, exist_ok=True)
