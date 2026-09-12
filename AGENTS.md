@@ -199,7 +199,8 @@ All three must pass before a commit.
   sources on the same site disagree, the newest one wins; when the claim is only in
   the old one, the claim goes.
 - **`kind` and `where` are two questions, not one.** `kind` is what she would be
-  doing — `craft`, `drive`, `foster`, `shift`, `program`, `event`, `citizen-science`.
+  doing — `craft`, `drive`, `foster`, `shift`, `program`, `event`, `citizen-science`,
+  `outreach`.
   `where` is how she takes part — `in-person`, `at-home`, `online`. They were a single
   enum, which put "At home" beside "Event" in one filter as though a person had to
   choose between them, and made "fostering, but not from home" impossible to ask.
@@ -214,7 +215,10 @@ All three must pass before a commit.
   organizations the owner has pointed at or asked for (Seattle Humane, RASKC, PAWS,
   The NOAH Center, Seattle Area Feline Rescue, Seattle Animal Shelter, Homeward Pet,
   Purrfect Pals, Motley Zoo, Auburn Valley Humane Society, Pasado's Safe Haven,
-  Kitsap Humane Society, Seattle Aquarium, Woodland Park Zoo; online: Zooniverse,
+  Kitsap Humane Society, Seattle Aquarium, Woodland Park Zoo, MEOW Cat Rescue,
+  Old Dog Haven, Sarvey Wildlife Care Center, the Humane Society for Tacoma & Pierce
+  County, Everett Animal Shelter, Birds Connect Seattle; online: Zooniverse, Orcasound,
+  Happywhale, Alley Cat Allies,
   ZSL Instant Wild, Best Friends including its NOVA remote roles, Lost Dog & Cat
   Rescue Foundation's remote roles, iNaturalist/eBird). `where: online` marks work
   done from home over the internet; adult remote roles are listed when a child can

@@ -153,6 +153,64 @@
     "inaturalist": {
       "name": "iNaturalist and eBird (citizen science)",
       "url": "https://www.inaturalist.org/"
+    },
+    "meow": {
+      "name": "MEOW Cat Rescue",
+      "url": "https://meowcatrescue.org/volunteer/",
+      "area": "Eastside · Kirkland",
+      "contact": {
+        "email": "volunteer@meowcatrescue.org"
+      }
+    },
+    "birds-connect-seattle": {
+      "name": "Birds Connect Seattle",
+      "url": "https://birdsconnectsea.org/get-involved/",
+      "area": "Seattle"
+    },
+    "old-dog-haven": {
+      "name": "Old Dog Haven",
+      "url": "https://olddoghaven.org/",
+      "area": "Across western Washington",
+      "contact": {
+        "email": "office@olddoghaven.org"
+      }
+    },
+    "orcasound": {
+      "name": "Orcasound",
+      "url": "https://www.orcasound.net/"
+    },
+    "sarvey": {
+      "name": "Sarvey Wildlife Care Center",
+      "url": "https://www.sarveywildlife.org/",
+      "area": "Far north · Arlington",
+      "contact": {
+        "phone": "(360) 435-4817",
+        "address": "13106 148th St NE, Arlington, WA 98223"
+      }
+    },
+    "hstpc": {
+      "name": "Humane Society for Tacoma & Pierce County",
+      "url": "https://www.thehumanesociety.org/get-involved/",
+      "area": "South · Tacoma",
+      "contact": {
+        "email": "volunteer@thehumanesociety.org"
+      }
+    },
+    "everett-animal-shelter": {
+      "name": "Everett Animal Shelter",
+      "url": "https://www.everettwa.gov/178/Volunteering-Fostering",
+      "area": "North · Everett",
+      "contact": {
+        "email": "easvolunteers@everettwa.gov"
+      }
+    },
+    "alley-cat-allies": {
+      "name": "Alley Cat Allies",
+      "url": "https://www.alleycat.org/"
+    },
+    "happywhale": {
+      "name": "Happywhale",
+      "url": "https://happywhale.com/"
     }
   },
   "items": [
@@ -1020,6 +1078,376 @@
         "animals",
         "school",
         "classroom"
+      ]
+    },
+    {
+      "id": "hstpc-family-craft",
+      "org": "hstpc",
+      "title": "Animal Enrichment Family Craft Workshop",
+      "kind": "craft",
+      "where": "in-person",
+      "summary": "A workshop where families make enrichment toys for the shelter's cats, dogs and rabbits.",
+      "details": [
+        "A family-friendly workshop, open to kids and families of all ages, where children craft enrichment toys for the shelter's rabbits, cats and dogs.",
+        "Ordinary volunteering at this shelter is 16 and over — it says it cannot take under-16s even with a parent alongside — so this workshop is the way in for a nine-year-old."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "All ages; it is a family workshop, so an adult comes too."
+      },
+      "commitment": "One workshop.",
+      "location": "Humane Society for Tacoma & Pierce County",
+      "howTo": "Watch the workshop page for the next date and book a family place; email volunteer@thehumanesociety.org to ask when one is scheduled.",
+      "url": "https://www.thehumanesociety.org/family-craft-workshop/",
+      "verified": "2026-09-12",
+      "tags": [
+        "animals",
+        "cats",
+        "dogs",
+        "crafts",
+        "family",
+        "workshop"
+      ]
+    },
+    {
+      "id": "everett-blankets",
+      "org": "everett-animal-shelter",
+      "title": "Cozy fleece blankets for the Everett shelter",
+      "kind": "craft",
+      "where": "at-home",
+      "summary": "Fleece blankets that keep shelter cats and dogs warm — and go home with them when they are adopted.",
+      "details": [
+        "Cozy fleece blankets help the shelter's cats and dogs feel warm and safe in their kennels, and are often sent home with the animal when it is adopted.",
+        "The shelter links a blanket tutorial but cannot provide fleece or other materials.",
+        "It offers a short tour to a group dropping off donations, if arranged beforehand."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age stated; it is an offsite project for groups and families, with an adult to deliver."
+      },
+      "commitment": "An afternoon.",
+      "location": "At home; deliver to the Everett shelter",
+      "howTo": "Follow the shelter's blanket tutorial, then email easvolunteers@everettwa.gov to arrange dropping them off — and ask about the tour.",
+      "url": "https://www.everettwa.gov/2912/Offsite-Volunteer-Ideas-for-Groups",
+      "verified": "2026-09-12",
+      "tags": [
+        "animals",
+        "cats",
+        "dogs",
+        "crafts",
+        "at home"
+      ]
+    },
+    {
+      "id": "everett-drive",
+      "org": "everett-animal-shelter",
+      "title": "Food and supply drive for the Everett shelter",
+      "kind": "drive",
+      "where": "at-home",
+      "summary": "Collect the food and supplies on the shelter's wish list, with a tour when you deliver.",
+      "details": [
+        "The shelter always needs food and supplies, and publishes a printable wish list as well as Amazon lists of what is most needed.",
+        "A group dropping off a donation drive can be given a short tour of the shelter, arranged in advance."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age stated; an adult arranges the drop-off."
+      },
+      "commitment": "A few weeks of collecting.",
+      "location": "Neighborhood or school; deliver to the Everett shelter",
+      "howTo": "Print the wish list, collect from neighbours or at school, then email easvolunteers@everettwa.gov to book the drop-off and tour.",
+      "url": "https://www.everettwa.gov/170/Donating-to-the-Shelter",
+      "verified": "2026-09-12",
+      "tags": [
+        "animals",
+        "cats",
+        "dogs",
+        "drive",
+        "school",
+        "service hours"
+      ]
+    },
+    {
+      "id": "everett-youth-volunteer",
+      "org": "everett-animal-shelter",
+      "title": "Everett shelter youth volunteering (13–17, with a parent)",
+      "kind": "shift",
+      "where": "in-person",
+      "summary": "Shelter shifts alongside a parent once she turns thirteen.",
+      "details": [
+        "Volunteers must be 13 or older, and each programme sets its own age on top of that.",
+        "Volunteers aged 13–17 volunteer with a parent or legal guardian, who attends orientation and every training and works the shift with them.",
+        "At 16 or 17 some programmes may be done independently if the parent attends training and signs the paperwork; others stay youth-and-adult teams until 18.",
+        "The Wing Assistant role is the one the shelter names as good for a junior-and-parent team, from 15."
+      ],
+      "ages": {
+        "min": 13,
+        "max": 17,
+        "withAdult": true,
+        "note": "From 13, with a parent who trains and works the shift too."
+      },
+      "commitment": "Regular shifts.",
+      "location": "Everett Animal Shelter",
+      "howTo": "At 13, apply together through the shelter's volunteer application and book orientation for both of you.",
+      "url": "https://www.everettwa.gov/2362/22801/Become-a-Volunteer",
+      "verified": "2026-09-12",
+      "tags": [
+        "animals",
+        "cats",
+        "dogs",
+        "shelter",
+        "with a parent",
+        "service hours"
+      ]
+    },
+    {
+      "id": "meow-foster",
+      "org": "meow",
+      "title": "Foster cats with MEOW Cat Rescue (as a family)",
+      "kind": "foster",
+      "where": "at-home",
+      "summary": "A Kirkland cat rescue that points families who want to help together towards fostering.",
+      "details": [
+        "Foster homes must be over 18, so a parent is the registered foster and the whole family helps at home.",
+        "MEOW says it has only limited opportunities for under-18s and cannot offer teens work that meets school service-hour requirements — fostering is what it suggests for families.",
+        "It is currently taking applications for fosters as well as kennel attendants and shelter assistants."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "The registered foster is an adult over 18; the child helps at home."
+      },
+      "commitment": "Weeks per foster.",
+      "location": "At home; Kirkland",
+      "howTo": "Email volunteer@meowcatrescue.org to reach the Volunteer Programs Manager and ask to foster as a family.",
+      "url": "https://meowcatrescue.org/volunteer/foster-2/",
+      "verified": "2026-09-12",
+      "tags": [
+        "cats",
+        "foster",
+        "family",
+        "at home"
+      ]
+    },
+    {
+      "id": "odh-foster",
+      "org": "old-dog-haven",
+      "title": "Foster an old dog (Old Dog Haven)",
+      "kind": "foster",
+      "where": "at-home",
+      "summary": "A network of homes across western Washington caring for dogs aged eight and over.",
+      "details": [
+        "Old Dog Haven is a network of private homes across western Washington, Spokane and Portland, taking homeless dogs aged eight and over and prioritising the oldest and sickest.",
+        "Its greatest need is Final Refuge homes, where a dog with age- and health-related needs stays for as long as it has a good quality of life.",
+        "Old Dog Haven pays all medical costs including prescription food; the family pays the everyday costs of having a dog."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "An adult is the registered foster; a gentle old dog is easy company for a child."
+      },
+      "commitment": "Open-ended.",
+      "location": "At home; western Washington",
+      "howTo": "Read the fostering page with a parent, then fill in the volunteer package and email it to office@olddoghaven.org.",
+      "url": "https://olddoghaven.org/how-to-help/fostering/",
+      "verified": "2026-09-12",
+      "tags": [
+        "dogs",
+        "foster",
+        "family",
+        "at home",
+        "seniors"
+      ]
+    },
+    {
+      "id": "odh-outreach",
+      "org": "old-dog-haven",
+      "title": "Spread the word for Old Dog Haven",
+      "kind": "outreach",
+      "where": "in-person",
+      "summary": "Put brochures round the neighbourhood, or help at an information table.",
+      "details": [
+        "Old Dog Haven asks for help distributing brochures around your neighbourhood — something a child can do alongside a parent.",
+        "Volunteers also staff booths and information tables at outreach events, generally three to four hours.",
+        "Other listed help includes minding donation cans and hosting a fundraiser."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age stated; handing out brochures is done with a parent."
+      },
+      "commitment": "An afternoon, or 3–4 hours at an event.",
+      "location": "Your neighborhood, or an event",
+      "howTo": "Fill in the Old Dog Haven volunteer package with a parent and email it to office@olddoghaven.org, saying you would like brochures to hand out.",
+      "url": "https://olddoghaven.org/how-to-help/volunteering/",
+      "verified": "2026-09-12",
+      "tags": [
+        "dogs",
+        "outreach",
+        "family",
+        "seniors"
+      ]
+    },
+    {
+      "id": "sarvey-wish-list",
+      "org": "sarvey",
+      "title": "Wish-list drive for Sarvey Wildlife Care Center",
+      "kind": "drive",
+      "where": "at-home",
+      "summary": "Collect what a wildlife hospital needs for the three thousand wild animals it treats a year.",
+      "details": [
+        "Sarvey treats around 3,000 wild patients a year and depends on donations; the average cost of a patient is about $200.",
+        "It publishes an everyday donation wish list, and also takes contributions through its Amazon wish list.",
+        "Hands-on volunteering there is physically demanding outdoor work in all weather, so a drive is the way a younger child helps."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age stated for a drive; an adult arranges the delivery."
+      },
+      "commitment": "A few weeks of collecting.",
+      "location": "Neighborhood or school; deliver to Arlington",
+      "howTo": "Print the everyday wish list, collect the items, then ring (360) 435-4817 to arrange dropping them off.",
+      "url": "https://www.sarveywildlife.org/donation-wish-list.aspx",
+      "verified": "2026-09-12",
+      "tags": [
+        "animals",
+        "wildlife",
+        "drive",
+        "school",
+        "service hours"
+      ]
+    },
+    {
+      "id": "bcs-neighborhood-birds",
+      "org": "birds-connect-seattle",
+      "title": "Neighborhood Bird Project bird counts",
+      "kind": "citizen-science",
+      "where": "in-person",
+      "summary": "A monthly bird count in a Seattle park, entered into a database scientists use.",
+      "details": [
+        "Volunteers gather once a month to count birds along a set route in a Seattle park, surveying at points around a loop and entering the results in an online database.",
+        "The project monitors bird diversity in city parks and greenspaces across Seattle.",
+        "Birds Connect Seattle also runs Neighborhood Bird Outings for whole families, and birdathons and Christmas Bird Count feeder watches that it describes as all ages."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age stated for the counts; the outings and feeder watches are described as all ages, so start there."
+      },
+      "commitment": "One morning a month.",
+      "location": "A Seattle park",
+      "howTo": "Sign up through the Neighborhood Bird Project page, or join a family Neighborhood Bird Outing first to see how a count works.",
+      "url": "https://birdsconnectsea.org/get-involved/community-science/neighborhood-bird-project/",
+      "verified": "2026-09-12",
+      "tags": [
+        "animals",
+        "birds",
+        "citizen science",
+        "outdoors",
+        "family"
+      ]
+    },
+    {
+      "id": "orcasound-listen",
+      "org": "orcasound",
+      "title": "Listen for orcas on live underwater microphones",
+      "kind": "citizen-science",
+      "where": "online",
+      "summary": "Headphones, a live hydrophone in Puget Sound, and a button to press when she hears a whale.",
+      "details": [
+        "Orcasound streams live hydrophones — underwater microphones — from locations around Puget Sound; you open live.orcasound.net and pick one to listen to.",
+        "Listeners tell the network when they hear orcas or any sound that might matter, which helps researchers learn when and where the endangered Southern Residents travel, how they communicate and forage, and what noise may be holding back their recovery.",
+        "Anyone is welcome to join the network for free as a citizen scientist."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age stated; listening needs nothing but headphones, and a parent can set it up."
+      },
+      "commitment": "As long as she likes.",
+      "location": "Online",
+      "howTo": "Open live.orcasound.net, choose a hydrophone and listen; report what she hears, and log the listening time as an entry.",
+      "url": "https://www.orcasound.net/join/",
+      "verified": "2026-09-12",
+      "tags": [
+        "animals",
+        "whales",
+        "online",
+        "citizen science"
+      ]
+    },
+    {
+      "id": "happywhale-photos",
+      "org": "happywhale",
+      "title": "Send whale photos to be identified (Happywhale)",
+      "kind": "citizen-science",
+      "where": "online",
+      "summary": "Photograph a whale from a ferry or a whale watch, and find out which individual it was.",
+      "details": [
+        "Happywhale identifies individual whales from photographs and tells you which one you saw.",
+        "The matches feed long-term research into where whales travel and how people affect them, shared with whale catalogues including one for the Salish Sea.",
+        "The site publishes photography instructions for taking pictures that can actually be matched."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age stated; she needs a camera and an adult's account to upload."
+      },
+      "commitment": "A ferry ride or a whale watch.",
+      "location": "On the water; uploaded online",
+      "howTo": "Read the photography instructions first, take fluke and dorsal-fin photos on a ferry or whale watch, then upload them and wait to hear which whale it was.",
+      "url": "https://happywhale.com/instructions",
+      "verified": "2026-09-12",
+      "tags": [
+        "animals",
+        "whales",
+        "online",
+        "citizen science",
+        "outdoors"
+      ]
+    },
+    {
+      "id": "alleycat-educate",
+      "org": "alley-cat-allies",
+      "title": "Tell the neighbourhood about community cats",
+      "kind": "outreach",
+      "where": "at-home",
+      "summary": "Use a cat charity's own fact sheets to explain the neighbourhood's outdoor cats to the people who live near them.",
+      "details": [
+        "Alley Cat Allies publishes guides and fact sheets for explaining community cats to other people, including 'All About Community Cats' and 'How to Live with Cats in Your Community'.",
+        "It treats educating neighbours as a real way to help cats, whether or not you are doing trap-neuter-return yourself.",
+        "There is also a workshop guide for teaching a group about community cats and trap-neuter-return."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age stated; a child can make posters from the fact sheets with a parent."
+      },
+      "commitment": "An afternoon.",
+      "location": "Your neighborhood",
+      "howTo": "Read the Educating Others page with a parent, pick a fact sheet, and turn it into a poster or a letter for the street.",
+      "url": "https://www.alleycat.org/community-cat-care/educate-your-neighbors/",
+      "verified": "2026-09-12",
+      "tags": [
+        "cats",
+        "outreach",
+        "online",
+        "family"
       ]
     }
   ]

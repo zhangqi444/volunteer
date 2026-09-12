@@ -15,7 +15,7 @@ OUT = ROOT / "site" / "public" / "content" / "bundle.json"
 # Two independent axes, kept apart on purpose: kind is what she would be doing,
 # where is how she takes part. They used to be one enum, which put "At home" and
 # "Event" in a single filter as though they were alternatives.
-KINDS = {"craft", "drive", "foster", "shift", "program", "event", "citizen-science"}
+KINDS = {"craft", "drive", "foster", "shift", "program", "event", "citizen-science", "outreach"}
 WHERES = {"in-person", "at-home", "online"}
 REQUIRED = ("id", "org", "title", "kind", "where", "summary", "url", "verified")
 

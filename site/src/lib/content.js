@@ -5,7 +5,7 @@ import { todayISO } from "./format"
 
 export const C = { schema: 0, note: "", organizations: {}, items: [] }
 // What she would be doing …
-export const KIND_LABEL = { craft: "Make something", drive: "Donation drive", foster: "Fostering", shift: "Regular shifts", program: "Program", event: "One-day event", "citizen-science": "Citizen science" }
+export const KIND_LABEL = { craft: "Make something", drive: "Donation drive", foster: "Fostering", shift: "Regular shifts", program: "Program", event: "One-day event", "citizen-science": "Citizen science", outreach: "Spread the word" }
 // … and how she takes part. Two questions, so two filters.
 export const WHERE_LABEL = { "in-person": "In person", "at-home": "From home", online: "Online" }
 
