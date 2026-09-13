@@ -4,7 +4,7 @@
 Validates the catalog (every item needs an id, org, title, kind, where, summary, source
 url and verified date; every org referenced must exist) and writes a deterministic
 bundle, so CI can fail the build when the committed bundle has drifted."""
-import json, sys
+import json, re, sys
 from collections import Counter
 from urllib.parse import urlparse
 from pathlib import Path
@@ -17,6 +17,11 @@ OUT = ROOT / "site" / "public" / "content" / "bundle.json"
 # "Event" in a single filter as though they were alternatives.
 KINDS = {"craft", "drive", "foster", "shift", "program", "event", "citizen-science", "outreach"}
 WHERES = {"in-person", "at-home", "online"}
+DATED_SLUG = re.compile(
+    r"\b(?:19|20)\d{2}\b"
+    r"|-(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*-\d{1,2}(?:-\d+)?/?$",
+    re.I,
+)
 REQUIRED = ("id", "org", "title", "kind", "where", "summary", "url", "verified")
 
 def site(url):
@@ -44,6 +49,11 @@ def main():
             sys.exit(f"{it['id']}: unknown where {it['where']}")
         # An archived page is not evidence a programme still runs: PAWS moved its preteen
         # workshops under /archive/ and the catalog went on advertising the old times and price.
+        # A URL naming a date is one occurrence of a thing, and it stops being true the
+        # day after: the PAWS workshops were sourced from pages like ".../our-wild-world-dec-4".
+        # Link the programme's own page instead, which survives the event.
+        if DATED_SLUG.search(urlparse(it["url"]).path):
+            sys.exit(f"{it['id']}: {it['url']} names a date; link the programme's page, not one occurrence")
         if "/archive/" in it["url"]:
             sys.exit(f"{it['id']}: {it['url']} is an archived page; source a live one or drop the item")
         # An item describes what an organization offers, so its own site is the only thing

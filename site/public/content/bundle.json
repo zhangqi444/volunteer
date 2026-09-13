@@ -377,37 +377,6 @@
     },
     {
       "ages": {
-        "max": null,
-        "min": null,
-        "note": "All ages; it is a family workshop, so an adult comes too.",
-        "withAdult": true
-      },
-      "commitment": "One workshop.",
-      "details": [
-        "A family-friendly workshop, open to kids and families of all ages, where children craft enrichment toys for the shelter's rabbits, cats and dogs.",
-        "Ordinary volunteering at this shelter is 16 and over — it says it cannot take under-16s even with a parent alongside — so this workshop is the way in for a nine-year-old."
-      ],
-      "howTo": "Watch the workshop page for the next date and book a family place; email volunteer@thehumanesociety.org to ask when one is scheduled.",
-      "id": "hstpc-family-craft",
-      "kind": "craft",
-      "location": "Humane Society for Tacoma & Pierce County",
-      "org": "hstpc",
-      "summary": "A workshop where families make enrichment toys for the shelter's cats, dogs and rabbits.",
-      "tags": [
-        "animals",
-        "cats",
-        "dogs",
-        "crafts",
-        "family",
-        "workshop"
-      ],
-      "title": "Animal Enrichment Family Craft Workshop",
-      "url": "https://www.thehumanesociety.org/family-craft-workshop/",
-      "verified": "2026-09-12",
-      "where": "in-person"
-    },
-    {
-      "ages": {
         "max": 15,
         "min": 13,
         "note": "Ages 13–15 per the 2025 volunteer manual, with a parent who also applies.",
@@ -1556,14 +1525,6 @@
       },
       "name": "Homeward Pet Adoption Center",
       "url": "https://www.homewardpet.org/volunteer/foster-care/"
-    },
-    "hstpc": {
-      "area": "South · Tacoma",
-      "contact": {
-        "email": "volunteer@thehumanesociety.org"
-      },
-      "name": "Humane Society for Tacoma & Pierce County",
-      "url": "https://www.thehumanesociety.org/get-involved/"
     },
     "inaturalist": {
       "name": "iNaturalist and eBird (citizen science)",

@@ -188,14 +188,6 @@
         "address": "13106 148th St NE, Arlington, WA 98223"
       }
     },
-    "hstpc": {
-      "name": "Humane Society for Tacoma & Pierce County",
-      "url": "https://www.thehumanesociety.org/get-involved/",
-      "area": "South · Tacoma",
-      "contact": {
-        "email": "volunteer@thehumanesociety.org"
-      }
-    },
     "everett-animal-shelter": {
       "name": "Everett Animal Shelter",
       "url": "https://www.everettwa.gov/178/Volunteering-Fostering",
@@ -1106,37 +1098,6 @@
         "animals",
         "school",
         "classroom"
-      ]
-    },
-    {
-      "id": "hstpc-family-craft",
-      "org": "hstpc",
-      "title": "Animal Enrichment Family Craft Workshop",
-      "kind": "craft",
-      "where": "in-person",
-      "summary": "A workshop where families make enrichment toys for the shelter's cats, dogs and rabbits.",
-      "details": [
-        "A family-friendly workshop, open to kids and families of all ages, where children craft enrichment toys for the shelter's rabbits, cats and dogs.",
-        "Ordinary volunteering at this shelter is 16 and over — it says it cannot take under-16s even with a parent alongside — so this workshop is the way in for a nine-year-old."
-      ],
-      "ages": {
-        "min": null,
-        "max": null,
-        "withAdult": true,
-        "note": "All ages; it is a family workshop, so an adult comes too."
-      },
-      "commitment": "One workshop.",
-      "location": "Humane Society for Tacoma & Pierce County",
-      "howTo": "Watch the workshop page for the next date and book a family place; email volunteer@thehumanesociety.org to ask when one is scheduled.",
-      "url": "https://www.thehumanesociety.org/family-craft-workshop/",
-      "verified": "2026-09-12",
-      "tags": [
-        "animals",
-        "cats",
-        "dogs",
-        "crafts",
-        "family",
-        "workshop"
       ]
     },
     {

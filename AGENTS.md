@@ -181,6 +181,16 @@ All three must pass before a commit.
   store, not a live page that is archived later. So before trusting a page: check
   that its dates are in the current season, and that the programme is still named on
   the organization's own index of what it offers today.
+- **A weekday with a date and no year pins the year — work it out.** The Humane
+  Society for Tacoma & Pierce County's family craft workshop said "Monday, June 3",
+  which reads as an upcoming Monday and is in fact June 2024, the only recent year
+  June 3 fell on a Monday. Its Hallowe'en craft event says "Monday, October 21st",
+  also 2024. Both pages are live, on the organization's own domain, with no `/archive/`
+  and no date in the URL, so every automated check passes them; only doing the
+  calendar arithmetic catches it. Do that arithmetic for any event page before
+  trusting it, and prefer a page describing the programme to a page announcing one
+  occurrence of it — `make_bundle.py` now rejects a URL that names a date, which is
+  the other half of the same mistake.
 - **When it can't be confirmed, delete the item.** The first attempt at fixing the
   PAWS entry kept it with the specifics stripped out and "email and ask" as the next
   step, which was still wrong: an item nobody can verify reads to a nine-year-old
@@ -216,8 +226,8 @@ All three must pass before a commit.
   The NOAH Center, Seattle Area Feline Rescue, Seattle Animal Shelter, Homeward Pet,
   Purrfect Pals, Motley Zoo, Auburn Valley Humane Society, Pasado's Safe Haven,
   Kitsap Humane Society, Seattle Aquarium, Woodland Park Zoo, MEOW Cat Rescue,
-  Old Dog Haven, Sarvey Wildlife Care Center, the Humane Society for Tacoma & Pierce
-  County, Everett Animal Shelter, Birds Connect Seattle, West Sound Wildlife Shelter,
+  Old Dog Haven, Sarvey Wildlife Care Center,
+  Everett Animal Shelter, Birds Connect Seattle, West Sound Wildlife Shelter,
   Orca Network, Guide Dogs for the Blind; online and at home: Zooniverse, Orcasound,
   Happywhale, Alley Cat Allies, Project FeederWatch, the Great Backyard Bird Count,
   ZSL Instant Wild, Best Friends including its NOVA remote roles, Lost Dog & Cat
