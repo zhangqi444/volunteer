@@ -211,6 +211,34 @@
     "happywhale": {
       "name": "Happywhale",
       "url": "https://happywhale.com/"
+    },
+    "feederwatch": {
+      "name": "Project FeederWatch (Cornell Lab and Birds Canada)",
+      "url": "https://feederwatch.org/"
+    },
+    "gbbc": {
+      "name": "Great Backyard Bird Count",
+      "url": "https://www.birdcount.org/"
+    },
+    "guide-dogs": {
+      "name": "Guide Dogs for the Blind",
+      "url": "https://www.guidedogs.com/"
+    },
+    "west-sound-wildlife": {
+      "name": "West Sound Wildlife Shelter",
+      "url": "https://westsoundwildlife.org/",
+      "area": "Across the water · Bainbridge Island",
+      "contact": {
+        "phone": "(206) 855-9057",
+        "address": "7501 NE Dolphin Drive, Bainbridge Island, WA 98110"
+      }
+    },
+    "orca-network": {
+      "name": "Orca Network",
+      "url": "https://orcanetwork.org/",
+      "contact": {
+        "email": "sightings@orcanetwork.org"
+      }
     }
   },
   "items": [
@@ -963,7 +991,7 @@
       "org": "inaturalist",
       "title": "Log the birds and animals you see (Seek and eBird)",
       "kind": "citizen-science",
-      "where": "online",
+      "where": "in-person",
       "summary": "Turn walks in the park into wildlife records scientists use.",
       "details": [
         "Seek by iNaturalist identifies plants and animals from the camera, needs no login and is made for children; observations can be posted on to iNaturalist itself.",
@@ -1394,7 +1422,7 @@
       "org": "happywhale",
       "title": "Send whale photos to be identified (Happywhale)",
       "kind": "citizen-science",
-      "where": "online",
+      "where": "in-person",
       "summary": "Photograph a whale from a ferry or a whale watch, and find out which individual it was.",
       "details": [
         "Happywhale identifies individual whales from photographs and tells you which one you saw.",
@@ -1544,6 +1572,171 @@
         "foster",
         "family",
         "at home"
+      ]
+    },
+    {
+      "id": "gdb-puppy-raising",
+      "org": "guide-dogs",
+      "title": "Raise a guide dog puppy",
+      "kind": "foster",
+      "where": "at-home",
+      "summary": "A puppy lives with you for about a year and leaves knowing its manners — and Guide Dogs says raisers can be nine.",
+      "details": [
+        "Guide Dogs for the Blind says its puppy raisers can be any age, from 9 to 90, and that families are welcome — one of the very few animal programmes that names an age this young.",
+        "A puppy arrives at about eight weeks old and goes back to a GDB campus for its formal training between fifteen and seventeen months; raisers teach it good manners and basic obedience in the meantime.",
+        "GDB covers veterinary care and provides the equipment and learning materials, including an online Puppy Raising Guidebook.",
+        "Washington is one of the states the programme runs in, and raisers belong to a local puppy club.",
+        "Giving the puppy back at the end is the hard part, and the reason it matters."
+      ],
+      "ages": {
+        "min": 9,
+        "max": null,
+        "withAdult": true,
+        "note": "GDB says raisers can be any age from 9 to 90 and welcomes families; an adult in the house shares the year."
+      },
+      "commitment": "About 14 months.",
+      "location": "At home; a puppy club nearby",
+      "howTo": "Read the puppy raising pages with a parent, find the nearest puppy club, and apply together — talk first about the day the puppy leaves.",
+      "url": "https://www.guidedogs.com/volunteering/puppy-raising-volunteers",
+      "verified": "2026-09-13",
+      "tags": [
+        "dogs",
+        "puppies",
+        "foster",
+        "family",
+        "at home"
+      ]
+    },
+    {
+      "id": "feederwatch",
+      "org": "feederwatch",
+      "title": "Project FeederWatch: count the birds in your own yard",
+      "kind": "citizen-science",
+      "where": "at-home",
+      "summary": "Pick a spot you can see from a window and count who visits, two days at a time, all winter.",
+      "details": [
+        "A November-to-April survey of the birds visiting yards and other places across North America, run by the Cornell Lab of Ornithology and Birds Canada.",
+        "It names children and families among the people who do it — some families count together as a way of learning the birds in their own garden.",
+        "Choose a patch you can watch easily; you do not need to put out feeders. Count on two days in a row, as often as once a week, leaving at least five days between counts, and record the most of each species you can see at one moment.",
+        "Counts are submitted on the website or the FeederWatch app.",
+        "There is a participation fee, which pays for the database and the project materials; an educational group leader can use the code PFWEDU for $5 off."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "All skill levels and backgrounds, children and families included; a parent signs up and pays the fee."
+      },
+      "commitment": "Two days at a time, weekly at most, November to April.",
+      "location": "Your own yard or window",
+      "howTo": "Sign up with a parent before November, choose the patch to watch, and put the count days in the calendar here.",
+      "url": "https://feederwatch.org/about/how-to-participate/",
+      "verified": "2026-09-13",
+      "tags": [
+        "animals",
+        "birds",
+        "citizen science",
+        "at home",
+        "family"
+      ]
+    },
+    {
+      "id": "gbbc",
+      "org": "gbbc",
+      "title": "Great Backyard Bird Count",
+      "kind": "citizen-science",
+      "where": "at-home",
+      "summary": "Four days every February when the whole world counts birds — fifteen minutes is enough to take part.",
+      "details": [
+        "Four days each February, when people everywhere watch, count and celebrate birds; the count's own pages say it is easy and fun for all ages, whether you count one bird or hundreds.",
+        "Fifteen minutes or more, on at least one of the four days, is all it takes.",
+        "It is free, and there is no separate registration — you need a free Cornell Lab account through whichever tool you use.",
+        "For a beginner with a phone the Merlin Bird ID app is the recommended way in; more practised counters use eBird.",
+        "The dates are announced on the count's site each year, so check them rather than assuming."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "All ages; a parent sets up the free Cornell Lab account."
+      },
+      "commitment": "Fifteen minutes, one day in February.",
+      "location": "Anywhere she can see birds",
+      "howTo": "Check this year's four dates, install Merlin with a parent, and plan the fifteen minutes in the calendar here.",
+      "url": "https://www.birdcount.org/participate/",
+      "verified": "2026-09-13",
+      "tags": [
+        "animals",
+        "birds",
+        "citizen science",
+        "at home",
+        "family",
+        "free"
+      ]
+    },
+    {
+      "id": "orca-network-sightings",
+      "org": "orca-network",
+      "title": "Report a whale sighting to Orca Network",
+      "kind": "citizen-science",
+      "where": "in-person",
+      "summary": "Watch the water from a shoreline viewpoint, and tell the network what went past.",
+      "details": [
+        "Orca Network's Whale Sighting and Education Project collects sightings of orcas and every other cetacean of the Salish Sea.",
+        "A report says when you saw them, the species, how many, where, which way they were heading and what they were doing, and whether you have photos — photos can be emailed to sightings@orcanetwork.org.",
+        "The network publishes a map of shoreline viewpoints from Deception Pass to Olympia, so a report can start with choosing where to stand.",
+        "It also points at Orcasound's hydrophones for listening when there is nothing to see."
+      ],
+      "ages": {
+        "min": null,
+        "max": null,
+        "withAdult": true,
+        "note": "No age stated; a child watches and describes, a parent sends the report."
+      },
+      "commitment": "An afternoon on a beach.",
+      "location": "A Salish Sea shoreline viewpoint",
+      "howTo": "Pick a viewpoint from the map, take binoculars, and send what she sees through the sightings report page — log the watching as an entry either way.",
+      "url": "https://orcanetwork.org/our-programs/whale-sighting-network/",
+      "verified": "2026-09-13",
+      "tags": [
+        "animals",
+        "whales",
+        "citizen science",
+        "outdoors",
+        "family"
+      ]
+    },
+    {
+      "id": "wsws-youth",
+      "org": "west-sound-wildlife",
+      "title": "West Sound Wildlife Shelter (from 15 with a parent)",
+      "kind": "shift",
+      "where": "in-person",
+      "summary": "Feeding orphaned songbirds and baby opossums at a wildlife hospital — when she is fifteen.",
+      "details": [
+        "Youth volunteers must be 16, or 15 with a parent alongside.",
+        "The work includes helping in the nursery feeding baby animals, preparing diets, cleaning the hospital wards, cages and enclosures, and the sweeping, mopping, dishes and laundry that a hospital runs on.",
+        "Training is given for every role and no experience is needed; volunteers also help make events work.",
+        "Orphaned wild songbirds and opossums are among the animals named as needing feeding."
+      ],
+      "ages": {
+        "min": 15,
+        "max": null,
+        "withAdult": true,
+        "note": "16 alone, or 15 with a parent volunteering alongside."
+      },
+      "commitment": "Regular shifts.",
+      "location": "Bainbridge Island",
+      "howTo": "At 15, apply together through the wildlife volunteer page; the ferry trip is part of the day.",
+      "url": "https://westsoundwildlife.org/wildlife-volunteer/",
+      "verified": "2026-09-13",
+      "tags": [
+        "animals",
+        "wildlife",
+        "birds",
+        "shelter",
+        "with a parent",
+        "service hours"
       ]
     }
   ]

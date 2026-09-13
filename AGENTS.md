@@ -217,8 +217,9 @@ All three must pass before a commit.
   Purrfect Pals, Motley Zoo, Auburn Valley Humane Society, Pasado's Safe Haven,
   Kitsap Humane Society, Seattle Aquarium, Woodland Park Zoo, MEOW Cat Rescue,
   Old Dog Haven, Sarvey Wildlife Care Center, the Humane Society for Tacoma & Pierce
-  County, Everett Animal Shelter, Birds Connect Seattle; online: Zooniverse, Orcasound,
-  Happywhale, Alley Cat Allies,
+  County, Everett Animal Shelter, Birds Connect Seattle, West Sound Wildlife Shelter,
+  Orca Network, Guide Dogs for the Blind; online and at home: Zooniverse, Orcasound,
+  Happywhale, Alley Cat Allies, Project FeederWatch, the Great Backyard Bird Count,
   ZSL Instant Wild, Best Friends including its NOVA remote roles, Lost Dog & Cat
   Rescue Foundation's remote roles, iNaturalist/eBird). `where: online` marks work
   done from home over the internet; adult remote roles are listed when a child can
