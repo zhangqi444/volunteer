@@ -673,6 +673,38 @@
     {
       "ages": {
         "max": null,
+        "min": null,
+        "note": "An adult is the trained foster; twice-daily feeding and litter is real work a child can share.",
+        "withAdult": true
+      },
+      "commitment": "A night to ten weeks, and you choose each time.",
+      "details": [
+        "Purrfect Pals needs foster homes for kittens too young to be adopted, and for a mother cat with her kittens — for a single night, or for several weeks.",
+        "Fosters are trained at Arlington and then put on call, and can always say no to a litter when the timing is wrong.",
+        "What a home needs: a safe room shut away from your own pets (a bedroom, bathroom or laundry room is enough), your own pets up to date on vaccines, fresh food, water and clean litter twice a day, and the foster cats kept indoors.",
+        "A mother cat with newborns needs nine or ten weeks; an adult cat who is low needs two to four."
+      ],
+      "howTo": "Fill in the foster application with a parent, then go to a training session at Arlington together.",
+      "id": "purrfect-pals-foster",
+      "kind": "foster",
+      "location": "At home; training and pick-up in Arlington",
+      "org": "purrfect-pals",
+      "summary": "A cat sanctuary's foster list: kittens too young to be adopted, sometimes for a single night.",
+      "tags": [
+        "cats",
+        "kittens",
+        "foster",
+        "family",
+        "at home"
+      ],
+      "title": "Foster kittens for Purrfect Pals",
+      "url": "https://purrfectpals.org/fostercare/",
+      "verified": "2026-09-12",
+      "where": "at-home"
+    },
+    {
+      "ages": {
+        "max": null,
         "min": 13,
         "note": "From age 13; under 16 with a parent or guardian.",
         "withAdult": true
@@ -728,6 +760,38 @@
       "title": "Cat cozy blankets and other group projects for RASKC",
       "url": "https://kingcounty.gov/en/dept/executive-services/animals-pets-pests/regional-animal-services/volunteer",
       "verified": "2026-09-06",
+      "where": "at-home"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "The registered foster is 16+, in practice a parent; children help care for the cat at home.",
+        "withAdult": true
+      },
+      "commitment": "Whatever you say yes to.",
+      "details": [
+        "The foster applicant must be at least 16 and an adult in the household signs the liability waiver, so a parent registers and the family fosters together.",
+        "Getting started is a volunteer application plus the Fostering 101 training video and a quiz.",
+        "After training you join waitlists for the kinds of animal you would like to foster; when one is ready an email comes and it needs answering quickly.",
+        "RASKC's volunteer page also says children can take part in caring for animals through fostering, with an adult in the household as the official volunteer — which is how a nine-year-old helps here, since shelter shifts start at nine only with a parent alongside."
+      ],
+      "howTo": "Apply with a parent, watch Fostering 101 together and take the quiz, then pick the cat waitlists.",
+      "id": "raskc-foster",
+      "kind": "foster",
+      "location": "At home; pick-up in Kent",
+      "org": "raskc",
+      "summary": "Train once, join the waitlist for the animals you want, then say yes when an email comes.",
+      "tags": [
+        "cats",
+        "kittens",
+        "foster",
+        "family",
+        "at home"
+      ],
+      "title": "Foster a cat for the Kent shelter (RASKC)",
+      "url": "https://kingcounty.gov/en/dept/executive-services/animals-pets-pests/regional-animal-services/volunteer",
+      "verified": "2026-09-12",
       "where": "at-home"
     },
     {
@@ -909,6 +973,38 @@
       "url": "https://seattleareafelinerescue.org/volunteer/",
       "verified": "2026-09-10",
       "where": "in-person"
+    },
+    {
+      "ages": {
+        "max": null,
+        "min": null,
+        "note": "A parent is the registered foster at 18+; the hour a day of playing and socialising is shared.",
+        "withAdult": true
+      },
+      "commitment": "An hour a day, for as long as the cat needs.",
+      "details": [
+        "The registered foster must be 18, and should expect to spend at least an hour a day socialising, playing with, feeding and caring for the animal.",
+        "A foster cat does not need the run of the house; a spare bedroom or even a spare bathroom is enough, and Seattle Humane recommends keeping foster and resident animals apart.",
+        "Seattle Humane can usually supply everything needed, though supplies come from donations and are limited.",
+        "It also runs a foster-to-adopt programme for cats and kittens with ringworm, training the family in its ringworm protocol."
+      ],
+      "howTo": "Email foster@seattlehumane.org with a parent to apply, and ask what they most need fostered right now.",
+      "id": "sh-foster",
+      "kind": "foster",
+      "location": "At home; Bellevue",
+      "org": "seattle-humane",
+      "summary": "About an hour a day of feeding, playing and socialising — most of which is the fun part.",
+      "tags": [
+        "cats",
+        "kittens",
+        "foster",
+        "family",
+        "at home"
+      ],
+      "title": "Foster a cat or kitten for Seattle Humane",
+      "url": "https://www.seattlehumane.org/adoption/foster-a-pet/",
+      "verified": "2026-09-12",
+      "where": "at-home"
     },
     {
       "ages": {
@@ -1369,7 +1465,7 @@
         "phone": "(360) 652-9611"
       },
       "name": "Purrfect Pals",
-      "url": "https://purrfectpals.org/volunteer/"
+      "url": "https://purrfectpals.org/"
     },
     "raskc": {
       "area": "South · Kent",

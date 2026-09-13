@@ -199,12 +199,12 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   await pg.goto(base + '#/catalog', { waitUntil: 'networkidle' });
   await pg.waitForSelector('[data-testid=catalog-grid]');
   check('catalog header names the volunteer and age', /Sheila's age \(9\)/.test(await pg.textContent('h1 + p')));
-  check('30 opportunities fit now (incl. with an adult / age not stated)', (await pg.$$('[data-testid=catalog-item]')).length === 30, String((await pg.$$('[data-testid=catalog-item]')).length));
+  check('33 opportunities fit now (incl. with an adult / age not stated)', (await pg.$$('[data-testid=catalog-item]')).length === 33, String((await pg.$$('[data-testid=catalog-item]')).length));
   check('no age-gated item shown under Fits now', (await pg.$$('[data-testid=catalog-item] [data-fit=later]')).length === 0);
   await pick(pg, '[data-testid=catalog-fit]', 'Later (age-gated)');
   check('11 age-gated programs under Later, all badged From age N', (await pg.$$('[data-testid=catalog-item]')).length === 11 && (await pg.$$('[data-fit=later]')).length === 11);
   await pick(pg, '[data-testid=catalog-fit]', 'Everything');
-  check('41 items in the whole catalog', (await pg.$$('[data-testid=catalog-item]')).length === 41);
+  check('44 items in the whole catalog', (await pg.$$('[data-testid=catalog-item]')).length === 44);
   await pg.fill('[data-testid=suggest-url]', 'https://example.org/kids-volunteer');
   await pg.fill('[data-testid=suggest-note]', 'Saturday litter pickup');
   await pg.click('[data-testid=suggest-save]');
@@ -216,7 +216,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   await pick(pg, '[data-testid=catalog-kind]', 'Fostering');
   const fosterAtHome = await pg.$$eval('[data-testid=catalog-item]', (n) => n.map((x) => x.dataset.id));
   await pick(pg, '[data-testid=catalog-where]', 'From home');
-  check('the two filters narrow independently: fostering is all from home', (await pg.$$('[data-testid=catalog-item]')).length === fosterAtHome.length && fosterAtHome.length === 6, String(fosterAtHome.length));
+  check('the two filters narrow independently: fostering is all from home', (await pg.$$('[data-testid=catalog-item]')).length === fosterAtHome.length && fosterAtHome.length === 9, String(fosterAtHome.length));
   await pick(pg, '[data-testid=catalog-where]', 'In person');
   check('and fostering in person matches nothing, which one mixed filter could not express', (await pg.$$('[data-testid=catalog-item]')).length === 0);
   await pick(pg, '[data-testid=catalog-kind]', 'Anything to do');
@@ -258,7 +258,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   await pg.goto(base + '#/catalog', { waitUntil: 'networkidle' });
   await pg.waitForSelector('[data-testid=catalog-grid]');
   await pick(pg, '[data-testid=catalog-area]', 'South · Kent');
-  check('the area filter narrows to the Kent organization', (await pg.$$('[data-testid=catalog-item]')).length === 2 && /Kent/.test(await pg.textContent('[data-testid=catalog-grid]')));
+  check('the area filter narrows to the Kent organization', (await pg.$$('[data-testid=catalog-item]')).length === 3 && /Kent/.test(await pg.textContent('[data-testid=catalog-grid]')));
   await pick(pg, '[data-testid=catalog-area]', 'Any area');
   await pick(pg, '[data-testid=catalog-fit]', 'Marked by me');
   await pick(pg, '[data-id=sh-cat-blankets] [data-testid=catalog-interest]', 'Interested');
@@ -315,7 +315,7 @@ const { serve, launch, check, failed, fakeGoogle, pick, errorsOf, signIn, saveEn
   await pg.waitForSelector('[data-testid=toast]:has-text("Profile saved")');
   await pg.goto(base + '#/catalog', { waitUntil: 'networkidle' });
   await pg.waitForSelector('[data-testid=catalog-grid]');
-  check('at 13 the 10-, 12- and 13-plus programs open up and the 9-11 workshop drops out: 35 fit', /age \(13\)/.test(await pg.textContent('h1 + p')) && (await pg.$$('[data-testid=catalog-item]')).length === 35 && (await pg.$eval('[data-id=sh-teen-club] [data-fit]', (x) => x.dataset.fit)) === 'fits');
+  check('at 13 the 10-, 12- and 13-plus programs open up and the 9-11 workshop drops out: 38 fit', /age \(13\)/.test(await pg.textContent('h1 + p')) && (await pg.$$('[data-testid=catalog-item]')).length === 38 && (await pg.$eval('[data-id=sh-teen-club] [data-fit]', (x) => x.dataset.fit)) === 'fits');
   await pg.goto(base + '#/settings', { waitUntil: 'networkidle' });
   await pg.fill('[data-testid=profile-age]', '9'); await pg.press('[data-testid=profile-age]', 'Tab');
   await pg.goto(base + '#/catalog', { waitUntil: 'networkidle' }); await pg.waitForSelector('[data-testid=catalog-grid]'); await pg.screenshot({ path: 'shot-catalog.png', fullPage: true }); await pg.goto(base + '#/settings', { waitUntil: 'networkidle' }); await pg.waitForSelector('[data-testid=setting-goal]');
